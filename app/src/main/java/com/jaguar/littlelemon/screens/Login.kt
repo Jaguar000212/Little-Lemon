@@ -24,9 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.helpers.homeScreen
+import java.util.Objects.equals
 
 fun verify(username: String, password: String): Boolean {
-    return username == "Jaguar" && password == "000212"
+    return equals(username, "Jaguar") && equals(password, "000212")
 }
 
 @Composable
@@ -41,9 +42,7 @@ fun LoginUI(navController: NavHostController) {
     Image(
         painter = painterResource(
             id = R.drawable.logo
-        ),
-        contentDescription = "Logo Image",
-        modifier = Modifier.padding(10.dp)
+        ), contentDescription = "Logo Image", modifier = Modifier.padding(10.dp)
     )
     TextField(
         value = username,
@@ -64,17 +63,13 @@ fun LoginUI(navController: NavHostController) {
                 navController.navigate(homeScreen.route)
             } else {
                 Toast.makeText(context, "Invalid username or password", Toast.LENGTH_SHORT).show()
-                navController.navigate(homeScreen.route)
             }
-        },
-        colors = ButtonDefaults.buttonColors(
+        }, colors = ButtonDefaults.buttonColors(
             Color(0xFF495E57)
-        ),
-        modifier = Modifier.padding(10.dp)
+        ), modifier = Modifier.padding(10.dp)
     ) {
         Text(
-            text = "Login",
-            color = Color(0xFFEDEFEE)
+            text = "Login", color = Color(0xFFEDEFEE)
         )
     }
 
@@ -83,8 +78,7 @@ fun LoginUI(navController: NavHostController) {
 @Composable
 fun LoginPanel(modifier: Modifier, navController: NavHostController) {
     Column(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

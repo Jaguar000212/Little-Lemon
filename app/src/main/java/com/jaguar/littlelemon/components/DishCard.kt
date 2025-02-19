@@ -47,8 +47,7 @@ fun DishCard(name: String, description: String, price: String, image: Int) {
             Image(
                 painter = painterResource(id = image),
                 contentDescription = name,
-                modifier = Modifier
-                    .padding(8.dp)
+                modifier = Modifier.padding(8.dp)
             )
         }
     }

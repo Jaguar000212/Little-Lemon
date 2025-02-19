@@ -45,15 +45,15 @@ fun Logo() {
     Image(
         painter = painterResource(R.drawable.watermark),
         contentDescription = "logo",
-        modifier = Modifier
-            .padding(8.dp)
+        modifier = Modifier.padding(8.dp)
     )
 }
 
 @Composable
 fun CartIcon(modifier: Modifier) {
     Icon(
-        painter = painterResource(R.drawable.cart), contentDescription = "cart",
+        painter = painterResource(R.drawable.cart),
+        contentDescription = "cart",
         modifier = modifier
             .size(24.dp)
             .clickable { /*TODO*/ },

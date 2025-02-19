@@ -40,64 +40,55 @@ fun NavigationIcon(icon: ImageVector, label: String) {
 
 @Composable
 fun Drawer(naveController: NavHostController, state: DrawerState, content: @Composable () -> Unit) {
-    ModalNavigationDrawer(
-        drawerState = state,
-        drawerContent = {
-            ModalDrawerSheet {
-                Text("Little Lemon Restaurant", modifier = Modifier.padding(16.dp))
-                HorizontalDivider()
+    ModalNavigationDrawer(drawerState = state, drawerContent = {
+        ModalDrawerSheet {
+            Text("Little Lemon Restaurant", modifier = Modifier.padding(16.dp))
+            HorizontalDivider()
 
-                NavigationDrawerItem(
-                    label = {
-                        Text("Home")
-                    },
-                    selected = false,
-                    icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
-                    onClick = {
-                        naveController.navigate(homeScreen.route)
-                    }
-                )
-                NavigationDrawerItem(
-                    label = {
-                        Text("Reserve a Table")
-                    },
-                    icon = { NavigationIcon(Icons.Outlined.DateRange, "Reserve a Table") },
-                    selected = false,
-                    onClick = { /*TODO*/ }
-                )
+            NavigationDrawerItem(label = {
+                Text("Home")
+            },
+                selected = false,
+                icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
+                onClick = {
+                    naveController.navigate(homeScreen.route)
+                })
+            NavigationDrawerItem(label = {
+                Text("Reserve a Table")
+            },
+                icon = { NavigationIcon(Icons.Outlined.DateRange, "Reserve a Table") },
+                selected = false,
+                onClick = { /*TODO*/ })
 
-                /* More items*/
+            /* More items*/
 
-                HorizontalDivider()
-                NavigationDrawerItem(
-                    label = {
-                        Box(
-                            contentAlignment = Alignment.BottomCenter,
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            Button(onClick = { /*TODO*/ }) {
-                                Row {
-                                    Icon(
-                                        Icons.Outlined.Close,
-                                        contentDescription = "Exit button",
-                                        tint = colorResource(
-                                            id = R.color.yellow
-                                        )
-                                    )
-                                    Text("Exit App")
-                                }
-                            }
+            HorizontalDivider()
+            NavigationDrawerItem(label = {
+                Box(
+                    contentAlignment = Alignment.BottomCenter,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Button(onClick = { /*TODO*/ }) {
+                        Row {
+                            Icon(
+                                Icons.Outlined.Close,
+                                contentDescription = "Exit button",
+                                tint = colorResource(
+                                    id = R.color.yellow
+                                )
+                            )
+                            Text("Exit App")
                         }
-                    },
-                    selected = false,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 20.dp),
-                    onClick = { /*TODO*/ }
-                )
-            }
+                    }
+                }
+            },
+                selected = false,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 20.dp),
+                onClick = { /*TODO*/ })
         }
-    ) {
+    }) {
         content()
     }
 }

@@ -23,8 +23,7 @@ import com.jaguar.littlelemon.helpers.login
 
 @Composable
 fun Welcome(
-    modifier: Modifier = Modifier,
-    navController: NavHostController
+    modifier: Modifier = Modifier, navController: NavHostController
 ) {
     Box(
         modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center

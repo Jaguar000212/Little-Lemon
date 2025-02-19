@@ -56,8 +56,7 @@ fun DishDetails(
             Image(
                 painter = painterResource(id = dishImage),
                 contentDescription = "Dish Image",
-                modifier = Modifier
-                    .padding(16.dp)
+                modifier = Modifier.padding(16.dp)
             )
         }
         Row(
@@ -71,8 +70,7 @@ fun DishDetails(
                 modifier = Modifier
                     .padding(16.dp)
                     .clickable {
-                        if (quantity < 10)
-                            quantity++
+                        if (quantity < 10) quantity++
                     })
             Text(
                 text = "Quantity: $quantity",

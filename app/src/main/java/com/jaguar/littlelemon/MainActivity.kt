@@ -52,23 +52,17 @@ fun MyNavigation() {
                 NavHost(navController = navController, startDestination = welcome.route) {
                     composable(welcome.route) {
                         Welcome(
-                            Modifier
-                                .padding(innerPadding),
-                            navController = navController
+                            Modifier.padding(innerPadding), navController = navController
                         )
                     }
                     composable(login.route) {
                         LoginPanel(
-                            Modifier
-                                .padding(innerPadding),
-                            navController = navController
+                            Modifier.padding(innerPadding), navController = navController
                         )
                     }
                     composable(homeScreen.route) {
                         HomeScreen(
-                            Modifier
-                                .padding(innerPadding),
-                            navController = navController
+                            Modifier.padding(innerPadding), navController = navController
                         )
                     }
                     composable(dishDetailsPane.route) {
@@ -76,8 +70,7 @@ fun MyNavigation() {
                             dishImage = R.drawable.dish_1,
                             dishName = "Pasta",
                             dishDesc = "Pasta with white sauce",
-                            Modifier
-                                .padding(innerPadding)
+                            Modifier.padding(innerPadding)
                         )
                     }
                 }
