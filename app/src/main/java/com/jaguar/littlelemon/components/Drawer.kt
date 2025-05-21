@@ -24,7 +24,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.helpers.homeScreen
+import com.jaguar.littlelemon.helpers.HomeScreen
+import kotlin.system.exitProcess
 
 @Composable
 fun NavigationIcon(icon: ImageVector, label: String) {
@@ -39,21 +40,23 @@ fun NavigationIcon(icon: ImageVector, label: String) {
 }
 
 @Composable
-fun Drawer(naveController: NavHostController, state: DrawerState, content: @Composable () -> Unit) {
+fun Drawer(navController: NavHostController, state: DrawerState, content: @Composable () -> Unit) {
     ModalNavigationDrawer(drawerState = state, drawerContent = {
         ModalDrawerSheet {
             Text("Little Lemon Restaurant", modifier = Modifier.padding(16.dp))
             HorizontalDivider()
 
-            NavigationDrawerItem(label = {
+            NavigationDrawerItem(
+                label = {
                 Text("Home")
             },
                 selected = false,
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
                 onClick = {
-                    naveController.navigate(homeScreen.route)
+                    navController.navigate(HomeScreen.route)/* TODO: Check if user is logged in */
                 })
-            NavigationDrawerItem(label = {
+            NavigationDrawerItem(
+                label = {
                 Text("Reserve a Table")
             },
                 icon = { NavigationIcon(Icons.Outlined.DateRange, "Reserve a Table") },
@@ -63,25 +66,28 @@ fun Drawer(naveController: NavHostController, state: DrawerState, content: @Comp
             /* More items*/
 
             HorizontalDivider()
-            NavigationDrawerItem(label = {
-                Box(
-                    contentAlignment = Alignment.BottomCenter,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Button(onClick = { /*TODO*/ }) {
+            NavigationDrawerItem(
+                label = {
+                    Box(
+                        contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()
+                    ) {
                         Row {
-                            Icon(
-                                Icons.Outlined.Close,
-                                contentDescription = "Exit button",
-                                tint = colorResource(
-                                    id = R.color.yellow
+                            Button(
+                                onClick = { exitProcess(0); }, modifier = Modifier.padding(16.dp)
+                            ) {
+                                Icon(
+                                    Icons.Outlined.Close,
+                                    contentDescription = "Exit button",
+                                    tint = colorResource(
+                                        id = R.color.yellow
+                                    )
                                 )
-                            )
-                            Text("Exit App")
+                                Text("Exit App")
+                            }
                         }
+
                     }
-                }
-            },
+                },
                 selected = false,
                 modifier = Modifier
                     .fillMaxSize()

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.helpers.login
+import com.jaguar.littlelemon.helpers.Login
 
 @Composable
 fun Welcome(
@@ -53,7 +53,7 @@ fun Welcome(
             )
             Button(
                 onClick = {
-                    navController.navigate(login.route)
+                    navController.navigate(Login.route)
                 },
                 modifier = Modifier.padding(16.dp),
                 colors = ButtonColors(

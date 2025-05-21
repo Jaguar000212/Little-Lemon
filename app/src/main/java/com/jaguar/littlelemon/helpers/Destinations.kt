@@ -1,21 +1,23 @@
 package com.jaguar.littlelemon.helpers
 
+import com.jaguar.littlelemon.models.Dish
+
 interface Destinations {
     val route: String
 }
 
-object welcome : Destinations {
+object Welcome : Destinations {
     override val route = "Welcome"
 }
 
-object homeScreen : Destinations {
+object HomeScreen : Destinations {
     override val route = "HomeScreen"
 }
 
-object login : Destinations {
+object Login : Destinations {
     override val route = "Login"
 }
 
-object dishDetailsPane : Destinations {
-    override val route = "DishDetailsPane"
+class DishDetailsPane(dish: Dish) : Destinations {
+    override val route = "DishDetailsPane/${dish.name}"
 }

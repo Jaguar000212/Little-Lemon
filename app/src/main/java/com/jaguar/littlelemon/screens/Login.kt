@@ -23,7 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.helpers.homeScreen
+import com.jaguar.littlelemon.helpers.HomeScreen
 import java.util.Objects.equals
 
 fun verify(username: String, password: String): Boolean {
@@ -60,7 +60,7 @@ fun LoginUI(navController: NavHostController) {
         onClick = {
             if (verify(username, password)) {
                 Toast.makeText(context, "Welcome to Little Lemon!", Toast.LENGTH_SHORT).show()
-                navController.navigate(homeScreen.route)
+                navController.navigate(HomeScreen.route)
             } else {
                 Toast.makeText(context, "Invalid username or password", Toast.LENGTH_SHORT).show()
             }
