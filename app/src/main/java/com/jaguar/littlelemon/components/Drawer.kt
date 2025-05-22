@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
@@ -95,11 +94,10 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 onClick = {
                     val auth = FirebaseAuth.getInstance()
                     val currentUser = auth.currentUser
-                    if (currentUser != null){
+                    if (currentUser != null) {
                         auth.signOut()
                         navController.navigate(Welcome.route)
-                    }
-                    else Toast.makeText(
+                    } else Toast.makeText(
                         context, "You are not logged in", Toast.LENGTH_SHORT
                     ).show()
                 }
