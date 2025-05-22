@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HamburgerIcon(modifier: Modifier, state: DrawerState, scope: CoroutineScope) {
     Icon(
-        painter = painterResource(R.drawable.hamburger_icon),
+        painter = painterResource(R.drawable.hamburger),
         contentDescription = "menu",
         modifier = modifier
             .size(24.dp)
@@ -46,18 +46,6 @@ fun Logo() {
         painter = painterResource(R.drawable.watermark),
         contentDescription = "logo",
         modifier = Modifier.padding(8.dp)
-    )
-}
-
-@Composable
-fun CartIcon(modifier: Modifier) {
-    Icon(
-        painter = painterResource(R.drawable.cart),
-        contentDescription = "cart",
-        modifier = modifier
-            .size(24.dp)
-            .clickable { /*TODO*/ },
-        tint = (colorResource(id = R.color.yellow))
     )
 }
 
@@ -86,9 +74,7 @@ fun Header(state: DrawerState, scope: CoroutineScope) {
             }
             Box(
                 modifier = Modifier.size(63.dp)
-            ) {
-                CartIcon(Modifier.align(Alignment.Center))
-            }
+            )
         }
     }
 }

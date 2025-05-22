@@ -3,9 +3,10 @@ package com.jaguar.littlelemon.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,8 +26,8 @@ import com.jaguar.littlelemon.models.Dish
 @Composable
 fun DishCard(dish: Dish) {
     val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current).data(dish.imageURL).crossfade(true)
-            .placeholder(R.drawable.logo).error(R.drawable.cross).build()
+        model = ImageRequest.Builder(LocalContext.current).data(dish.imageURL)
+            .placeholder(R.drawable.image).error(R.drawable.cross).build()
     )
     Card {
         Row(
@@ -59,10 +60,12 @@ fun DishCard(dish: Dish) {
             Image(
                 painter = painter,
                 contentDescription = "Dish image",
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .padding(start = 8.dp)
-                    .fillMaxSize()
+                    .padding(8.dp)
+                    .width(100.dp)
+                    .height(100.dp)
+                    .align(Alignment.CenterVertically)
             )
         }
     }

@@ -48,8 +48,8 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
 
             NavigationDrawerItem(
                 label = {
-                Text("Home")
-            },
+                    Text("Home")
+                },
                 selected = false,
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
                 onClick = {
@@ -57,8 +57,8 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 })
             NavigationDrawerItem(
                 label = {
-                Text("Reserve a Table")
-            },
+                    Text("Reserve a Table")
+                },
                 icon = { NavigationIcon(Icons.Outlined.DateRange, "Reserve a Table") },
                 selected = false,
                 onClick = { /*TODO*/ })
