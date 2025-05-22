@@ -20,7 +20,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.jaguar.littlelemon.components.Drawer
 import com.jaguar.littlelemon.components.Header
 import com.jaguar.littlelemon.helpers.DishDetailsPane
@@ -35,19 +38,22 @@ import com.jaguar.littlelemon.ui.theme.LittleLemonTheme
 import com.jaguar.littlelemon.viewModel.DishesViewModel
 
 class MainActivity : ComponentActivity() {
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         FirebaseApp.initializeApp(this)
+        auth = Firebase.auth
+        super.onCreate(savedInstanceState)
+        val currentUser = auth.currentUser
         setContent {
-            MyNavigation()
+            if (currentUser != null) MyNavigation(true) else MyNavigation(false)
         }
     }
 }
 
 @Preview
 @Composable
-fun MyNavigation() {
+fun MyNavigation(currentUser: Boolean = false) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
@@ -60,7 +66,10 @@ fun MyNavigation() {
                 topBar = { Header(drawerState, scope) },
 
                 ) { innerPadding ->
-                NavHost(navController = navController, startDestination = Welcome.route) {
+                NavHost(
+                    navController = navController,
+                    startDestination = if (currentUser) HomeScreen.route else Welcome.route
+                ) {
                     composable(Welcome.route) {
                         Welcome(
                             Modifier.padding(innerPadding), navController = navController
