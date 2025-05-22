@@ -15,12 +15,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.firebase.FirebaseApp
 import com.jaguar.littlelemon.components.Drawer
 import com.jaguar.littlelemon.components.Header
+import com.jaguar.littlelemon.helpers.DishDetailsPane
 import com.jaguar.littlelemon.helpers.HomeScreen
 import com.jaguar.littlelemon.helpers.Login
 import com.jaguar.littlelemon.helpers.Welcome
@@ -73,19 +76,22 @@ fun MyNavigation() {
                             Modifier.padding(innerPadding), navController = navController
                         )
                     }
-//                    if (dishes.isNotEmpty()) {
-//                        dishes.forEach { dish ->
-//                            val route = "DishDetailsPane/${dish.name}/${dish.name}"
-//                            composable(route) {
-//                                DishDetails(
-//                                    dish = dish,
-//                                    modifier = Modifier.padding(innerPadding),
-//                                    navController = navController
-//                                )
-//                            }
-//                        }
-//                    }
-                    /* TODO : Implement Details Page for dishes */
+                    composable(
+                        route = DishDetailsPane.route,
+                        arguments = listOf(navArgument(DishDetailsPane.ARG_DISH_NAME) {
+                            type = NavType.StringType
+                        })
+                    ) { backStackEntry ->
+                        val dishName =
+                            backStackEntry.arguments?.getString(DishDetailsPane.ARG_DISH_NAME)
+                        val dish =
+                            dishes.find { it.name == dishName }
+                        if (dish != null) {
+                            DishDetails(
+                                dish = dish, modifier = Modifier.padding(innerPadding)
+                            )
+                        }
+                    }
                 }
             }
         }

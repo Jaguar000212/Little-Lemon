@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.components.DishCard
+import com.jaguar.littlelemon.helpers.DishDetailsPane
 import com.jaguar.littlelemon.viewModel.DishesViewModel
 
 
@@ -97,7 +98,7 @@ fun Dishes(
                         modifier = Modifier
                             .padding(10.dp)
                             .clickable {
-                                navController.navigate("DishDetailsPane/${dish.name}")
+                                navController.navigate(DishDetailsPane.createRoute(dish.name))
                             }) {
                         DishCard(dish)
                     }

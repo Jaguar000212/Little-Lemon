@@ -25,7 +25,7 @@ import com.jaguar.littlelemon.models.Dish
 @Composable
 fun DishCard(dish: Dish) {
     val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current).data(dish.imageUrl).crossfade(true)
+        model = ImageRequest.Builder(LocalContext.current).data(dish.imageURL).crossfade(true)
             .placeholder(R.drawable.logo).error(R.drawable.cross).build()
     )
     Card {

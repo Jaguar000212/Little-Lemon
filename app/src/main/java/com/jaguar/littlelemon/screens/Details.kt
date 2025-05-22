@@ -25,7 +25,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.jaguar.littlelemon.R
@@ -33,11 +32,11 @@ import com.jaguar.littlelemon.models.Dish
 
 @Composable
 fun DishDetails(
-    dish: Dish, modifier: Modifier = Modifier, navController: NavHostController
+    dish: Dish, modifier: Modifier = Modifier
 ) {
     var quantity: Int by remember { mutableIntStateOf(1) }
     val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current).data(dish.imageUrl).crossfade(true)
+        model = ImageRequest.Builder(LocalContext.current).data(dish.imageURL).crossfade(true)
             .placeholder(R.drawable.logo).error(R.drawable.cross).build()
     )
     Column(
