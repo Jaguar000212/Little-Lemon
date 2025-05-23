@@ -42,10 +42,10 @@ import com.jaguar.littlelemon.viewModel.DishesViewModel
 class MainActivity : ComponentActivity() {
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         FirebaseApp.initializeApp(this)
         auth = Firebase.auth
-        super.onCreate(savedInstanceState)
         val currentUser = auth.currentUser
         setContent {
             if (currentUser != null) MyNavigation(true) else MyNavigation(false)
