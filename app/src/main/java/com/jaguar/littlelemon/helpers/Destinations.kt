@@ -16,6 +16,10 @@ object Login : Destinations {
     override val route = "Login"
 }
 
+object Profile : Destinations {
+    override val route = "Profile"
+}
+
 object DishDetailsPane : Destinations {
     const val ARG_DISH_NAME = "dishName"
     override val route = "DishDetailsPane/{$ARG_DISH_NAME}"

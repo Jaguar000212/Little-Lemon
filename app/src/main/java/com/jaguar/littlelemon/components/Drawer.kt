@@ -1,10 +1,13 @@
 package com.jaguar.littlelemon.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
@@ -20,11 +23,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.helpers.HomeScreen
+import com.jaguar.littlelemon.helpers.Profile
+import com.jaguar.littlelemon.helpers.Welcome
 import kotlin.system.exitProcess
 
 @Composable
@@ -41,6 +48,7 @@ fun NavigationIcon(icon: ImageVector, label: String) {
 
 @Composable
 fun Drawer(navController: NavHostController, state: DrawerState, content: @Composable () -> Unit) {
+    val context = LocalContext.current
     ModalNavigationDrawer(drawerState = state, drawerContent = {
         ModalDrawerSheet {
             Text("Little Lemon Restaurant", modifier = Modifier.padding(16.dp))
@@ -53,7 +61,12 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 selected = false,
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
                 onClick = {
-                    navController.navigate(HomeScreen.route)/* TODO: Check if user is logged in */
+                    val auth = FirebaseAuth.getInstance()
+                    val currentUser = auth.currentUser
+                    if (currentUser != null) navController.navigate(HomeScreen.route)
+                    else Toast.makeText(
+                        context, "Please login first", Toast.LENGTH_SHORT
+                    ).show()
                 })
             NavigationDrawerItem(
                 label = {
@@ -63,9 +76,43 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 selected = false,
                 onClick = { /*TODO*/ })
 
-            /* More items*/
+            HorizontalDivider()
+
+            NavigationDrawerItem(
+                label = {
+                    Text("Profile")
+                },
+                selected = false,
+                icon = { NavigationIcon(Icons.Outlined.AccountCircle, "Profile") },
+                onClick = {
+                    val auth = FirebaseAuth.getInstance()
+                    val currentUser = auth.currentUser
+                    if (currentUser != null) navController.navigate(Profile.route)
+                    else Toast.makeText(
+                        context, "Please login first", Toast.LENGTH_SHORT
+                    ).show()
+                })
+
+            NavigationDrawerItem(
+                label = {
+                    Text("Sign Out")
+                },
+                selected = false,
+                icon = { NavigationIcon(Icons.AutoMirrored.Outlined.ArrowBack, "Sign Out") },
+                onClick = {
+                    val auth = FirebaseAuth.getInstance()
+                    val currentUser = auth.currentUser
+                    if (currentUser != null) {
+                        auth.signOut()
+                        navController.navigate(Welcome.route)
+                    } else Toast.makeText(
+                        context, "You are not logged in", Toast.LENGTH_SHORT
+                    ).show()
+                }
+            )
 
             HorizontalDivider()
+
             NavigationDrawerItem(
                 label = {
                     Box(
