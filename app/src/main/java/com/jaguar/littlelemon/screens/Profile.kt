@@ -22,20 +22,23 @@ fun Profile(modifier: Modifier = Modifier) {
     val currentUser = auth.currentUser
     val userState = remember { mutableStateOf<User?>(null) }
 
-    if (currentUser != null) {
-        FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
-            .get().addOnSuccessListener { document ->
-                try {
-                    userState.value = document.toObject(User::class.java)
-                } catch (e: Exception) {
-                    Log.e("Firestore", "Deserialization failed: ${e.localizedMessage}")
+    LaunchedEffect(currentUser?.uid) {
+        if (currentUser != null) {
+            FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
+                .get().addOnSuccessListener { document ->
+                    try {
+                        userState.value = document.toObject(User::class.java)
+                    } catch (e: Exception) {
+                        Log.e("Firestore", "Deserialization failed: ${e.localizedMessage}")
+                    }
+
+                }.addOnFailureListener { exception ->
+                    Log.e("Firestore", "Error fetching User: ${exception.localizedMessage}")
                 }
-
-            }.addOnFailureListener { exception ->
-                Log.e("Firestore", "Error fetching User: ${exception.localizedMessage}")
-            }
-    } else Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
-
+        } else {
+            Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
     val user = userState.value ?: User()
     Column(modifier = modifier) {
         Text(text = "Name: ${user.firstName} ${user.lastName}", modifier = Modifier.fillMaxWidth())
