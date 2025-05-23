@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.helpers.HomeScreen
+import com.jaguar.littlelemon.helpers.Profile
 import com.jaguar.littlelemon.helpers.Welcome
 import kotlin.system.exitProcess
 
@@ -83,7 +84,14 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 },
                 selected = false,
                 icon = { NavigationIcon(Icons.Outlined.AccountCircle, "Profile") },
-                onClick = { /*TODO*/ })
+                onClick = {
+                    val auth = FirebaseAuth.getInstance()
+                    val currentUser = auth.currentUser
+                    if (currentUser != null) navController.navigate(Profile.route)
+                    else Toast.makeText(
+                        context, "Please login first", Toast.LENGTH_SHORT
+                    ).show()
+                })
 
             NavigationDrawerItem(
                 label = {

@@ -29,10 +29,12 @@ import com.jaguar.littlelemon.components.Header
 import com.jaguar.littlelemon.helpers.DishDetailsPane
 import com.jaguar.littlelemon.helpers.HomeScreen
 import com.jaguar.littlelemon.helpers.Login
+import com.jaguar.littlelemon.helpers.Profile
 import com.jaguar.littlelemon.helpers.Welcome
 import com.jaguar.littlelemon.screens.DishDetails
 import com.jaguar.littlelemon.screens.HomeScreen
 import com.jaguar.littlelemon.screens.LoginPanel
+import com.jaguar.littlelemon.screens.Profile
 import com.jaguar.littlelemon.screens.Welcome
 import com.jaguar.littlelemon.ui.theme.LittleLemonTheme
 import com.jaguar.littlelemon.viewModel.DishesViewModel
@@ -83,6 +85,13 @@ fun MyNavigation(currentUser: Boolean = false) {
                     composable(HomeScreen.route) {
                         HomeScreen(
                             Modifier.padding(innerPadding), navController = navController
+                        )
+                    }
+                    composable(
+                        route = Profile.route,
+                    ) {
+                        Profile(
+                            Modifier.padding(innerPadding)
                         )
                     }
                     composable(
