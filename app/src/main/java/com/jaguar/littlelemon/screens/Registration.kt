@@ -4,7 +4,6 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,12 +25,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.navigation.HomeScreen
+import com.jaguar.littlelemon.navigation.DataCollection
 
 
 @Composable
-fun LoginUI(navController: NavHostController) {
+fun RegistrationUI(navController: NavHostController) {
     val context = LocalContext.current
     var email: String by remember {
         mutableStateOf("")
@@ -56,69 +56,53 @@ fun LoginUI(navController: NavHostController) {
         label = { Text(text = "Password") },
         modifier = Modifier.padding(10.dp)
     )
-    Text(
-        text = "Forgot Password?",
-        color = Color(0xFF495E57),
-        modifier = Modifier
-            .padding(10.dp)
-            .clickable {
-                if (email.isNotEmpty()) {
-                    val auth: FirebaseAuth = FirebaseAuth.getInstance()
-                    auth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(context.mainExecutor) { task ->
-                            if (task.isSuccessful) {
-                                Log.d(TAG, "sendPasswordResetEmail:success")
-                                Toast.makeText(
-                                    context,
-                                    "Email has been sent, check your inbox",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                Log.w(TAG, "sendPasswordResetEmail:failure", task.exception)
-                                Toast.makeText(
-                                    context, "Can't find your account", Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
-                } else {
-                    Toast.makeText(context, "Please enter email", Toast.LENGTH_SHORT).show()
-                }
-            })
+
     Button(
         onClick = {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 val auth: FirebaseAuth = FirebaseAuth.getInstance()
-                auth.signInWithEmailAndPassword(email, password)
+                auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(context.mainExecutor) { task ->
                         if (task.isSuccessful) {
-                            Log.d(TAG, "signInWithEmail:success")
-                            Toast.makeText(context, "Welcome back!", Toast.LENGTH_SHORT).show()
-                            navController.navigate(HomeScreen.route)
-                        } else {
-                            Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(context, "Authentication failed.", Toast.LENGTH_SHORT)
+                            Log.d(TAG, "RegisterWithEmail:success")
+                            Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT)
                                 .show()
+                            auth.signInWithEmailAndPassword(email, password)
+                            navController.navigate(DataCollection.route)
+                        } else {
+                            Log.w(TAG, "RegistrationWithEmail:failure", task.exception)
+                            if (task.exception is FirebaseAuthUserCollisionException) {
+                                Toast.makeText(
+                                    context, "Email already registered.", Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Registration failed: ${task.exception?.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
                     }
             } else Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+
         }, colors = ButtonDefaults.buttonColors(
             Color(0xFF495E57)
         ), modifier = Modifier.padding(10.dp)
     ) {
         Text(
-            text = "Login", color = Color(0xFFEDEFEE)
+            text = "Next", color = Color(0xFFEDEFEE)
         )
     }
-
 }
 
 @Composable
-fun LoginPanel(modifier: Modifier, navController: NavHostController) {
+fun RegistrationPanel(modifier: Modifier, navController: NavHostController) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        LoginUI(navController)
+        RegistrationUI(navController)
     }
 }

@@ -19,7 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.helpers.Login
+import com.jaguar.littlelemon.navigation.Login
+import com.jaguar.littlelemon.navigation.Registration
 
 @Composable
 fun Welcome(
@@ -55,7 +56,7 @@ fun Welcome(
                 onClick = {
                     navController.navigate(Login.route)
                 },
-                modifier = Modifier.padding(16.dp),
+                modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp),
                 colors = ButtonColors(
                     containerColor = colorResource(id = R.color.yellow),
                     contentColor = colorResource(id = R.color.black),
@@ -66,6 +67,23 @@ fun Welcome(
             ) {
                 Text(
                     text = "Sign In", color = colorResource(id = R.color.black)
+                )
+            }
+            Button(
+                onClick = {
+                    navController.navigate(Registration.route)
+                },
+                modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 16.dp),
+                colors = ButtonColors(
+                    containerColor = colorResource(id = R.color.yellow),
+                    contentColor = colorResource(id = R.color.black),
+                    disabledContentColor = colorResource(id = R.color.white),
+                    disabledContainerColor = colorResource(id = R.color.black),
+
+                    ),
+            ) {
+                Text(
+                    text = "Register", color = colorResource(id = R.color.black)
                 )
             }
 

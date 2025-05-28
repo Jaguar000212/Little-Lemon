@@ -29,9 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.helpers.HomeScreen
-import com.jaguar.littlelemon.helpers.Profile
-import com.jaguar.littlelemon.helpers.Welcome
+import com.jaguar.littlelemon.navigation.HomeScreen
+import com.jaguar.littlelemon.navigation.Profile
+import com.jaguar.littlelemon.navigation.Welcome
 import kotlin.system.exitProcess
 
 @Composable
