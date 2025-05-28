@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.helpers
+package com.jaguar.littlelemon.navigation
 
 interface Destinations {
     val route: String
@@ -14,6 +14,14 @@ object HomeScreen : Destinations {
 
 object Login : Destinations {
     override val route = "Login"
+}
+
+object Registration : Destinations {
+    override val route = "Registration"
+}
+
+object DataCollection : Destinations {
+    override val route = "DataCollection"
 }
 
 object Profile : Destinations {
