@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.jaguar.littlelemon"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.jaguar.littlelemon"
@@ -74,4 +74,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.compose.ui.ui.text.google.fonts)
+
 }

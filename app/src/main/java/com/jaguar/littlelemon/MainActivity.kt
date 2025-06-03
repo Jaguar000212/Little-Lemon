@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         auth = Firebase.auth
         val currentUser = auth.currentUser
         setContent {
-            if (currentUser != null) MyNavigation(true) else MyNavigation(false)
+            MyNavigation(currentUser != null)
         }
     }
 }

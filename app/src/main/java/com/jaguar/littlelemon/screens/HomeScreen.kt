@@ -80,8 +80,8 @@ fun UpperPanel(modifier: Modifier = Modifier) {
 @Composable
 fun Dishes(
     navController: NavHostController,
+    viewModel: DishesViewModel,
     modifier: Modifier = Modifier,
-    viewModel: DishesViewModel = DishesViewModel()
 ) {
     val dishes by viewModel.dishes.collectAsState()
     LazyVerticalGrid(columns = GridCells.Fixed(1), modifier = modifier) {
@@ -98,7 +98,7 @@ fun Dishes(
                         modifier = Modifier
                             .padding(10.dp)
                             .clickable {
-                                navController.navigate(DishDetailsPane.createRoute(dish.name))
+                                navController.navigate(DishDetailsPane.createRoute(dish.getName()))
                             }) {
                         DishCard(dish)
                     }
@@ -109,9 +109,13 @@ fun Dishes(
 }
 
 @Composable
-fun HomeScreen(modifier: Modifier, navController: NavHostController) {
+fun HomeScreen(
+    modifier: Modifier,
+    navController: NavHostController,
+    viewModel: DishesViewModel
+) {
     Column(modifier = modifier) {
-        Dishes(navController)
+        Dishes(navController, viewModel)
     }
 }
 

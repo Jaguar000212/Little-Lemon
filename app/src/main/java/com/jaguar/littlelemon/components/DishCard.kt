@@ -28,7 +28,7 @@ import com.jaguar.littlelemon.models.Dish
 @Composable
 fun DishCard(dish: Dish) {
     val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current).data(dish.imageURL)
+        model = ImageRequest.Builder(LocalContext.current).data(dish.getImageURL())
             .placeholder(R.drawable.image).error(R.drawable.cross).build()
     )
     Card {
@@ -40,22 +40,23 @@ fun DishCard(dish: Dish) {
         ) {
             Column {
                 Text(
-                    text = dish.name,
-                    fontSize = 18.sp,
+                    text = dish.getName(),
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = if (dish.description.length < 50) dish.description else dish.description.substring(
-                        0, 50
-                    ) + "...",
-                    color = Color.Gray,
+                    text = if (dish.getDescription().length < 80) dish.getDescription() else dish.getDescription()
+                        .substring(
+                            0, 50
+                        ) + "...",
+                    fontSize = 14.sp,
                     modifier = Modifier
                         .padding(vertical = 5.dp)
                         .fillMaxWidth(0.75f)
                 )
                 Text(
-                    text = "$${dish.price}",
-                    color = Color.Gray,
+                    text = "$${dish.getPrice()}",
+                    color = Color.LightGray,
                     fontWeight = FontWeight.Bold,
                 )
             }

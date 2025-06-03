@@ -7,9 +7,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -22,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
@@ -46,15 +54,34 @@ fun RegistrationUI(navController: NavHostController) {
     )
     TextField(
         value = email,
+        leadingIcon = {
+            Icon(Icons.Outlined.Email, contentDescription = "Email Icon")
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Email, showKeyboardOnFocus = true
+        ),
         onValueChange = { email = it },
         label = { Text(text = "E-mail") },
-        modifier = Modifier.padding(10.dp)
+        modifier = Modifier
+            .padding(48.dp, 16.dp, 48.dp, 0.dp)
+            .fillMaxWidth()
     )
     TextField(
         value = password,
+        leadingIcon = {
+            Icon(Icons.Outlined.Lock, contentDescription = "Password Icon")
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password,
+        ),
+        visualTransformation = PasswordVisualTransformation(),
         onValueChange = { password = it },
         label = { Text(text = "Password") },
-        modifier = Modifier.padding(10.dp)
+        modifier = Modifier
+            .padding(48.dp, 16.dp, 48.dp, 0.dp)
+            .fillMaxWidth()
     )
 
     Button(

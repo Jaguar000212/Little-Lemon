@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,7 +35,7 @@ fun MyNavigation(currentUser: Boolean = false) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val viewModel = DishesViewModel()
+    val viewModel: DishesViewModel = viewModel()
     val dishes by viewModel.dishes.collectAsState()
     LittleLemonTheme {
         Drawer(navController, drawerState) {
@@ -69,7 +70,9 @@ fun MyNavigation(currentUser: Boolean = false) {
                     }
                     composable(HomeScreen.route) {
                         HomeScreen(
-                            Modifier.padding(innerPadding), navController = navController
+                            Modifier.padding(innerPadding),
+                            navController = navController,
+                            viewModel = viewModel
                         )
                     }
                     composable(
@@ -87,8 +90,7 @@ fun MyNavigation(currentUser: Boolean = false) {
                     ) { backStackEntry ->
                         val dishName =
                             backStackEntry.arguments?.getString(DishDetailsPane.ARG_DISH_NAME)
-                        val dish =
-                            dishes.find { it.name == dishName }
+                        val dish = dishes.find { it.getName() == dishName }
                         if (dish != null) {
                             DishDetails(
                                 dish = dish, modifier = Modifier.padding(innerPadding)

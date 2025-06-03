@@ -2,16 +2,24 @@ package com.jaguar.littlelemon.models
 
 import android.util.Log
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.jaguar.littlelemon.exceptions.UserNotLoggedInException
 
 data class User(
-    var firstName: String = "",
-    var lastName: String = "",
-    var email: String = "",
-    var nonVeg: Boolean = false,
-    var favorites: List<String> = emptyList()
+    private var firstName: String = "",
+    private var lastName: String = "",
+    private var email: String = "",
+    private var nonVeg: Boolean = false,
+    private var favorites: List<String> = emptyList()
 ) {
+
+    fun getFirstName(): String = firstName
+    fun getLastName(): String = lastName
+    fun getEmail(): String = email
+    fun isNonVeg(): Boolean = nonVeg
+    fun getFavorites(): List<String> = favorites
 
     fun updateData(
         firstName: String = this.firstName,
@@ -28,33 +36,28 @@ data class User(
             "favorites" to favorites
         )
         val auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
+        val currentUser = auth.currentUser ?: return Tasks.forException(UserNotLoggedInException())
 
-        return FirebaseFirestore.getInstance().collection("users").document(currentUser!!.uid)
+        return FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
             .set(userMap)
     }
 
-    fun getUser(uid: String) {
-        FirebaseFirestore.getInstance().collection("users").document(uid).get()
-            .addOnSuccessListener { document ->
-                try {
-                    this.firstName = document.getString("firstName") ?: ""
-                    this.lastName = document.getString("lastName") ?: ""
-                    this.email = document.getString("email") ?: ""
-                    this.nonVeg = document.getBoolean("nonVeg") ?: false
-                    this.favorites = document.get("favorites") as? List<String> ?: emptyList()
-                } catch (e: Exception) {
-                    Log.e("Firestore", "Deserialization failed: ${e.localizedMessage}")
-                }
-
-            }.addOnFailureListener { exception ->
-                Log.e("Firestore", "Error fetching User: ${exception.localizedMessage}")
-            }
+    fun reset() {
+        firstName = ""
+        lastName = ""
+        email = ""
+        nonVeg = false
+        favorites = emptyList()
     }
+}
 
-    fun getCurrentUser() {
-        val auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser ?: throw Exception("User not logged in")
-        getUser(currentUser.uid)
-    }
+
+fun checkIfLoggedIn(): Boolean {
+    val auth = FirebaseAuth.getInstance()
+    return auth.currentUser != null
+}
+
+fun LoginException() {
+    Log.e("User", "User not logged in or data fetch failed.")
+    if (!checkIfLoggedIn()) throw UserNotLoggedInException("User not logged in or data fetch failed.")
 }
