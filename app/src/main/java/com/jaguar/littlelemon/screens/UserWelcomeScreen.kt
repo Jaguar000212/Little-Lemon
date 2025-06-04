@@ -62,8 +62,7 @@ fun Welcome(
                     contentColor = colorResource(id = R.color.black),
                     disabledContentColor = colorResource(id = R.color.white),
                     disabledContainerColor = colorResource(id = R.color.black),
-
-                    ),
+                ),
             ) {
                 Text(
                     text = "Sign In", color = colorResource(id = R.color.black)
@@ -79,8 +78,7 @@ fun Welcome(
                     contentColor = colorResource(id = R.color.black),
                     disabledContentColor = colorResource(id = R.color.white),
                     disabledContainerColor = colorResource(id = R.color.black),
-
-                    ),
+                ),
             ) {
                 Text(
                     text = "Register", color = colorResource(id = R.color.black)

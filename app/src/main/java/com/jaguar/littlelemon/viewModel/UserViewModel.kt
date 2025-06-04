@@ -31,9 +31,9 @@ class UserViewModel : ViewModel() {
                 .get()
                 .addOnSuccessListener { document ->
                     val user = User(
-                        firstName = document.getString("firstName") ?: "",
-                        lastName = document.getString("lastName") ?: "",
+                        name = document.getString("name") ?: "",
                         email = document.getString("email") ?: "",
+                        phone = document.getString("phone") ?: "",
                         nonVeg = document.getBoolean("nonVeg") ?: false,
                         favorites = document.get("favorites") as? List<String> ?: emptyList()
                     )

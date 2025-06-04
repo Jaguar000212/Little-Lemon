@@ -5,8 +5,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -19,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -33,8 +41,8 @@ fun DataCollectionUI(
     val viewModel = UserViewModel()
     val currentUser = viewModel.user.collectAsState().value
     val email = currentUser?.getEmail()
-    var firstName: String by remember { mutableStateOf("") }
-    var lastName: String by remember { mutableStateOf("") }
+    var phone: String by remember { mutableStateOf("") }
+    var name: String by remember { mutableStateOf("") }
     var preference: Boolean by remember { mutableStateOf(false) }
 
     Box(
@@ -45,49 +53,82 @@ fun DataCollectionUI(
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Registration", fontSize = 24.sp, color = colorResource(id = R.color.yellow)
+                text = "Registration", fontSize = 24.sp, color = colorResource(R.color.yellow),
             )
 
             TextField(
                 value = email ?: "",
+                leadingIcon = {
+                    Icon(Icons.Outlined.Email, contentDescription = "Email Icon")
+                },
+                enabled = false,
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email
+                ),
                 onValueChange = { },
-                label = { Text(text = "E-Mail") },
-                readOnly = true,
-                modifier = Modifier.padding(10.dp)
+                label = { Text(text = "E-mail") },
+                modifier = Modifier
+                    .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                    .fillMaxWidth()
             )
 
             TextField(
-                value = firstName,
-                onValueChange = { firstName = it },
-                label = { Text(text = "First Name") },
-                modifier = Modifier.padding(10.dp)
+                value = name,
+                leadingIcon = {
+                    Icon(Icons.Outlined.Person, contentDescription = "Person Icon")
+                },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text
+                ),
+                onValueChange = { name = it },
+                label = { Text(text = "Name") },
+                modifier = Modifier
+                    .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                    .fillMaxWidth()
             )
 
             TextField(
-                value = lastName,
-                onValueChange = { lastName = it },
-                label = { Text(text = "Last Name") },
-                modifier = Modifier.padding(10.dp)
+                value = phone,
+                leadingIcon = {
+                    Icon(Icons.Outlined.Phone, contentDescription = "Phone Icon")
+                },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Phone
+                ),
+                onValueChange = { phone = it },
+                label = { Text(text = "Phone") },
+                modifier = Modifier
+                    .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                    .fillMaxWidth()
             )
 
-            Row {
+            Row(horizontalArrangement = Arrangement.SpaceBetween){
                 Text(
                     text = "Preference - Non-Vegetarian",
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier
+                        .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.CenterVertically)
                 )
 
                 Switch(
                     checked = preference,
                     onCheckedChange = { preference = it },
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier
+                        .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                        .fillMaxWidth()
+                        .align(Alignment.CenterVertically)
                 )
             }
 
             Button(
                 onClick = {
                     currentUser?.updateData(
-                        firstName = firstName,
-                        lastName = lastName,
+                        name = name,
+                        phone = phone,
                         nonVeg = preference
                     )
                     navController.navigate(HomeScreen.route)

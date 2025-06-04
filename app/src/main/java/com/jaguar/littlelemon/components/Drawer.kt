@@ -24,7 +24,7 @@ import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.exceptions.UserNotLoggedInException
-import com.jaguar.littlelemon.models.LoginException
+import com.jaguar.littlelemon.models.checkIfLoggedIn
 import com.jaguar.littlelemon.navigation.HomeScreen
 import com.jaguar.littlelemon.navigation.Profile
 import com.jaguar.littlelemon.navigation.Welcome
@@ -57,7 +57,7 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
                 onClick = {
                     try {
-                        LoginException()
+                        checkIfLoggedIn()
                         navController.navigate(HomeScreen.route) {
                             popUpTo(Welcome.route) { inclusive = true }
                         }
@@ -86,7 +86,7 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 icon = { NavigationIcon(Icons.Outlined.AccountCircle, "Profile") },
                 onClick = {
                     try {
-                        LoginException()
+                        checkIfLoggedIn()
                         navController.navigate(Profile.route) {
                             popUpTo(Welcome.route) { inclusive = true }
                         }
