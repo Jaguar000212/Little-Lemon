@@ -32,7 +32,7 @@ class UserViewModel : ViewModel() {
                 .addOnSuccessListener { document ->
                     val user = User(
                         name = document.getString("name") ?: "",
-                        email = document.getString("email") ?: "",
+                        email = currentUser.email ?: "",
                         phone = document.getString("phone") ?: "",
                         nonVeg = document.getBoolean("nonVeg") ?: false,
                         favorites = document.get("favorites") as? List<String> ?: emptyList()

@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -25,7 +27,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HamburgerIcon(modifier: Modifier, state: DrawerState, scope: CoroutineScope) {
     Icon(
-        painter = painterResource(R.drawable.hamburger),
+        imageVector = Icons.Outlined.Menu,
         contentDescription = "menu",
         modifier = modifier
             .size(24.dp)

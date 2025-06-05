@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -113,9 +112,7 @@ fun RegistrationUI(navController: NavHostController) {
                     }
             } else Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
 
-        }, colors = ButtonDefaults.buttonColors(
-            Color(0xFF495E57)
-        ), modifier = Modifier.padding(10.dp)
+        }, modifier = Modifier.padding(10.dp)
     ) {
         Text(
             text = "Next", color = Color(0xFFEDEFEE)

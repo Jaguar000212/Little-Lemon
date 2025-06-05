@@ -74,7 +74,7 @@ fun Profile(modifier: Modifier = Modifier) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Registration", fontSize = 24.sp, color = colorResource(R.color.yellow),
+                    text = "User Profile", fontSize = 24.sp, color = colorResource(R.color.yellow),
                 )
 
                 TextField(
@@ -126,7 +126,8 @@ fun Profile(modifier: Modifier = Modifier) {
                         .fillMaxWidth()
                 )
 
-                Row(horizontalArrangement = Arrangement.SpaceBetween,
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .padding(48.dp, 16.dp, 48.dp, 0.dp)
                         .fillMaxWidth()
@@ -150,7 +151,8 @@ fun Profile(modifier: Modifier = Modifier) {
                         currentUser.updateData(
                             name = name, phone = phone, nonVeg = preference
                         )
-                        Toast.makeText(context, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Profile updated successfully", Toast.LENGTH_SHORT)
+                            .show()
                     }, modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp)
                 ) {
                     Text(text = "Save")

@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -28,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -86,7 +86,7 @@ fun LoginUI(navController: NavHostController) {
 
     Text(
         text = "Forgot Password?",
-        color = Color(0xFF495E57),
+        color = colorResource(R.color.olive),
         modifier = Modifier
             .padding(10.dp)
             .clickable {
@@ -129,9 +129,7 @@ fun LoginUI(navController: NavHostController) {
                         }
                     }
             } else Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-        }, colors = ButtonDefaults.buttonColors(
-            Color(0xFF495E57)
-        ), modifier = Modifier.padding(10.dp)
+        }, modifier = Modifier.padding(10.dp)
     ) {
         Text(
             text = "Login", color = Color(0xFFEDEFEE)

@@ -29,6 +29,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.navigation.HomeScreen
@@ -38,103 +39,101 @@ import com.jaguar.littlelemon.viewModel.UserViewModel
 fun DataCollectionUI(
     navController: NavHostController
 ) {
-    val viewModel = UserViewModel()
+    val viewModel: UserViewModel = viewModel()
     val currentUser = viewModel.user.collectAsState().value
-    val email = currentUser?.getEmail()
-    var phone: String by remember { mutableStateOf("") }
-    var name: String by remember { mutableStateOf("") }
-    var preference: Boolean by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+    if (currentUser != null) {
+        val email = currentUser.getEmail()
+        var phone: String by remember { mutableStateOf(currentUser.getPhone()) }
+        var name: String by remember { mutableStateOf(currentUser.getName()) }
+        var preference: Boolean by remember { mutableStateOf(currentUser.isNonVeg()) }
+        Box(
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Registration", fontSize = 24.sp, color = colorResource(R.color.yellow),
-            )
-
-            TextField(
-                value = email ?: "",
-                leadingIcon = {
-                    Icon(Icons.Outlined.Email, contentDescription = "Email Icon")
-                },
-                enabled = false,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email
-                ),
-                onValueChange = { },
-                label = { Text(text = "E-mail") },
-                modifier = Modifier
-                    .padding(48.dp, 16.dp, 48.dp, 0.dp)
-                    .fillMaxWidth()
-            )
-
-            TextField(
-                value = name,
-                leadingIcon = {
-                    Icon(Icons.Outlined.Person, contentDescription = "Person Icon")
-                },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text
-                ),
-                onValueChange = { name = it },
-                label = { Text(text = "Name") },
-                modifier = Modifier
-                    .padding(48.dp, 16.dp, 48.dp, 0.dp)
-                    .fillMaxWidth()
-            )
-
-            TextField(
-                value = phone,
-                leadingIcon = {
-                    Icon(Icons.Outlined.Phone, contentDescription = "Phone Icon")
-                },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Phone
-                ),
-                onValueChange = { phone = it },
-                label = { Text(text = "Phone") },
-                modifier = Modifier
-                    .padding(48.dp, 16.dp, 48.dp, 0.dp)
-                    .fillMaxWidth()
-            )
-
-            Row(horizontalArrangement = Arrangement.SpaceBetween){
-                Text(
-                    text = "Preference - Non-Vegetarian",
-                    modifier = Modifier
-                        .padding(48.dp, 16.dp, 48.dp, 0.dp)
-                        .fillMaxWidth()
-                        .align(Alignment.CenterVertically)
-                )
-
-                Switch(
-                    checked = preference,
-                    onCheckedChange = { preference = it },
-                    modifier = Modifier
-                        .padding(48.dp, 16.dp, 48.dp, 0.dp)
-                        .fillMaxWidth()
-                        .align(Alignment.CenterVertically)
-                )
-            }
-
-            Button(
-                onClick = {
-                    currentUser?.updateData(
-                        name = name,
-                        phone = phone,
-                        nonVeg = preference
-                    )
-                    navController.navigate(HomeScreen.route)
-                }, modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp)
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "Continue to Home")
+                Text(
+                    text = "Registration", fontSize = 24.sp, color = colorResource(R.color.yellow),
+                )
+
+                TextField(
+                    value = email,
+                    leadingIcon = {
+                        Icon(Icons.Outlined.Email, contentDescription = "Email Icon")
+                    },
+                    enabled = false,
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email
+                    ),
+                    onValueChange = { },
+                    label = { Text(text = "E-mail") },
+                    modifier = Modifier
+                        .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                        .fillMaxWidth()
+                )
+
+                TextField(
+                    value = name,
+                    leadingIcon = {
+                        Icon(Icons.Outlined.Person, contentDescription = "Person Icon")
+                    },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text
+                    ),
+                    onValueChange = { name = it },
+                    label = { Text(text = "Name") },
+                    modifier = Modifier
+                        .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                        .fillMaxWidth()
+                )
+
+                TextField(
+                    value = phone,
+                    leadingIcon = {
+                        Icon(Icons.Outlined.Phone, contentDescription = "Phone Icon")
+                    },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Phone
+                    ),
+                    onValueChange = { phone = it },
+                    label = { Text(text = "Phone") },
+                    modifier = Modifier
+                        .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                        .fillMaxWidth()
+                )
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .padding(48.dp, 16.dp, 48.dp, 0.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Preference - Non-Vegetarian",
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+
+                    Switch(
+                        checked = preference,
+                        onCheckedChange = { preference = it },
+                        modifier = Modifier.align(Alignment.CenterVertically)
+                    )
+                }
+
+                Button(
+                    onClick = {
+                        currentUser.updateData(
+                            name = name, phone = phone, nonVeg = preference
+                        )
+                        navController.navigate(HomeScreen.route)
+                    }, modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp)
+                ) {
+                    Text(text = "Continue to Home")
+                }
             }
         }
     }

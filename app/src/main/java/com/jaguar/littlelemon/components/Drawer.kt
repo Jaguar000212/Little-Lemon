@@ -15,6 +15,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +29,8 @@ import com.jaguar.littlelemon.models.checkIfLoggedIn
 import com.jaguar.littlelemon.navigation.HomeScreen
 import com.jaguar.littlelemon.navigation.Profile
 import com.jaguar.littlelemon.navigation.Welcome
+import com.jaguar.littlelemon.navigation.currentRoute
+import kotlinx.coroutines.launch
 
 @Composable
 fun NavigationIcon(icon: ImageVector, label: String) {
@@ -44,6 +47,8 @@ fun NavigationIcon(icon: ImageVector, label: String) {
 @Composable
 fun Drawer(navController: NavHostController, state: DrawerState, content: @Composable () -> Unit) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val currentRoute = currentRoute(navController)
     ModalNavigationDrawer(drawerState = state, drawerContent = {
         ModalDrawerSheet {
             Text("Little Lemon Restaurant", modifier = Modifier.padding(16.dp))
@@ -53,9 +58,12 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 label = {
                     Text("Home")
                 },
-                selected = false,
+                selected = currentRoute == HomeScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
                 onClick = {
+                    scope.launch {
+                        state.close()
+                    }
                     try {
                         checkIfLoggedIn()
                         navController.navigate(HomeScreen.route) {
@@ -66,15 +74,20 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                             context, "Please login first", Toast.LENGTH_SHORT
                         ).show()
                     }
-                })
+                }
+            )
 
             NavigationDrawerItem(
                 label = {
                     Text("Reserve a Table")
                 },
                 icon = { NavigationIcon(Icons.Outlined.DateRange, "Reserve a Table") },
-                selected = false,
-                onClick = { /*TODO*/ })
+                selected = false, //TODO
+                onClick = { /*TODO*/
+                    scope.launch {
+                        state.close()
+                    }
+                })
 
             HorizontalDivider()
 
@@ -82,9 +95,12 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 label = {
                     Text("Profile")
                 },
-                selected = false,
+                selected = currentRoute == Profile.route,
                 icon = { NavigationIcon(Icons.Outlined.AccountCircle, "Profile") },
                 onClick = {
+                    scope.launch {
+                        state.close()
+                    }
                     try {
                         checkIfLoggedIn()
                         navController.navigate(Profile.route) {
@@ -104,6 +120,9 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 selected = false,
                 icon = { NavigationIcon(Icons.AutoMirrored.Outlined.ArrowBack, "Sign Out") },
                 onClick = {
+                    scope.launch {
+                        state.close()
+                    }
                     val auth = FirebaseAuth.getInstance()
                     val currentUser = auth.currentUser
                     if (currentUser != null) {
