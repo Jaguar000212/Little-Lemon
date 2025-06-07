@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.components
+package com.jaguar.littlelemon.ui.components
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.padding
@@ -22,14 +22,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.google.firebase.auth.FirebaseAuth
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.exceptions.UserNotLoggedInException
-import com.jaguar.littlelemon.models.checkIfLoggedIn
 import com.jaguar.littlelemon.navigation.HomeScreen
-import com.jaguar.littlelemon.navigation.Profile
-import com.jaguar.littlelemon.navigation.Welcome
+import com.jaguar.littlelemon.navigation.UserProfileScreen
+import com.jaguar.littlelemon.navigation.WelcomeScreen
 import com.jaguar.littlelemon.navigation.currentRoute
+import com.jaguar.littlelemon.viewModel.UserViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -45,7 +44,12 @@ fun NavigationIcon(icon: ImageVector, label: String) {
 }
 
 @Composable
-fun Drawer(navController: NavHostController, state: DrawerState, content: @Composable () -> Unit) {
+fun Drawer(
+    navController: NavHostController,
+    state: DrawerState,
+    userViewModel: UserViewModel,
+    content: @Composable () -> Unit
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val currentRoute = currentRoute(navController)
@@ -65,17 +69,16 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                         state.close()
                     }
                     try {
-                        checkIfLoggedIn()
+                        userViewModel.checkIfLoggedIn()
                         navController.navigate(HomeScreen.route) {
-                            popUpTo(Welcome.route) { inclusive = true }
+                            popUpTo(HomeScreen.route) { inclusive = false }
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(
                             context, "Please login first", Toast.LENGTH_SHORT
                         ).show()
                     }
-                }
-            )
+                })
 
             NavigationDrawerItem(
                 label = {
@@ -95,16 +98,16 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                 label = {
                     Text("Profile")
                 },
-                selected = currentRoute == Profile.route,
+                selected = currentRoute == UserProfileScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.AccountCircle, "Profile") },
                 onClick = {
                     scope.launch {
                         state.close()
                     }
                     try {
-                        checkIfLoggedIn()
-                        navController.navigate(Profile.route) {
-                            popUpTo(Welcome.route) { inclusive = true }
+                        userViewModel.checkIfLoggedIn()
+                        navController.navigate(UserProfileScreen.route) {
+                            popUpTo(HomeScreen.route) { inclusive = false }
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(
@@ -123,16 +126,18 @@ fun Drawer(navController: NavHostController, state: DrawerState, content: @Compo
                     scope.launch {
                         state.close()
                     }
-                    val auth = FirebaseAuth.getInstance()
-                    val currentUser = auth.currentUser
-                    if (currentUser != null) {
-                        auth.signOut()
-                        navController.navigate(Welcome.route) {
-                            popUpTo(HomeScreen.route) { inclusive = true }
+                    try {
+                        userViewModel.checkIfLoggedIn()
+                        userViewModel.logOut()
+                        Toast.makeText(context, "Logging out...", Toast.LENGTH_SHORT).show()
+                        navController.navigate(WelcomeScreen.route) {
+                            popUpTo(WelcomeScreen.route) { inclusive = true }
                         }
-                    } else Toast.makeText(
-                        context, "You are not logged in", Toast.LENGTH_SHORT
-                    ).show()
+                    } catch (e: UserNotLoggedInException) {
+                        Toast.makeText(
+                            context, "Please login first", Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 })
             HorizontalDivider()
         }

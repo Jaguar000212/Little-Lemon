@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.screens
+package com.jaguar.littlelemon.ui.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -33,15 +33,21 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
+import com.jaguar.littlelemon.navigation.HomeScreen
 import com.jaguar.littlelemon.viewModel.UserViewModel
 
 @Composable
-fun Profile(modifier: Modifier = Modifier) {
+fun Profile(
+    modifier: Modifier = Modifier,
+    userViewModel: UserViewModel,
+    navController: NavHostController,
+    incomplete: Boolean = false
+) {
     val context = LocalContext.current
-    val viewModel: UserViewModel = viewModel()
-    val currentUser = viewModel.user.collectAsState().value
+    val currentUser = userViewModel.user.collectAsState().value
+    userViewModel.fetchUserData()
 
     if (currentUser == null) {
         Column(
@@ -148,11 +154,16 @@ fun Profile(modifier: Modifier = Modifier) {
 
                 Button(
                     onClick = {
-                        currentUser.updateData(
+                        userViewModel.updateData(
                             name = name, phone = phone, nonVeg = preference
                         )
                         Toast.makeText(context, "Profile updated successfully", Toast.LENGTH_SHORT)
                             .show()
+                        if (incomplete) {
+                            navController.navigate(HomeScreen.route) {
+                                popUpTo(HomeScreen.route) { inclusive = true }
+                            }
+                        }
                     }, modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp)
                 ) {
                     Text(text = "Save")

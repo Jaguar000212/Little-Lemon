@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.components
+package com.jaguar.littlelemon.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.screens
+package com.jaguar.littlelemon.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box

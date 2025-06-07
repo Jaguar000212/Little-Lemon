@@ -2,7 +2,11 @@ package com.jaguar.littlelemon.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jaguar.littlelemon.exceptions.UserNotLoggedInException
 import com.jaguar.littlelemon.models.User
@@ -26,9 +30,21 @@ class UserViewModel : ViewModel() {
                 _user.value = null
                 return@launch
             }
-            FirebaseFirestore.getInstance().collection("users")
-                .document(currentUser.uid)
-                .get()
+            fetchUserData()
+        }
+    }
+
+    fun getFirebaseUser(): FirebaseUser? {
+        val auth = FirebaseAuth.getInstance()
+        return auth.currentUser
+    }
+
+    fun fetchUserData() {
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            FirebaseFirestore.getInstance().collection("users").document(currentUser.uid).get()
                 .addOnSuccessListener { document ->
                     val user = User(
                         name = document.getString("name") ?: "",
@@ -38,11 +54,76 @@ class UserViewModel : ViewModel() {
                         favorites = document.get("favorites") as? List<String> ?: emptyList()
                     )
                     _user.value = user
-                }
-                .addOnFailureListener {
+                }.addOnFailureListener {
                     _user.value = null
                     throw UserNotLoggedInException("User not logged in or data fetch failed.")
                 }
+        }
+    }
+
+    fun isProfileComplete(): Boolean {
+        val user = _user.value ?: return false
+        return user.getName().isNotEmpty()
+    }
+
+    fun logIn(email: String, password: String): Task<Void> {
+        val auth = FirebaseAuth.getInstance()
+        return auth.signInWithEmailAndPassword(email, password).continueWithTask { task ->
+            if (task.isSuccessful) {
+                fetchUser()
+                Tasks.forResult<Void>(null)
+            } else {
+                Tasks.forException<Void>(
+                    task.exception ?: UserNotLoggedInException("Login failed.")
+                )
+            }
+        }
+    }
+
+    fun logOut() {
+        val auth = FirebaseAuth.getInstance()
+        auth.signOut()
+        _user.value?.reset() // Reset user data
+        _user.value = null
+    }
+
+    fun register(
+        email: String,
+        password: String
+    ): Task<AuthResult> {
+        val auth = FirebaseAuth.getInstance()
+        return auth.createUserWithEmailAndPassword(email, password)
+    }
+
+    fun forgotPassword(email: String): Task<Void> {
+        val auth: FirebaseAuth = FirebaseAuth.getInstance()
+        return auth.sendPasswordResetEmail(email)
+    }
+
+    fun updateData(
+        name: String = this._user.value?.getName() ?: "",
+        email: String = this._user.value?.getEmail() ?: "",
+        phone: String = this._user.value?.getPhone() ?: "",
+        nonVeg: Boolean = this._user.value?.isNonVeg() ?: false,
+        favorites: List<String> = this._user.value?.getFavorites() ?: emptyList()
+    ): Task<Void> {
+        val userMap = hashMapOf(
+            "name" to name,
+            "email" to email,
+            "phone" to phone,
+            "nonVeg" to nonVeg,
+            "favorites" to favorites
+        )
+        val auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser ?: return Tasks.forException(UserNotLoggedInException())
+
+        return FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
+            .set(userMap)
+    }
+
+    fun checkIfLoggedIn() {
+        if (_user.value == null) {
+            throw UserNotLoggedInException("User not logged in or data fetch failed.")
         }
     }
 }

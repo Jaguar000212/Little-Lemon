@@ -1,7 +1,5 @@
-package com.jaguar.littlelemon.screens
+package com.jaguar.littlelemon.ui.screens
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -24,21 +22,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.navigation.DataCollection
+import com.jaguar.littlelemon.navigation.UserIncompleteProfileScreen
+import com.jaguar.littlelemon.viewModel.UserViewModel
 
 
 @Composable
-fun RegistrationUI(navController: NavHostController) {
+fun RegistrationUI(navController: NavHostController, userViewModel: UserViewModel) {
     val context = LocalContext.current
     var email: String by remember {
         mutableStateOf("")
@@ -86,17 +83,16 @@ fun RegistrationUI(navController: NavHostController) {
     Button(
         onClick = {
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                val auth: FirebaseAuth = FirebaseAuth.getInstance()
-                auth.createUserWithEmailAndPassword(email, password)
+                userViewModel.register(email, password)
                     .addOnCompleteListener(context.mainExecutor) { task ->
                         if (task.isSuccessful) {
-                            Log.d(TAG, "RegisterWithEmail:success")
                             Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT)
                                 .show()
-                            auth.signInWithEmailAndPassword(email, password)
-                            navController.navigate(DataCollection.route)
+                            userViewModel.logIn(email, password)
+                            navController.navigate(UserIncompleteProfileScreen.route) {
+                                popUpTo(UserIncompleteProfileScreen.route) { inclusive = true }
+                            }
                         } else {
-                            Log.w(TAG, "RegistrationWithEmail:failure", task.exception)
                             if (task.exception is FirebaseAuthUserCollisionException) {
                                 Toast.makeText(
                                     context, "Email already registered.", Toast.LENGTH_SHORT
@@ -104,29 +100,30 @@ fun RegistrationUI(navController: NavHostController) {
                             } else {
                                 Toast.makeText(
                                     context,
-                                    "Registration failed: ${task.exception?.message}",
-                                    Toast.LENGTH_SHORT
+                                    "${task.exception?.message}",
+                                    Toast.LENGTH_LONG
                                 ).show()
                             }
                         }
+
                     }
             } else Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
 
         }, modifier = Modifier.padding(10.dp)
     ) {
-        Text(
-            text = "Next", color = Color(0xFFEDEFEE)
-        )
+        Text(text = "Next")
     }
 }
 
 @Composable
-fun RegistrationPanel(modifier: Modifier, navController: NavHostController) {
+fun RegistrationPanel(
+    modifier: Modifier, navController: NavHostController, userViewModel: UserViewModel
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        RegistrationUI(navController)
+        RegistrationUI(navController, userViewModel)
     }
 }

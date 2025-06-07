@@ -4,35 +4,35 @@ interface Destinations {
     val route: String
 }
 
-object Welcome : Destinations {
-    override val route = "Welcome"
+object WelcomeScreen : Destinations {
+    override val route = "WelcomeScreen"
 }
 
 object HomeScreen : Destinations {
     override val route = "HomeScreen"
 }
 
-object Login : Destinations {
-    override val route = "Login"
+object UserLoginScreen : Destinations {
+    override val route = "UserLoginScreen"
 }
 
-object Registration : Destinations {
-    override val route = "Registration"
+object UserRegistrationScreen : Destinations {
+    override val route = "UserRegistrationScreen"
 }
 
-object DataCollection : Destinations {
-    override val route = "DataCollection"
+object UserProfileScreen : Destinations {
+    override val route = "UserProfileScreen"
 }
 
-object Profile : Destinations {
-    override val route = "Profile"
+object UserIncompleteProfileScreen : Destinations {
+    override val route = "UserIncompleteProfileScreen"
 }
 
-object DishDetailsPane : Destinations {
+object DishDetailsScreen : Destinations {
     const val ARG_DISH_NAME = "dishName"
-    override val route = "DishDetailsPane/{$ARG_DISH_NAME}"
+    override val route = "DishDetailsScreen/{$ARG_DISH_NAME}"
 
     fun createRoute(dishName: String): String {
-        return "DishDetailsPane/$dishName"
+        return "DishDetailsScreen/$dishName"
     }
 }

@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.screens
+package com.jaguar.littlelemon.ui.screens
 
 
 import androidx.compose.foundation.Image
@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.components.DishCard
-import com.jaguar.littlelemon.navigation.DishDetailsPane
+import com.jaguar.littlelemon.navigation.DishDetailsScreen
+import com.jaguar.littlelemon.ui.components.DishCard
 import com.jaguar.littlelemon.viewModel.DishesViewModel
 
 
@@ -98,7 +98,7 @@ fun Dishes(
                         modifier = Modifier
                             .padding(10.dp)
                             .clickable {
-                                navController.navigate(DishDetailsPane.createRoute(dish.getName()))
+                                navController.navigate(DishDetailsScreen.createRoute(dish.getName()))
                             }) {
                         DishCard(dish)
                     }

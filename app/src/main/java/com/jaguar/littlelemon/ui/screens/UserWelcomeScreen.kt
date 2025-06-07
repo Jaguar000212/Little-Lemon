@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.screens
+package com.jaguar.littlelemon.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.navigation.Login
-import com.jaguar.littlelemon.navigation.Registration
+import com.jaguar.littlelemon.navigation.UserLoginScreen
+import com.jaguar.littlelemon.navigation.UserRegistrationScreen
 
 @Composable
 fun Welcome(
@@ -54,7 +54,7 @@ fun Welcome(
             )
             Button(
                 onClick = {
-                    navController.navigate(Login.route)
+                    navController.navigate(UserLoginScreen.route)
                 },
                 modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp),
                 colors = ButtonColors(
@@ -70,7 +70,7 @@ fun Welcome(
             }
             Button(
                 onClick = {
-                    navController.navigate(Registration.route)
+                    navController.navigate(UserRegistrationScreen.route)
                 },
                 modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 16.dp),
                 colors = ButtonColors(
