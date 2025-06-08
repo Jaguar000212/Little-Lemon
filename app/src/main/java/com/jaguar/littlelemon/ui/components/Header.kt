@@ -57,7 +57,7 @@ fun Header(state: DrawerState, scope: CoroutineScope) {
         Modifier
             .height(83.dp)
             .fillMaxWidth()
-            .padding(top = 20.dp),
+            .padding(top = 18.dp),
         contentAlignment = Alignment.TopCenter
 
     ) {

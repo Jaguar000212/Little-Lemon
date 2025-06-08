@@ -30,12 +30,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.navigation.HomeScreen
+import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.UserViewModel
 
 @Composable
@@ -63,7 +65,8 @@ fun Profile(
                 modifier = Modifier.size(100.dp)
             )
             Text(
-                text = "User data is not available.", fontSize = 20.sp
+                text = stringResource(R.string.no_user_data_error),
+                style = AppTypography.bodyLarge.copy(fontSize = 18.sp)
             )
         }
     } else {
@@ -80,7 +83,9 @@ fun Profile(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "User Profile", fontSize = 24.sp, color = colorResource(R.color.yellow),
+                    text = "User Profile",
+                    style = AppTypography.headlineMedium,
+                    color = colorResource(R.color.yellow),
                 )
 
                 TextField(
@@ -139,7 +144,7 @@ fun Profile(
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "Preference - Non-Vegetarian",
+                        text = "Non-Vegetarian",
                         modifier = Modifier
                             .align(Alignment.CenterVertically)
                     )
@@ -166,7 +171,7 @@ fun Profile(
                         }
                     }, modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp)
                 ) {
-                    Text(text = "Save")
+                    Text(text = "Save", style = AppTypography.labelLarge)
                 }
             }
         }

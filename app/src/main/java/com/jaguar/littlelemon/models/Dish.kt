@@ -17,7 +17,8 @@ data class Dish(
     fun getCalories(): Int = calories
     fun getIngredients(): List<String> = ingredients
     fun getFormattedIngredients(): String {
-        return if (ingredients.isNotEmpty()) ingredients.mapIndexed { index, ingredient -> "${index + 1}. ${ingredient.replaceFirstChar { char -> char.uppercase() }}" }
-            .joinToString("\n") else "Ingredients not available"
+        return if (ingredients.isNotEmpty()) ingredients.mapIndexed { index, ingredient ->
+            "${index + 1}. ${ingredient.replaceFirstChar { char -> char.uppercase() }}"
+        }.joinToString("\n") else "Ingredients not available"
     }
 }

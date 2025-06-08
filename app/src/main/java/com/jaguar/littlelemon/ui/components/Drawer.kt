@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
@@ -28,6 +29,7 @@ import com.jaguar.littlelemon.navigation.HomeScreen
 import com.jaguar.littlelemon.navigation.UserProfileScreen
 import com.jaguar.littlelemon.navigation.WelcomeScreen
 import com.jaguar.littlelemon.navigation.currentRoute
+import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.UserViewModel
 import kotlinx.coroutines.launch
 
@@ -36,7 +38,7 @@ fun NavigationIcon(icon: ImageVector, label: String) {
     Icon(
         icon,
         contentDescription = label,
-        modifier = Modifier.padding(horizontal = 20.dp),
+        modifier = Modifier.padding(horizontal = 18.dp),
         tint = colorResource(
             id = R.color.yellow
         )
@@ -55,12 +57,16 @@ fun Drawer(
     val currentRoute = currentRoute(navController)
     ModalNavigationDrawer(drawerState = state, drawerContent = {
         ModalDrawerSheet {
-            Text("Little Lemon Restaurant", modifier = Modifier.padding(16.dp))
+            Text(
+                stringResource(R.string.little_lemon_restaurant),
+                style = AppTypography.headlineLarge,
+                modifier = Modifier.padding(16.dp)
+            )
             HorizontalDivider()
 
             NavigationDrawerItem(
                 label = {
-                    Text("Home")
+                    Text("Home", style = AppTypography.bodyLarge)
                 },
                 selected = currentRoute == HomeScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
@@ -75,14 +81,16 @@ fun Drawer(
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(
-                            context, "Please login first", Toast.LENGTH_SHORT
+                            context,
+                            context.getString(R.string.login_error_toast),
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 })
 
             NavigationDrawerItem(
                 label = {
-                    Text("Reserve a Table")
+                    Text("Reserve a Table", style = AppTypography.bodyLarge)
                 },
                 icon = { NavigationIcon(Icons.Outlined.DateRange, "Reserve a Table") },
                 selected = false, //TODO
@@ -96,7 +104,7 @@ fun Drawer(
 
             NavigationDrawerItem(
                 label = {
-                    Text("Profile")
+                    Text("Profile", style = AppTypography.bodyLarge)
                 },
                 selected = currentRoute == UserProfileScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.AccountCircle, "Profile") },
@@ -111,14 +119,16 @@ fun Drawer(
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(
-                            context, "Please login first", Toast.LENGTH_SHORT
+                            context,
+                            context.getString(R.string.login_error_toast),
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 })
 
             NavigationDrawerItem(
                 label = {
-                    Text("Sign Out")
+                    Text("Sign Out", style = AppTypography.bodyLarge)
                 },
                 selected = false,
                 icon = { NavigationIcon(Icons.AutoMirrored.Outlined.ArrowBack, "Sign Out") },
@@ -129,13 +139,19 @@ fun Drawer(
                     try {
                         userViewModel.checkIfLoggedIn()
                         userViewModel.logOut()
-                        Toast.makeText(context, "Logging out...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.logging_out_toast),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         navController.navigate(WelcomeScreen.route) {
                             popUpTo(WelcomeScreen.route) { inclusive = true }
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(
-                            context, "Please login first", Toast.LENGTH_SHORT
+                            context,
+                            context.getString(R.string.login_error_toast),
+                            Toast.LENGTH_SHORT
                         ).show()
                     }
                 })

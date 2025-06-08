@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +37,7 @@ fun DishDetails(
         Box(contentAlignment = Alignment.BottomStart) {
             Image(
                 painter = painter,
-                contentDescription = "Dish image",
+                contentDescription = stringResource(R.string.dish_image_desc),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,8 +66,7 @@ fun DishDetails(
             text = dish.getDescription() +
                     "\nPrice: $${dish.getPrice()}" +
                     "\nCalories: ${dish.getCalories()} kcal",
-            style = AppTypography.bodyLarge,
-            fontSize = 20.sp,
+            style = AppTypography.bodyLarge.copy(fontSize = 18.sp),
             modifier = Modifier
                 .padding(8.dp, 0.dp)
         )
@@ -82,8 +82,7 @@ fun DishDetails(
 
         Text(
             text = dish.getFormattedIngredients(),
-            style = AppTypography.bodyLarge,
-            fontSize = 20.sp,
+            style = AppTypography.bodyLarge.copy(fontSize = 18.sp),
             modifier = Modifier
                 .padding(8.dp, 0.dp)
         )

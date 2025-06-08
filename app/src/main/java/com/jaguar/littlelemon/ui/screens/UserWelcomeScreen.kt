@@ -14,13 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.navigation.UserLoginScreen
 import com.jaguar.littlelemon.navigation.UserRegistrationScreen
+import com.jaguar.littlelemon.ui.theme.AppTypography
 
 @Composable
 fun Welcome(
@@ -39,18 +40,16 @@ fun Welcome(
                 modifier = Modifier.padding(8.dp)
             )
             Text(
-                text = "Welcome to",
+                text = stringResource(R.string.welcome_message),
                 color = colorResource(id = R.color.yellow),
-                fontSize = 30.sp,
-                textAlign = TextAlign.Center,
-                lineHeight = 50.sp,
+                style = AppTypography.displaySmall,
+                textAlign = TextAlign.Center
             )
             Text(
-                text = "Little Lemon",
+                text = stringResource(R.string.app_name),
                 color = colorResource(id = R.color.yellow),
-                fontSize = 40.sp,
-                textAlign = TextAlign.Center,
-                lineHeight = 50.sp,
+                style = AppTypography.displayMedium,
+                textAlign = TextAlign.Center
             )
             Button(
                 onClick = {
@@ -65,7 +64,9 @@ fun Welcome(
                 ),
             ) {
                 Text(
-                    text = "Sign In", color = colorResource(id = R.color.black)
+                    text = "Sign In",
+                    color = colorResource(id = R.color.black),
+                    style = AppTypography.labelLarge
                 )
             }
             Button(
@@ -81,7 +82,9 @@ fun Welcome(
                 ),
             ) {
                 Text(
-                    text = "Register", color = colorResource(id = R.color.black)
+                    text = "Register",
+                    color = colorResource(id = R.color.black),
+                    style = AppTypography.labelLarge
                 )
             }
 

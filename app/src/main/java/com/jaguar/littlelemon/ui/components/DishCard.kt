@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,6 +25,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.models.Dish
+import com.jaguar.littlelemon.ui.theme.AppTypography
 
 @Composable
 fun DishCard(dish: Dish) {
@@ -41,7 +43,9 @@ fun DishCard(dish: Dish) {
             Column {
                 Text(
                     text = dish.getName(),
-                    fontSize = 20.sp,
+                    style = AppTypography.bodyLarge.copy(
+                        fontSize = 18.sp,
+                    ),
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
@@ -49,27 +53,28 @@ fun DishCard(dish: Dish) {
                         .substring(
                             0, 50
                         ) + "...",
-                    fontSize = 14.sp,
+                    style = AppTypography.bodyMedium,
                     modifier = Modifier
-                        .padding(vertical = 5.dp)
+                        .padding(vertical = 8.dp)
                         .fillMaxWidth(0.75f)
                 )
                 Text(
                     text = "$${dish.getPrice()}",
+                    style = AppTypography.bodyMedium,
                     color = Color.LightGray,
                     fontWeight = FontWeight.Bold,
                 )
             }
             Image(
                 painter = painter,
-                contentDescription = "Dish image",
+                contentDescription = stringResource(R.string.dish_image_desc),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .padding(8.dp)
                     .width(100.dp)
                     .height(100.dp)
                     .align(Alignment.CenterVertically)
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(24.dp))
             )
         }
     }

@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.navigation.DishDetailsScreen
 import com.jaguar.littlelemon.ui.components.DishCard
+import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.DishesViewModel
 
 
@@ -41,16 +42,16 @@ fun UpperPanel(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .background(colorResource(id = R.color.olive))
-            .padding(20.dp)
+            .padding(18.dp)
     ) {
         Text(
-            text = "Little Lemon",
-            fontSize = 32.sp,
+            text = stringResource(R.string.app_name),
+            style = AppTypography.displayLarge,
             color = colorResource(id = R.color.yellow),
         )
         Text(
-            text = "Chicago",
-            fontSize = 32.sp,
+            text = stringResource(R.string.location),
+            style = AppTypography.displayMedium,
             color = colorResource(id = R.color.white),
         )
         Row(
@@ -58,11 +59,13 @@ fun UpperPanel(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 20.dp)
+                .padding(vertical = 18.dp)
         ) {
             Text(
                 text = stringResource(id = R.string.description),
-                fontSize = 21.sp,
+                style = AppTypography.bodyLarge.copy(
+                    fontSize = 24.sp,
+                ),
                 color = colorResource(id = R.color.white),
                 modifier = Modifier.fillMaxWidth(0.5f)
             )
@@ -71,7 +74,7 @@ fun UpperPanel(modifier: Modifier = Modifier) {
                 contentDescription = "",
                 modifier = Modifier
                     .height(200.dp)
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(18.dp))
             )
         }
     }
@@ -96,7 +99,7 @@ fun Dishes(
                 dishes.forEach { dish ->
                     Box(
                         modifier = Modifier
-                            .padding(10.dp)
+                            .padding(8.dp)
                             .clickable {
                                 navController.navigate(DishDetailsScreen.createRoute(dish.getName()))
                             }) {
@@ -110,9 +113,7 @@ fun Dishes(
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier,
-    navController: NavHostController,
-    viewModel: DishesViewModel
+    modifier: Modifier, navController: NavHostController, viewModel: DishesViewModel
 ) {
     Column(modifier = modifier) {
         Dishes(navController, viewModel)

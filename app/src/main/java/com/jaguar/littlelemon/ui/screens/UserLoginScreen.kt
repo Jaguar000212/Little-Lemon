@@ -1,7 +1,5 @@
 package com.jaguar.littlelemon.ui.screens
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -28,12 +26,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.navigation.HomeScreen
+import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.UserViewModel
 
 
@@ -49,7 +49,9 @@ fun LoginUI(navController: NavHostController, userViewModel: UserViewModel) {
     Image(
         painter = painterResource(
             id = R.drawable.logo
-        ), contentDescription = "Logo Image", modifier = Modifier.padding(10.dp)
+        ),
+        contentDescription = stringResource(R.string.logo_image_desc),
+        modifier = Modifier.padding(8.dp)
     )
     TextField(
         value = email,
@@ -84,30 +86,35 @@ fun LoginUI(navController: NavHostController, userViewModel: UserViewModel) {
     )
 
     Text(
-        text = "Forgot Password?",
+        text = stringResource(R.string.forgot_password),
         color = colorResource(R.color.olive),
+        style = AppTypography.labelLarge,
         modifier = Modifier
-            .padding(10.dp)
+            .padding(8.dp)
             .clickable {
                 if (email.isNotEmpty()) {
                     userViewModel.forgotPassword(email)
                         .addOnCompleteListener(context.mainExecutor) { task ->
                             if (task.isSuccessful) {
-                                Log.d(TAG, "sendPasswordResetEmail:success")
                                 Toast.makeText(
                                     context,
-                                    "Email has been sent, check your inbox",
+                                    context.getString(R.string.forgot_password_confirmation_toast),
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
-                                Log.w(TAG, "sendPasswordResetEmail:failure", task.exception)
                                 Toast.makeText(
-                                    context, "Can't find your account", Toast.LENGTH_SHORT
+                                    context,
+                                    context.getString(R.string.forgot_password_error_toast),
+                                    Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
                 } else {
-                    Toast.makeText(context, "Please enter email", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.forgot_password_noEmail_toast),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             })
     Button(
@@ -116,22 +123,28 @@ fun LoginUI(navController: NavHostController, userViewModel: UserViewModel) {
                 userViewModel.logIn(email, password)
                     .addOnCompleteListener(context.mainExecutor) { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(context, "Welcome back!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.login_confirm_toast), Toast.LENGTH_SHORT
+                            ).show()
                             navController.navigate(HomeScreen.route) {
                                 popUpTo(HomeScreen.route) { inclusive = true }
                             }
                         } else {
                             Toast.makeText(
                                 context,
-                                "Login failed: ${task.exception?.message}",
+                                "${task.exception?.message}",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                     }
-            } else Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(
+                context,
+                context.getString(R.string.missing_fields_error_toast), Toast.LENGTH_SHORT
+            ).show()
         }, modifier = Modifier.padding(16.dp)
     ) {
-        Text(text = "Login")
+        Text(text = "Login", style = AppTypography.labelLarge)
     }
 
 }

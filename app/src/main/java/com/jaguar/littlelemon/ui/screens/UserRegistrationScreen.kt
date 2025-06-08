@@ -24,13 +24,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.navigation.UserIncompleteProfileScreen
+import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.UserViewModel
 
 
@@ -46,7 +47,9 @@ fun RegistrationUI(navController: NavHostController, userViewModel: UserViewMode
     Image(
         painter = painterResource(
             id = R.drawable.logo
-        ), contentDescription = "Logo Image", modifier = Modifier.padding(10.dp)
+        ),
+        contentDescription = stringResource(R.string.logo_image_desc),
+        modifier = Modifier.padding(8.dp)
     )
     TextField(
         value = email,
@@ -86,32 +89,31 @@ fun RegistrationUI(navController: NavHostController, userViewModel: UserViewMode
                 userViewModel.register(email, password)
                     .addOnCompleteListener(context.mainExecutor) { task ->
                         if (task.isSuccessful) {
-                            Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.registration_confirm_toast),
+                                Toast.LENGTH_SHORT
+                            ).show()
                             userViewModel.logIn(email, password)
                             navController.navigate(UserIncompleteProfileScreen.route) {
                                 popUpTo(UserIncompleteProfileScreen.route) { inclusive = true }
                             }
                         } else {
-                            if (task.exception is FirebaseAuthUserCollisionException) {
-                                Toast.makeText(
-                                    context, "Email already registered.", Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                Toast.makeText(
-                                    context,
-                                    "${task.exception?.message}",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                            Toast.makeText(
+                                context, "${task.exception?.message}", Toast.LENGTH_LONG
+                            ).show()
                         }
-
                     }
-            } else Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(
+                context,
+                context.getString(R.string.missing_fields_error_toast),
+                Toast.LENGTH_SHORT
+            ).show()
 
-        }, modifier = Modifier.padding(10.dp)
+        }, modifier = Modifier.padding(8.dp)
     ) {
-        Text(text = "Next")
+        Text(text = "Next", style = AppTypography.labelLarge)
+
     }
 }
 
