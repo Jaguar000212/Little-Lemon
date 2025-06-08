@@ -29,7 +29,21 @@ A modern, Jetpack Compose-based Android prototype for a fictional restaurant, bu
 
 ---
 ## Screenshots
-> TO BE ADDED
+
+<div align="center">
+<div>
+<img src="screenshots/user_welcome.jpg" width="30%"  alt="User Welcome Screen"/>
+<img src="screenshots/user_register.jpg" width="30%"  alt="User Registration Screen"/>
+<img src="screenshots/user_login.jpg" width="30%"  alt="User Login Screen"/>
+<img src="screenshots/user_profile.jpg" width="30%"  alt="User Profile Screen"/>
+<img src="screenshots/user_homescreen.jpg" width="30%"  alt="User Home Screen"/>
+<img src="screenshots/dish_details.jpg" width="30%"  alt="Dish's Details Screen"/>
+<img src="screenshots/drawer.jpg" width="30%"  alt="App Drawer"/>
+</div>
+</div>
+
+<br>
+
 ---
 
 ⭐️ From [Jaguar000212](https://github.com/Jaguar000212)
