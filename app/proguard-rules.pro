@@ -12,6 +12,12 @@
 #   public *;
 #}
 
+# Keep all your models used for Firestore serialization/deserialization:
+-keepclassmembers class com.jaguar.littlelemon.models.** {
+    <fields>;
+    <methods>;
+}
+
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable

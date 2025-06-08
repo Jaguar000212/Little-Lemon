@@ -23,10 +23,14 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+            isMinifyEnabled = true
+        }
+        getByName("debug") {
+            applicationIdSuffix = ".BETA"
+            versionNameSuffix = ".BETA"
         }
     }
     compileOptions {
