@@ -1,4 +1,23 @@
 <resources>
+    <!-- Base application strings -->
     <string name="app_name">Little Lemon</string>
     <string name="description">We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</string>
+    <string name="little_lemon_restaurant">Little Lemon Restaurant</string>
+    <string name="location">Chicago</string>
+    <string name="welcome_message">Welcome to</string>
+    <!-- Errors -->
+    <string name="login_error_toast">Please login first</string>
+    <string name="forgot_password_error_toast">Can\'t find your account</string>
+    <string name="forgot_password_noEmail_toast">Please enter email</string>
+    <string name="missing_fields_error_toast">Please fill in all fields</string>
+    <string name="no_user_data_error">User data is not available.</string>
+    <!-- Image descriptions -->
+    <string name="dish_image_desc">Dish image</string>
+    <string name="logo_image_desc">Logo Image</string>
+    <!-- Login and Registration -->
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="logging_out_toast">Logging out…</string>
+    <string name="login_confirm_toast">Welcome back!</string>
+    <string name="forgot_password_confirmation_toast">Email has been sent, check your inbox</string>
+    <string name="registration_confirm_toast">Registration Successful</string>
 </resources>
