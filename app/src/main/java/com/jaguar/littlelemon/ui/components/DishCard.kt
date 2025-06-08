@@ -27,6 +27,8 @@ import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.models.Dish
 import com.jaguar.littlelemon.ui.theme.AppTypography
 
+private const val DESCRIPTION_MAX_LENGTH = 80
+
 @Composable
 fun DishCard(dish: Dish) {
     val painter = rememberAsyncImagePainter(
@@ -49,9 +51,9 @@ fun DishCard(dish: Dish) {
                     fontWeight = FontWeight.Bold,
                 )
                 Text(
-                    text = if (dish.getDescription().length < 80) dish.getDescription() else dish.getDescription()
+                    text = if (dish.getDescription().length < DESCRIPTION_MAX_LENGTH) dish.getDescription() else dish.getDescription()
                         .substring(
-                            0, 50
+                            0, DESCRIPTION_MAX_LENGTH
                         ) + "...",
                     style = AppTypography.bodyMedium,
                     modifier = Modifier

@@ -13,7 +13,7 @@ data class User(
     fun isNonVeg(): Boolean = nonVeg
     fun getFavorites(): List<String> = favorites
 
-    fun reset() {
+    fun clearUserData() {
         name = ""
         email = ""
         phone = ""

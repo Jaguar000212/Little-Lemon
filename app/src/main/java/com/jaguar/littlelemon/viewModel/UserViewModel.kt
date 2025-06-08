@@ -83,7 +83,7 @@ class UserViewModel : ViewModel() {
     fun logOut() {
         val auth = FirebaseAuth.getInstance()
         auth.signOut()
-        _user.value?.reset() // Reset user data
+        _user.value?.clearUserData() // Reset user data
         _user.value = null
     }
 
