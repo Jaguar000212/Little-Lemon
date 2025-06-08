@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,14 +59,13 @@ fun Welcome(
                 modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp),
                 colors = ButtonColors(
                     containerColor = colorResource(id = R.color.yellow),
-                    contentColor = colorResource(id = R.color.black),
+                    contentColor = Color.Black,
                     disabledContentColor = colorResource(id = R.color.white),
-                    disabledContainerColor = colorResource(id = R.color.black),
+                    disabledContainerColor = Color.Black,
                 ),
             ) {
                 Text(
                     text = "Sign In",
-                    color = colorResource(id = R.color.black),
                     style = AppTypography.labelLarge
                 )
             }
@@ -76,14 +76,13 @@ fun Welcome(
                 modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 16.dp),
                 colors = ButtonColors(
                     containerColor = colorResource(id = R.color.yellow),
-                    contentColor = colorResource(id = R.color.black),
+                    contentColor = Color.Black,
                     disabledContentColor = colorResource(id = R.color.white),
-                    disabledContainerColor = colorResource(id = R.color.black),
+                    disabledContainerColor = Color.Black,
                 ),
             ) {
                 Text(
                     text = "Register",
-                    color = colorResource(id = R.color.black),
                     style = AppTypography.labelLarge
                 )
             }
