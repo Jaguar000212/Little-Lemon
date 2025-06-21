@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.exceptions.UserNotLoggedInException
-import com.jaguar.littlelemon.navigation.HomeScreen
+import com.jaguar.littlelemon.navigation.UserHomeScreen
 import com.jaguar.littlelemon.navigation.UserProfileScreen
 import com.jaguar.littlelemon.navigation.WelcomeScreen
 import com.jaguar.littlelemon.navigation.currentRoute
@@ -68,7 +68,7 @@ fun Drawer(
                 label = {
                     Text("Home", style = AppTypography.bodyLarge)
                 },
-                selected = currentRoute == HomeScreen.route,
+                selected = currentRoute == UserHomeScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
                 onClick = {
                     scope.launch {
@@ -76,8 +76,8 @@ fun Drawer(
                     }
                     try {
                         userViewModel.checkIfLoggedIn()
-                        navController.navigate(HomeScreen.route) {
-                            popUpTo(HomeScreen.route) { inclusive = false }
+                        navController.navigate(UserHomeScreen.route) {
+                            popUpTo(UserHomeScreen.route) { inclusive = false }
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(
@@ -115,7 +115,7 @@ fun Drawer(
                     try {
                         userViewModel.checkIfLoggedIn()
                         navController.navigate(UserProfileScreen.route) {
-                            popUpTo(HomeScreen.route) { inclusive = false }
+                            popUpTo(UserHomeScreen.route) { inclusive = false }
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(

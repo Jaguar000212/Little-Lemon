@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.ui.screens
+package com.jaguar.littlelemon.ui.screens.user
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -36,12 +36,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.navigation.HomeScreen
+import com.jaguar.littlelemon.navigation.UserHomeScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.UserViewModel
 
 @Composable
-fun Profile(
+fun UserProfileScreen(
     modifier: Modifier = Modifier,
     userViewModel: UserViewModel,
     navController: NavHostController,
@@ -165,8 +165,8 @@ fun Profile(
                         Toast.makeText(context, "Profile updated successfully", Toast.LENGTH_SHORT)
                             .show()
                         if (incomplete) {
-                            navController.navigate(HomeScreen.route) {
-                                popUpTo(HomeScreen.route) { inclusive = true }
+                            navController.navigate(UserHomeScreen.route) {
+                                popUpTo(UserHomeScreen.route) { inclusive = true }
                             }
                         }
                     }, modifier = Modifier.padding(16.dp, 32.dp, 16.dp, 0.dp)

@@ -24,7 +24,7 @@ import com.jaguar.littlelemon.models.Dish
 import com.jaguar.littlelemon.ui.theme.AppTypography
 
 @Composable
-fun DishDetails(
+fun DishDetailsScreen(
     dish: Dish, modifier: Modifier = Modifier
 ) {
     val painter = rememberAsyncImagePainter(

@@ -79,5 +79,6 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.auth)
     implementation(libs.androidx.compose.ui.ui.text.google.fonts)
+    implementation(libs.androidx.material)
 
 }

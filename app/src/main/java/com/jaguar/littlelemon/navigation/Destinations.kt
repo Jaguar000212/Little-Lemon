@@ -8,8 +8,8 @@ object WelcomeScreen : Destinations {
     override val route = "WelcomeScreen"
 }
 
-object HomeScreen : Destinations {
-    override val route = "HomeScreen"
+object UserHomeScreen : Destinations {
+    override val route = "UserHomeScreen"
 }
 
 object UserLoginScreen : Destinations {
@@ -35,4 +35,16 @@ object DishDetailsScreen : Destinations {
     fun createRoute(dishName: String): String {
         return "DishDetailsScreen/$dishName"
     }
+}
+
+object AdminLoginScreen : Destinations {
+    override val route = "AdminLoginScreen"
+}
+
+object AdminHomeScreen : Destinations {
+    override val route = "AdminHomeScreen"
+}
+
+object AdminDishesScreen : Destinations {
+    override val route = "AdminDishesScreen"
 }

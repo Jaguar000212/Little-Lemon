@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.ui.screens
+package com.jaguar.littlelemon.ui.screens.user
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -32,13 +32,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.navigation.HomeScreen
+import com.jaguar.littlelemon.navigation.UserHomeScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.UserViewModel
 
 
 @Composable
-fun LoginUI(navController: NavHostController, userViewModel: UserViewModel) {
+fun UserLoginPanel(navController: NavHostController, userViewModel: UserViewModel) {
     val context = LocalContext.current
     var email: String by remember {
         mutableStateOf("")
@@ -127,8 +127,8 @@ fun LoginUI(navController: NavHostController, userViewModel: UserViewModel) {
                                 context,
                                 context.getString(R.string.login_confirm_toast), Toast.LENGTH_SHORT
                             ).show()
-                            navController.navigate(HomeScreen.route) {
-                                popUpTo(HomeScreen.route) { inclusive = true }
+                            navController.navigate(UserHomeScreen.route) {
+                                popUpTo(UserHomeScreen.route) { inclusive = true }
                             }
                         } else {
                             Toast.makeText(
@@ -150,12 +150,16 @@ fun LoginUI(navController: NavHostController, userViewModel: UserViewModel) {
 }
 
 @Composable
-fun LoginPanel(modifier: Modifier, navController: NavHostController, userViewModel: UserViewModel) {
+fun UserLoginScreen(
+    modifier: Modifier,
+    navController: NavHostController,
+    userViewModel: UserViewModel
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        LoginUI(navController, userViewModel)
+        UserLoginPanel(navController, userViewModel)
     }
 }
