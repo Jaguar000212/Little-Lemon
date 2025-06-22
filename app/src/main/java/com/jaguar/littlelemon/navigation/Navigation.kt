@@ -23,6 +23,7 @@ import androidx.navigation.navArgument
 import com.jaguar.littlelemon.ui.components.Drawer
 import com.jaguar.littlelemon.ui.components.Header
 import com.jaguar.littlelemon.ui.screens.DishDetailsScreen
+import com.jaguar.littlelemon.ui.screens.Welcome
 import com.jaguar.littlelemon.ui.screens.admin.AdminDishesScreen
 import com.jaguar.littlelemon.ui.screens.admin.AdminHomeScreen
 import com.jaguar.littlelemon.ui.screens.admin.AdminLoginScreen
@@ -56,19 +57,15 @@ fun MyNavigation() {
                 NavHost(
                     navController = navController, startDestination = when {
                         currentUser == null -> WelcomeScreen.route
+                        userViewModel.checkIfAdmin() -> AdminHomeScreen.route
                         userViewModel.isProfileComplete() -> UserHomeScreen.route
                         else -> UserIncompleteProfileScreen.route
                     }
                 ) {
                     composable(WelcomeScreen.route) {
-//                        Welcome(
-//                            Modifier.padding(innerPadding), navController = navController
-//                        )
-                        AdminHomeScreen(
+                        Welcome(
                             Modifier.padding(innerPadding), navController = navController
                         )
-                        // TODO: FOR DEBUGGING ONLY, REMOVE LATER
-
                     }
                     composable(UserLoginScreen.route) {
                         UserLoginScreen(
@@ -131,7 +128,9 @@ fun MyNavigation() {
                         route = AdminLoginScreen.route
                     ) {
                         AdminLoginScreen(
-                            Modifier.padding(innerPadding), navController = navController
+                            Modifier.padding(innerPadding),
+                            navController = navController,
+                            userViewModel = userViewModel
                         )
                     }
                     composable(

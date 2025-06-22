@@ -18,14 +18,15 @@ class UserViewModel : ViewModel() {
     private val _user = MutableStateFlow<User?>(null)
     val user: StateFlow<User?> = _user
 
+    private val _isAdmin = MutableStateFlow(false)
+
     init {
         fetchUser()
     }
 
     private fun fetchUser() {
         viewModelScope.launch {
-            val auth = FirebaseAuth.getInstance()
-            val currentUser = auth.currentUser
+            val currentUser = getFirebaseUser()
             if (currentUser == null) {
                 _user.value = null
                 return@launch
@@ -34,30 +35,32 @@ class UserViewModel : ViewModel() {
         }
     }
 
-    fun getFirebaseUser(): FirebaseUser? {
+    private fun getFirebaseUser(): FirebaseUser? {
         val auth = FirebaseAuth.getInstance()
         return auth.currentUser
     }
 
     fun fetchUserData() {
-        val auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
-
-        if (currentUser != null) {
-            FirebaseFirestore.getInstance().collection("users").document(currentUser.uid).get()
-                .addOnSuccessListener { document ->
-                    val user = User(
-                        name = document.getString("name") ?: "",
-                        email = currentUser.email ?: "",
-                        phone = document.getString("phone") ?: "",
-                        nonVeg = document.getBoolean("nonVeg") ?: false,
-                        favorites = document.get("favorites") as? List<String> ?: emptyList()
-                    )
-                    _user.value = user
-                }.addOnFailureListener {
-                    _user.value = null
-                    throw UserNotLoggedInException("User not logged in or data fetch failed.")
-                }
+        viewModelScope.launch {
+            val currentUser = getFirebaseUser()
+            if (currentUser != null) {
+                FirebaseFirestore.getInstance().collection("users").document(currentUser.uid).get()
+                    .addOnSuccessListener { document ->
+                        val user = User(
+                            name = document.getString("name") ?: "",
+                            email = currentUser.email ?: "",
+                            phone = document.getString("phone") ?: "",
+                            nonVeg = document.getBoolean("nonVeg") ?: false,
+                            favorites = document.get("favorites") as? List<String> ?: emptyList()
+                        )
+                        _user.value = user
+                    }.addOnFailureListener {
+                        _user.value = null
+                        throw UserNotLoggedInException("User not logged in or data fetch failed.")
+                    }
+            }
+            if (currentUser?.email == "jaguar000212@gmail.com") _isAdmin.value = true
+            else _isAdmin.value = false
         }
     }
 
@@ -71,9 +74,9 @@ class UserViewModel : ViewModel() {
         return auth.signInWithEmailAndPassword(email, password).continueWithTask { task ->
             if (task.isSuccessful) {
                 fetchUser()
-                Tasks.forResult<Void>(null)
+                Tasks.forResult(null)
             } else {
-                Tasks.forException<Void>(
+                Tasks.forException(
                     task.exception ?: UserNotLoggedInException("Login failed.")
                 )
             }
@@ -88,8 +91,7 @@ class UserViewModel : ViewModel() {
     }
 
     fun register(
-        email: String,
-        password: String
+        email: String, password: String
     ): Task<AuthResult> {
         val auth = FirebaseAuth.getInstance()
         return auth.createUserWithEmailAndPassword(email, password)
@@ -114,8 +116,7 @@ class UserViewModel : ViewModel() {
             "nonVeg" to nonVeg,
             "favorites" to favorites
         )
-        val auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser ?: return Tasks.forException(UserNotLoggedInException())
+        val currentUser = getFirebaseUser() ?: return Tasks.forException(UserNotLoggedInException())
 
         return FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
             .set(userMap)
@@ -125,5 +126,9 @@ class UserViewModel : ViewModel() {
         if (_user.value == null) {
             throw UserNotLoggedInException("User not logged in or data fetch failed.")
         }
+    }
+
+    fun checkIfAdmin(): Boolean {
+        return _isAdmin.value
     }
 }

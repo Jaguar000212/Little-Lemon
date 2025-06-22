@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -32,11 +32,12 @@ import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.navigation.AdminHomeScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
+import com.jaguar.littlelemon.viewModel.UserViewModel
 
 @Composable
-fun AdminLoginPanel(navController: NavHostController) {
+fun AdminLoginPanel(navController: NavHostController, userViewModel: UserViewModel) {
     val context = LocalContext.current
-    var username: String by remember {
+    var email: String by remember {
         mutableStateOf("")
     }
     var password: String by remember {
@@ -50,16 +51,16 @@ fun AdminLoginPanel(navController: NavHostController) {
         modifier = Modifier.padding(8.dp)
     )
     TextField(
-        value = username,
+        value = email,
         leadingIcon = {
-            Icon(Icons.Outlined.Person, contentDescription = "Username Icon")
+            Icon(Icons.Outlined.Email, contentDescription = "E-mail Icon")
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text, showKeyboardOnFocus = true
+            keyboardType = KeyboardType.Email, showKeyboardOnFocus = true
         ),
-        onValueChange = { username = it },
-        label = { Text(text = "Username") },
+        onValueChange = { email = it },
+        label = { Text(text = "E-Mail") },
         modifier = Modifier
             .padding(48.dp, 16.dp, 48.dp, 0.dp)
             .fillMaxWidth()
@@ -83,9 +84,27 @@ fun AdminLoginPanel(navController: NavHostController) {
 
     Button(
         onClick = {
-            if (username.isNotEmpty() && password.isNotEmpty()) {
-                if (username == "admin" && password == "admin") {
-                    navController.navigate(AdminHomeScreen.route)
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                if (email == "jaguar000212@gmail.com") {
+                    userViewModel.logIn(email, password)
+                        .addOnCompleteListener(context.mainExecutor) { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.login_confirm_toast),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                navController.navigate(AdminHomeScreen.route) {
+                                    popUpTo(AdminHomeScreen.route) { inclusive = true }
+                                }
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "${task.exception?.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                 } else {
                     Toast.makeText(
                         context,
@@ -105,13 +124,13 @@ fun AdminLoginPanel(navController: NavHostController) {
 
 @Composable
 fun AdminLoginScreen(
-    modifier: Modifier, navController: NavHostController
+    modifier: Modifier, navController: NavHostController, userViewModel: UserViewModel
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        AdminLoginPanel(navController)
+        AdminLoginPanel(navController, userViewModel)
     }
 }
