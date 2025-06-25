@@ -21,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.navigation.AdminDishesScreen
+import com.jaguar.littlelemon.navigation.AdminMenuScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
 
 @Composable
 fun AdminHomeScreen(modifier: Modifier, navController: NavHostController) {
     val adminActions = listOf(AdminAction("Manage Menu", "Add or edit dishes in the menu") {
-        navController.navigate(AdminDishesScreen.route)
+        navController.navigate(AdminMenuScreen.route)
     }, AdminAction("Manage Orders", "Manage customer orders") {
         // navigateToEditDishes()
     })

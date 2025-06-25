@@ -24,9 +24,9 @@ import com.jaguar.littlelemon.ui.components.Drawer
 import com.jaguar.littlelemon.ui.components.Header
 import com.jaguar.littlelemon.ui.screens.DishDetailsScreen
 import com.jaguar.littlelemon.ui.screens.Welcome
-import com.jaguar.littlelemon.ui.screens.admin.AdminDishesScreen
 import com.jaguar.littlelemon.ui.screens.admin.AdminHomeScreen
 import com.jaguar.littlelemon.ui.screens.admin.AdminLoginScreen
+import com.jaguar.littlelemon.ui.screens.admin.AdminMenuScreen
 import com.jaguar.littlelemon.ui.screens.user.UserHomeScreen
 import com.jaguar.littlelemon.ui.screens.user.UserLoginScreen
 import com.jaguar.littlelemon.ui.screens.user.UserProfileScreen
@@ -141,9 +141,9 @@ fun MyNavigation() {
                         )
                     }
                     composable(
-                        route = AdminDishesScreen.route
+                        route = AdminMenuScreen.route
                     ) {
-                        AdminDishesScreen(
+                        AdminMenuScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
                             viewModel = menuViewModel

@@ -45,6 +45,6 @@ object AdminHomeScreen : Destinations {
     override val route = "AdminHomeScreen"
 }
 
-object AdminDishesScreen : Destinations {
-    override val route = "AdminDishesScreen"
+object AdminMenuScreen : Destinations {
+    override val route = "AdminMenuScreen"
 }

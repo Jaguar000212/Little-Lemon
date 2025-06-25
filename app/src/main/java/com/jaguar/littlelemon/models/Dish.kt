@@ -10,7 +10,7 @@ data class Dish(
     private val imageURL: String = "",
     private val nonVeg: Boolean = false,
     private val price: Double = 0.0,
-    private val type: String = "cuisine"
+    private val type: String = ""
 ) {
     fun getId(): String = id
     fun getName(): String = name
@@ -21,6 +21,7 @@ data class Dish(
     fun getImageURL(): String = imageURL
     fun isNonVeg(): Boolean = nonVeg
     fun getPrice(): Double = price
+    fun getType(): String = type
 
 
     fun getFormattedIngredients(): String {

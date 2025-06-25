@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -50,8 +51,8 @@ fun DishCard(
 ) {
     val context = LocalContext.current
     val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(context).data(dish.getImageURL())
-            .placeholder(R.drawable.image).error(R.drawable.cross).build()
+        model = ImageRequest.Builder(context).data(dish.getImageURL()).placeholder(R.drawable.image)
+            .error(R.drawable.cross).build()
     )
 
     Card(modifier = modifier.padding(8.dp)) {
@@ -94,17 +95,33 @@ fun DishCard(
                                 menuViewModel.deleteDish(dish)
                                 showDeleteConfirmation = false
                                 Toast.makeText(
-                                    context,
-                                    "Dish deleted successfully",
-                                    Toast.LENGTH_SHORT
+                                    context, "Dish deleted successfully", Toast.LENGTH_SHORT
                                 ).show()
                             },
                             onDismiss = { showDeleteConfirmation = false })
                     }
+                    var showEditDialog: Boolean by remember { mutableStateOf(false) }
+                    if (showEditDialog) {
+                        AdminManageDishDialog(
+                            dish = dish,
+                            onDismiss = { showEditDialog = false },
+                            onSave = { updatedDish ->
+                                menuViewModel.updateDish(context, updatedDish)
+                                showEditDialog = false
+                                Toast.makeText(
+                                    context, "Dish updated successfully", Toast.LENGTH_SHORT
+                                ).show()
+                            })
+                    }
+
+                    var showCategoriesDialog: Boolean by remember { mutableStateOf(false) }
+                    if (showCategoriesDialog) {
+                        //TODO: Implement Categories Dialog
+                    }
                     Row {
                         IconButton(
                             {
-                                null
+                                showEditDialog = true
                             }, colors = IconButtonDefaults.iconButtonColors(
                                 containerColor = Color.Yellow.copy(alpha = 0.1f),
                                 contentColor = Color.Yellow,
@@ -114,6 +131,21 @@ fun DishCard(
                         ) {
                             Icon(
                                 Icons.Outlined.Edit, contentDescription = "Edit Dish"
+                            )
+                        }
+
+                        IconButton(
+                            {
+                                showCategoriesDialog = true
+                            }, colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = Color.White.copy(alpha = 0.1f),
+                                contentColor = Color.White,
+                                disabledContentColor = colorResource(id = R.color.white),
+                                disabledContainerColor = Color.Black
+                            )
+                        ) {
+                            Icon(
+                                Icons.Outlined.Info, contentDescription = "Manage Categories"
                             )
                         }
 
