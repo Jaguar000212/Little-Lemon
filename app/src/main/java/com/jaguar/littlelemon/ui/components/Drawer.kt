@@ -200,7 +200,7 @@ fun Drawer(
                             return@NavigationDrawerItem
                         }
                         navController.navigate(AdminHomeScreen.route) {
-                            popUpTo(UserHomeScreen.route) { inclusive = false }
+                            popUpTo(AdminHomeScreen.route) { inclusive = false }
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(

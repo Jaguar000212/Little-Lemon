@@ -26,16 +26,10 @@ import com.jaguar.littlelemon.ui.theme.AppTypography
 
 @Composable
 fun AdminHomeScreen(modifier: Modifier, navController: NavHostController) {
-    val adminActions = listOf(AdminAction("View Dishes", "See all dishes in the menu") {
+    val adminActions = listOf(AdminAction("Manage Menu", "Add or edit dishes in the menu") {
         navController.navigate(AdminDishesScreen.route)
-    }, AdminAction("Add Dishes", "Add a new dish to the menu") {
-        // navigateToAddDishes()
-    }, AdminAction("Edit Dishes", "Edit or remove existing dishes") {
+    }, AdminAction("Manage Orders", "Manage customer orders") {
         // navigateToEditDishes()
-    }, AdminAction("View Orders", "See all customer orders") {
-        // navigateToViewOrders()
-    }, AdminAction("Update Order Status", "Change the status of orders") {
-        // navigateToUpdateOrderStatus()
     })
 
     Column(

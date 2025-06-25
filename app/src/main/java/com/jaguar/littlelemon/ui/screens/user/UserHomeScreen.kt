@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
-import com.jaguar.littlelemon.ui.components.DishesList
+import com.jaguar.littlelemon.ui.components.Menu
 import com.jaguar.littlelemon.ui.theme.AppTypography
-import com.jaguar.littlelemon.viewModel.DishesViewModel
+import com.jaguar.littlelemon.viewModel.MenuViewModel
 
 
 @Composable
@@ -75,11 +75,11 @@ fun UpperPanel(modifier: Modifier = Modifier) {
 
 @Composable
 fun UserHomeScreen(
-    modifier: Modifier, navController: NavHostController, viewModel: DishesViewModel
+    modifier: Modifier, navController: NavHostController, viewModel: MenuViewModel
 ) {
     Column(modifier = modifier) {
         UpperPanel()
-        DishesList(navController, viewModel)
+        Menu(navController, viewModel)
     }
 }
 

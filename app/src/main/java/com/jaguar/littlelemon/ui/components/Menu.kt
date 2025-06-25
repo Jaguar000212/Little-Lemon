@@ -30,14 +30,15 @@ import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.navigation.DishDetailsScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
-import com.jaguar.littlelemon.viewModel.DishesViewModel
+import com.jaguar.littlelemon.viewModel.MenuViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun DishesList(
+fun Menu(
     navController: NavHostController,
-    viewModel: DishesViewModel,
+    viewModel: MenuViewModel,
     modifier: Modifier = Modifier,
+    actions: Boolean = false
 ) {
     val dishes by viewModel.dishes.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
@@ -60,7 +61,7 @@ fun DishesList(
                                 .clickable {
                                     navController.navigate(DishDetailsScreen.createRoute(dish.getName()))
                                 }) {
-                            DishCard(dish)
+                            DishCard(dish, menuViewModel = viewModel, actions = actions)
                         }
                     }
                 }

@@ -32,7 +32,7 @@ import com.jaguar.littlelemon.ui.screens.user.UserLoginScreen
 import com.jaguar.littlelemon.ui.screens.user.UserProfileScreen
 import com.jaguar.littlelemon.ui.screens.user.UserRegistrationScreen
 import com.jaguar.littlelemon.ui.theme.LittleLemonTheme
-import com.jaguar.littlelemon.viewModel.DishesViewModel
+import com.jaguar.littlelemon.viewModel.MenuViewModel
 import com.jaguar.littlelemon.viewModel.UserViewModel
 
 
@@ -43,8 +43,8 @@ fun MyNavigation() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    val dishesViewModel: DishesViewModel = viewModel()
-    val dishes by dishesViewModel.dishes.collectAsState()
+    val menuViewModel: MenuViewModel = viewModel()
+    val dishes by menuViewModel.dishes.collectAsState()
     val userViewModel: UserViewModel = viewModel()
     val currentUser = userViewModel.user.collectAsState().value
     LittleLemonTheme {
@@ -85,7 +85,7 @@ fun MyNavigation() {
                         UserHomeScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
-                            viewModel = dishesViewModel
+                            viewModel = menuViewModel
                         )
                     }
                     composable(
@@ -146,7 +146,7 @@ fun MyNavigation() {
                         AdminDishesScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
-                            viewModel = dishesViewModel
+                            viewModel = menuViewModel
                         )
                     }
                 }
