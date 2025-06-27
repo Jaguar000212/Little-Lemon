@@ -116,7 +116,19 @@ fun DishCard(
 
                     var showCategoriesDialog: Boolean by remember { mutableStateOf(false) }
                     if (showCategoriesDialog) {
-                        //TODO: Implement Categories Dialog
+                        AdminManageCategoryDialog(
+                            dish = dish,
+                            onDismiss = { showCategoriesDialog = false },
+                            onSave = { updatedDish ->
+                                menuViewModel.updateDish(context, updatedDish)
+                                showCategoriesDialog = false
+                                Toast.makeText(
+                                    context,
+                                    "Dish categories updated successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        )
                     }
                     Row {
                         IconButton(

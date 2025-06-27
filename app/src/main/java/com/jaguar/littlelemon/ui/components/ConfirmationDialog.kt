@@ -4,14 +4,10 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ConfirmationDialog(
-    title: String,
-    message: String,
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit
+    title: String, message: String, onConfirm: () -> Unit, onDismiss: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = { onDismiss() },
@@ -26,18 +22,6 @@ fun ConfirmationDialog(
             TextButton(onClick = { onDismiss() }) {
                 Text("Cancel")
             }
-        }
-    )
+        })
 
-}
-
-@Preview
-@Composable
-fun ConfirmationDialogPreview() {
-    ConfirmationDialog(
-        title = "Confirm Action",
-        message = "Are you sure you want to proceed?",
-        onConfirm = { /* Handle confirm action */ },
-        onDismiss = { /* Handle dismiss action */ }
-    )
 }

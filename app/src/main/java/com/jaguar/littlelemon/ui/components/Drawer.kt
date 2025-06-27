@@ -183,7 +183,7 @@ fun Drawer(
                 label = {
                     Text("Admin", style = AppTypography.bodyLarge)
                 },
-                selected = false,
+                selected = currentRoute?.startsWith("Admin") ?: false,
                 icon = { NavigationIcon(Icons.Outlined.Build, "Close Drawer") },
                 onClick = {
                     scope.launch {

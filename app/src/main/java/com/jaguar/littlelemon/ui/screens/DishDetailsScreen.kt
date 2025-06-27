@@ -1,7 +1,6 @@
 package com.jaguar.littlelemon.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,8 +36,10 @@ fun DishDetailsScreen(
     Column(
         horizontalAlignment = Alignment.Start, modifier = modifier.fillMaxWidth()
     ) {
-        Box(contentAlignment = Alignment.BottomStart,
-            modifier = Modifier.height(200.dp)) {
+        Box(
+            contentAlignment = Alignment.BottomStart,
+            modifier = Modifier.height(200.dp)
+        ) {
             Image(
                 painter = painter,
                 contentDescription = stringResource(R.string.dish_image_desc),

@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jaguar.littlelemon.exceptions.UserNotLoggedInException
+import com.jaguar.littlelemon.models.Configs
 import com.jaguar.littlelemon.models.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -59,7 +60,7 @@ class UserViewModel : ViewModel() {
                         throw UserNotLoggedInException("User not logged in or data fetch failed.")
                     }
             }
-            if (currentUser?.email == "jaguar000212@gmail.com") _isAdmin.value = true
+            if (currentUser?.email == Configs.getAdmin()) _isAdmin.value = true
             else _isAdmin.value = false
         }
     }

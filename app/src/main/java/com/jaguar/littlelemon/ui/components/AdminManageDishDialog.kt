@@ -7,8 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,7 +37,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -50,7 +47,6 @@ import com.jaguar.littlelemon.models.Configs
 import com.jaguar.littlelemon.models.Dish
 import java.util.Locale
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun AdminManageDishDialog(
     dish: Dish = Dish(), onDismiss: () -> Unit, onSave: (Dish) -> Unit
@@ -63,7 +59,6 @@ fun AdminManageDishDialog(
     var ingredients: Set<String> by remember { mutableStateOf(dish.getIngredients().toSet()) }
     var nonVeg: Boolean by remember { mutableStateOf(dish.isNonVeg()) }
     var type: String by remember { mutableStateOf(dish.getType()) }
-    var selectedCategories: Set<String> by remember { mutableStateOf(dish.getCategories().toSet()) }
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         imageURL = it
     }
@@ -103,30 +98,28 @@ fun AdminManageDishDialog(
                 Checkbox(checked = nonVeg, onCheckedChange = { nonVeg = it })
                 Text("Non-Vegetarian")
             }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Type: ", fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 8.dp))
-                Row(
-                    modifier = Modifier.horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Configs.getTypes().forEach { t ->
-                        FilterChip(
-                            selected = t.replaceFirstChar {
-                                if (it.isLowerCase()) it.titlecase(
-                                    Locale.ROOT
-                                ) else it.toString()
-                            } == type,
-                            onClick = { type = t.replaceFirstChar {
-                                if (it.isLowerCase()) it.titlecase(
-                                    Locale.ROOT
-                                ) else it.toString()
-                            } },
-                            label = { Text(t.replaceFirstChar {
-                                if (it.isLowerCase()) it.titlecase(
-                                    Locale.ROOT
-                                ) else it.toString()
-                            }) })
-                    }
+            Row(
+                modifier = Modifier.horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Configs.getTypes().forEach { t ->
+                    FilterChip(selected = t.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(
+                            Locale.ROOT
+                        ) else it.toString()
+                    } == type, onClick = {
+                        type = t.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                Locale.ROOT
+                            ) else it.toString()
+                        }
+                    }, label = {
+                        Text(t.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                Locale.ROOT
+                            ) else it.toString()
+                        })
+                    })
                 }
             }
 
@@ -145,7 +138,7 @@ fun AdminManageDishDialog(
                         contentDescription = "Edit Image",
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
-                    Text("Upload Image", modifier = Modifier.padding(horizontal = 8.dp))
+                    Text("Upload Image", modifier = Modifier.padding(0.dp, 0.dp, 8.dp, 0.dp))
                 }
                 Image(
                     painter = painter,
@@ -154,7 +147,7 @@ fun AdminManageDishDialog(
                     modifier = Modifier
                         .padding(8.dp)
                         .size(50.dp)
-                        .clip(RoundedCornerShape(24.dp))
+                        .clip(RoundedCornerShape(25.dp))
                 )
             }
         }

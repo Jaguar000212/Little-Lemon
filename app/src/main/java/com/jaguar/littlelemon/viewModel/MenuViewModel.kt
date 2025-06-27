@@ -86,24 +86,24 @@ class MenuViewModel : ViewModel() {
 
                 val imageRef = storageRef.child("dish_images/${dish.getId()}.webp")
                 imageRef.putBytes(compressedData).addOnSuccessListener {
-                        imageRef.downloadUrl.addOnSuccessListener { url ->
-                            docRef.set(
-                                dish.copy(
-                                    imageURL = url.toString()
-                                )
-                            ).addOnSuccessListener {
-                                Log.d("Firestore", "Dish updated successfully")
-                                fetchDishes()
-                            }.addOnFailureListener { exception ->
-                                Log.e(
-                                    "Firestore",
-                                    "Error updating dish: ${exception.localizedMessage}"
-                                )
-                            }
+                    imageRef.downloadUrl.addOnSuccessListener { url ->
+                        docRef.set(
+                            dish.copy(
+                                imageURL = url.toString()
+                            )
+                        ).addOnSuccessListener {
+                            Log.d("Firestore", "Dish updated successfully")
+                            fetchDishes()
+                        }.addOnFailureListener { exception ->
+                            Log.e(
+                                "Firestore",
+                                "Error updating dish: ${exception.localizedMessage}"
+                            )
                         }
-                    }.addOnFailureListener {
-                        Log.e("Firestore", "Image upload failed: ${it.localizedMessage}")
                     }
+                }.addOnFailureListener {
+                    Log.e("Firestore", "Image upload failed: ${it.localizedMessage}")
+                }
 
             } catch (e: Exception) {
                 Log.e("Firestore", "Image processing failed: ${e.localizedMessage}")
