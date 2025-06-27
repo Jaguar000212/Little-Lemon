@@ -29,11 +29,11 @@ object UserIncompleteProfileScreen : Destinations {
 }
 
 object DishDetailsScreen : Destinations {
-    const val ARG_DISH_NAME = "dishName"
-    override val route = "DishDetailsScreen/{$ARG_DISH_NAME}"
+    const val ARG_DISH_ID = "dishName"
+    override val route = "DishDetailsScreen/{$ARG_DISH_ID}"
 
-    fun createRoute(dishName: String): String {
-        return "DishDetailsScreen/$dishName"
+    fun createRoute(dishID: String): String {
+        return "DishDetailsScreen/$dishID"
     }
 }
 

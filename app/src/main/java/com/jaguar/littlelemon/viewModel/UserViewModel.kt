@@ -60,7 +60,7 @@ class UserViewModel : ViewModel() {
                         throw UserNotLoggedInException("User not logged in or data fetch failed.")
                     }
             }
-            if (currentUser?.email == Configs.getAdmin()) _isAdmin.value = true
+            if (currentUser?.email == Configs.admin.value) _isAdmin.value = true
             else _isAdmin.value = false
         }
     }

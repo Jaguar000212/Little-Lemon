@@ -30,6 +30,7 @@ fun AdminManageCategoryDialog(
     onDismiss: () -> Unit,
 ) {
     var selectedCategories: Set<String> by remember { mutableStateOf(dish.getCategories().toSet()) }
+    val categories by remember { mutableStateOf(Configs.categories.value) }
 
     AlertDialog(onDismissRequest = { onDismiss() }, title = {
         Column {
@@ -41,7 +42,7 @@ fun AdminManageCategoryDialog(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            Configs.getCategories().forEach { category ->
+            categories.forEach { category ->
                 Text("${category.key}:", style = AppTypography.titleMedium)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     category.value.forEach { cat ->

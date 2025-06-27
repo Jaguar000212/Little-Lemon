@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
+import com.jaguar.littlelemon.models.Dish
 import com.jaguar.littlelemon.navigation.DishDetailsScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.MenuViewModel
@@ -38,7 +39,7 @@ fun Menu(
     navController: NavHostController,
     viewModel: MenuViewModel,
     modifier: Modifier = Modifier,
-    actions: Boolean = false
+    actions: @Composable (Dish) -> Unit = { }
 ) {
     val dishes by viewModel.dishes.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
@@ -59,9 +60,9 @@ fun Menu(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .clickable {
-                                    navController.navigate(DishDetailsScreen.createRoute(dish.getName()))
+                                    navController.navigate(DishDetailsScreen.createRoute(dish.getId()))
                                 }) {
-                            DishCard(dish, menuViewModel = viewModel, actions = actions)
+                            DishCard(dish, actions = actions)
                         }
                     }
                 }

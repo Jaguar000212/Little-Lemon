@@ -1,15 +1,19 @@
 package com.jaguar.littlelemon.navigation
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,6 +24,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jaguar.littlelemon.models.Configs
 import com.jaguar.littlelemon.ui.components.Drawer
 import com.jaguar.littlelemon.ui.components.Header
 import com.jaguar.littlelemon.ui.screens.DishDetailsScreen
@@ -38,6 +43,20 @@ import com.jaguar.littlelemon.viewModel.UserViewModel
 
 @Composable
 fun MyNavigation() {
+    LaunchedEffect(Unit) {
+        Configs.initConfigs()
+    }
+    val isReady by Configs.isReady.collectAsState()
+    if (!isReady) {
+        LittleLemonTheme {
+            Box(
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        return
+    }
     val context = LocalContext.current
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -47,6 +66,7 @@ fun MyNavigation() {
     val dishes by menuViewModel.dishes.collectAsState()
     val userViewModel: UserViewModel = viewModel()
     val currentUser = userViewModel.user.collectAsState().value
+
     LittleLemonTheme {
         Drawer(navController, drawerState, userViewModel) {
             Scaffold(
@@ -111,13 +131,13 @@ fun MyNavigation() {
                     }
                     composable(
                         route = DishDetailsScreen.route,
-                        arguments = listOf(navArgument(DishDetailsScreen.ARG_DISH_NAME) {
+                        arguments = listOf(navArgument(DishDetailsScreen.ARG_DISH_ID) {
                             type = NavType.StringType
                         })
                     ) { backStackEntry ->
-                        val dishName =
-                            backStackEntry.arguments?.getString(DishDetailsScreen.ARG_DISH_NAME)
-                        val dish = dishes.find { it.getName() == dishName }
+                        val dishID =
+                            backStackEntry.arguments?.getString(DishDetailsScreen.ARG_DISH_ID)
+                        val dish = dishes.find { it.getId() == dishID }
                         if (dish != null) {
                             DishDetailsScreen(
                                 dish = dish, modifier = Modifier.padding(innerPadding)

@@ -51,6 +51,7 @@ import java.util.Locale
 fun AdminManageDishDialog(
     dish: Dish = Dish(), onDismiss: () -> Unit, onSave: (Dish) -> Unit
 ) {
+    val types: List<String> by remember { mutableStateOf(Configs.types.value) }
     var name: String by remember { mutableStateOf(dish.getName()) }
     var description: String by remember { mutableStateOf(dish.getDescription()) }
     var price: Double by remember { mutableDoubleStateOf(dish.getPrice()) }
@@ -71,7 +72,12 @@ fun AdminManageDishDialog(
 
     AlertDialog(onDismissRequest = { onDismiss() }, title = { Text("Edit Dish") }, text = {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Name") })
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Name") },
+                singleLine = true
+            )
             OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
@@ -79,15 +85,17 @@ fun AdminManageDishDialog(
                 label = { Text("Description") })
             OutlinedTextField(
                 value = price.toString(),
-                onValueChange = { price = it.toDouble() },
+                onValueChange = { price = it.toDoubleOrNull() ?: 0.0 },
                 label = { Text("Price") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true
             )
             OutlinedTextField(
                 value = calories.toString(),
-                onValueChange = { calories = it.toInt() },
+                onValueChange = { calories = it.toIntOrNull() ?: 0 },
                 label = { Text("Calories") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                singleLine = true
             )
             OutlinedTextField(
                 value = ingredients.joinToString("\n"),
@@ -102,7 +110,7 @@ fun AdminManageDishDialog(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Configs.getTypes().forEach { t ->
+                types.forEach { t ->
                     FilterChip(selected = t.replaceFirstChar {
                         if (it.isLowerCase()) it.titlecase(
                             Locale.ROOT

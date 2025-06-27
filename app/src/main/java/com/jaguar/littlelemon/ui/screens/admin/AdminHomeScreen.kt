@@ -65,7 +65,7 @@ fun AdminActionCard(action: AdminAction) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable { action.onClick() },
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(

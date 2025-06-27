@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 class MenuViewModel : ViewModel() {
     private val _dishes = MutableStateFlow<List<Dish>>(emptyList())
@@ -115,6 +116,59 @@ class MenuViewModel : ViewModel() {
                 fetchDishes()
             }.addOnFailureListener { exception ->
                 Log.e("Firestore", "Error updating dish: ${exception.localizedMessage}")
+            }
+        }
+    }
+
+    fun addDish(context: Context, dish: Dish) {
+        val id = UUID.randomUUID()
+        val db = FirebaseFirestore.getInstance()
+        val storageRef = FirebaseStorage.getInstance().reference
+
+        if (dish.getImageURL().isNotEmpty() && dish.getImageURL().startsWith("content://")) {
+            val imageUri = dish.getImageURL().toUri()
+
+            try {
+                val bitmap = ImageDecoder.decodeBitmap(
+                    ImageDecoder.createSource(
+                        context.contentResolver, imageUri
+                    )
+                )
+
+                // Compress the bitmap
+                val baos = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.WEBP_LOSSY, 70, baos)
+                val compressedData = baos.toByteArray()
+
+                val imageRef = storageRef.child("dish_images/${id}.webp")
+                imageRef.putBytes(compressedData).addOnSuccessListener {
+                    imageRef.downloadUrl.addOnSuccessListener { url ->
+                        db.collection("dishes").add(
+                            dish.copy(
+                                id = id.toString(),
+                                imageURL = url.toString()
+                            )
+                        ).addOnSuccessListener {
+                            Log.d("Firestore", "Dish added successfully")
+                            fetchDishes()
+                        }.addOnFailureListener { exception ->
+                            Log.e("Firestore", "Error adding dish: ${exception.localizedMessage}")
+                        }
+                    }
+                }.addOnFailureListener {
+                    Log.e("Firestore", "Image upload failed: ${it.localizedMessage}")
+                }
+
+            } catch (e: Exception) {
+                Log.e("Firestore", "Image processing failed: ${e.localizedMessage}")
+            }
+
+        } else {
+            db.collection("dishes").add(dish).addOnSuccessListener {
+                Log.d("Firestore", "Dish added successfully")
+                fetchDishes()
+            }.addOnFailureListener { exception ->
+                Log.e("Firestore", "Error adding dish: ${exception.localizedMessage}")
             }
         }
     }
