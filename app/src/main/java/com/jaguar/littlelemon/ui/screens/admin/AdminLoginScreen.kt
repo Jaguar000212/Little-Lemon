@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
+import com.jaguar.littlelemon.models.Configs
 import com.jaguar.littlelemon.navigation.AdminHomeScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
 import com.jaguar.littlelemon.viewModel.UserViewModel
@@ -85,7 +86,7 @@ fun AdminLoginPanel(navController: NavHostController, userViewModel: UserViewMod
     Button(
         onClick = {
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                if (email == "jaguar000212@gmail.com") {
+                if (email == Configs.admin.value) {
                     userViewModel.logIn(email, password)
                         .addOnCompleteListener(context.mainExecutor) { task ->
                             if (task.isSuccessful) {

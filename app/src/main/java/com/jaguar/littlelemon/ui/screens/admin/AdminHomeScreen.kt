@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,17 +27,16 @@ import com.jaguar.littlelemon.ui.theme.AppTypography
 
 @Composable
 fun AdminHomeScreen(modifier: Modifier, navController: NavHostController) {
-    val adminActions = listOf(AdminAction("Manage Menu", "Add or edit dishes in the menu") {
+    val adminActions = listOf(AdminAction(stringResource(R.string.manage_menu),
+        stringResource(R.string.manage_menu_desc)) {
         navController.navigate(AdminMenuScreen.route)
-    }, AdminAction("Manage Orders", "Manage customer orders") {
-        // navigateToEditDishes()
     })
 
     Column(
         modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Admin Panel",
+            text = stringResource(R.string.admin_panel),
             style = AppTypography.headlineMedium,
             color = colorResource(R.color.yellow),
             modifier = Modifier.padding(bottom = 24.dp)

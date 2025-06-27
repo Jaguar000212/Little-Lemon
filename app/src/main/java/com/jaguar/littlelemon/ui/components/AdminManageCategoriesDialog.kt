@@ -11,12 +11,15 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.models.Configs
 import com.jaguar.littlelemon.models.Dish
 import com.jaguar.littlelemon.ui.theme.AppTypography
@@ -30,11 +33,11 @@ fun AdminManageCategoryDialog(
     onDismiss: () -> Unit,
 ) {
     var selectedCategories: Set<String> by remember { mutableStateOf(dish.getCategories().toSet()) }
-    val categories by remember { mutableStateOf(Configs.categories.value) }
+    val categories by Configs.categories.collectAsState()
 
     AlertDialog(onDismissRequest = { onDismiss() }, title = {
         Column {
-            Text("Edit Categories")
+            Text(stringResource(R.string.edit_categories))
             Text(dish.getName(), style = AppTypography.bodyMedium)
         }
     }, text = {
@@ -64,11 +67,11 @@ fun AdminManageCategoryDialog(
             )
             onSave(updatedDish)
         }) {
-            Text("Save")
+            Text(stringResource(R.string.save))
         }
     }, dismissButton = {
         OutlinedButton(onClick = onDismiss) {
-            Text("Cancel")
+            Text(stringResource(R.string.cancel))
         }
     })
 }

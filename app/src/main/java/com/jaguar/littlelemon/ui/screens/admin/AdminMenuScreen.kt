@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
@@ -43,30 +44,29 @@ fun AdminMenuScreen(
     var showAddDishDialog: Boolean by remember { mutableStateOf(false) }
 
     if (showAddDishDialog) {
-        AdminManageDishDialog(
-            onDismiss = { showAddDishDialog = false },
-            onSave = { dish ->
-                viewModel.addDish(context, dish)
-                showAddDishDialog = false
-                Toast.makeText(
-                    context, "Dish added successfully", Toast.LENGTH_SHORT
-                ).show()
-            })
+        AdminManageDishDialog(onDismiss = { showAddDishDialog = false }, onSave = { dish ->
+            viewModel.addDish(context, dish)
+            showAddDishDialog = false
+            Toast.makeText(
+                context, context.getString(R.string.dish_added_successfully), Toast.LENGTH_SHORT
+            ).show()
+        })
     }
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Menu(navController, viewModel) { dish ->
+            Menu(navController = navController, viewModel = viewModel) { dish ->
                 var showDeleteConfirmation: Boolean by remember { mutableStateOf(false) }
                 if (showDeleteConfirmation) {
                     ConfirmationDialog(
-                        title = "Delete Dish",
-                        message = "Are you sure want to remove the dish from the menu?\n${dish.getName()}",
+                        title = stringResource(R.string.delete_dish),
+                        message = stringResource(R.string.dish_delete_confirmation, dish.getName()),
                         onConfirm = {
                             viewModel.deleteDish(dish)
                             showDeleteConfirmation = false
                             Toast.makeText(
-                                context, "Dish deleted successfully", Toast.LENGTH_SHORT
+                                context,
+                                context.getString(R.string.dish_deleted_successfully), Toast.LENGTH_SHORT
                             ).show()
                         },
                         onDismiss = { showDeleteConfirmation = false })
@@ -80,7 +80,9 @@ fun AdminMenuScreen(
                             viewModel.updateDish(context, updatedDish)
                             showEditDialog = false
                             Toast.makeText(
-                                context, "Dish updated successfully", Toast.LENGTH_SHORT
+                                context,
+                                context.getString(R.string.dish__updated_successfully),
+                                Toast.LENGTH_SHORT
                             ).show()
                         })
                 }
@@ -94,7 +96,9 @@ fun AdminMenuScreen(
                             viewModel.updateDish(context, updatedDish)
                             showCategoriesDialog = false
                             Toast.makeText(
-                                context, "Dish categories updated successfully", Toast.LENGTH_SHORT
+                                context,
+                                context.getString(R.string.dish__updated_successfully),
+                                Toast.LENGTH_SHORT
                             ).show()
                         })
                 }

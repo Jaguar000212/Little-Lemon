@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -45,13 +46,12 @@ import coil.request.ImageRequest
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.models.Configs
 import com.jaguar.littlelemon.models.Dish
-import java.util.Locale
 
 @Composable
 fun AdminManageDishDialog(
     dish: Dish = Dish(), onDismiss: () -> Unit, onSave: (Dish) -> Unit
 ) {
-    val types: List<String> by remember { mutableStateOf(Configs.types.value) }
+    val types: List<String> by Configs.types.collectAsState()
     var name: String by remember { mutableStateOf(dish.getName()) }
     var description: String by remember { mutableStateOf(dish.getDescription()) }
     var price: Double by remember { mutableDoubleStateOf(dish.getPrice()) }
@@ -59,6 +59,7 @@ fun AdminManageDishDialog(
     var imageURL: Uri? by remember { mutableStateOf(dish.getImageURL().toUri()) }
     var ingredients: Set<String> by remember { mutableStateOf(dish.getIngredients().toSet()) }
     var nonVeg: Boolean by remember { mutableStateOf(dish.isNonVeg()) }
+    var topPick: Boolean by remember { mutableStateOf(dish.isTopPick()) }
     var type: String by remember { mutableStateOf(dish.getType()) }
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         imageURL = it
@@ -70,30 +71,30 @@ fun AdminManageDishDialog(
             .error(R.drawable.cross).build()
     )
 
-    AlertDialog(onDismissRequest = { onDismiss() }, title = { Text("Edit Dish") }, text = {
+    AlertDialog(onDismissRequest = { onDismiss() }, title = { Text(stringResource(R.string.edit_dish)) }, text = {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Name") },
+                label = { Text(stringResource(R.string.name)) },
                 singleLine = true
             )
             OutlinedTextField(
                 value = description,
                 onValueChange = { description = it },
                 maxLines = 3,
-                label = { Text("Description") })
+                label = { Text(stringResource(R.string.ddescription)) })
             OutlinedTextField(
                 value = price.toString(),
                 onValueChange = { price = it.toDoubleOrNull() ?: 0.0 },
-                label = { Text("Price") },
+                label = { Text(stringResource(R.string.price)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true
             )
             OutlinedTextField(
                 value = calories.toString(),
                 onValueChange = { calories = it.toIntOrNull() ?: 0 },
-                label = { Text("Calories") },
+                label = { Text(stringResource(R.string.calories)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true
             )
@@ -101,32 +102,24 @@ fun AdminManageDishDialog(
                 value = ingredients.joinToString("\n"),
                 onValueChange = { it -> ingredients = it.split("\n").map { it.trim() }.toSet() },
                 maxLines = 3,
-                label = { Text("Ingredients") })
+                label = { Text(stringResource(R.string.ingredients)) })
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(checked = nonVeg, onCheckedChange = { nonVeg = it })
-                Text("Non-Vegetarian")
+                Text(stringResource(R.string.non_veg))
+            }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(checked = topPick, onCheckedChange = { topPick = it })
+                Text(stringResource(R.string.top_pick))
             }
             Row(
                 modifier = Modifier.horizontalScroll(rememberScrollState()),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 types.forEach { t ->
-                    FilterChip(selected = t.replaceFirstChar {
-                        if (it.isLowerCase()) it.titlecase(
-                            Locale.ROOT
-                        ) else it.toString()
-                    } == type, onClick = {
-                        type = t.replaceFirstChar {
-                            if (it.isLowerCase()) it.titlecase(
-                                Locale.ROOT
-                            ) else it.toString()
-                        }
+                    FilterChip(selected = t == type, onClick = {
+                        type = t
                     }, label = {
-                        Text(t.replaceFirstChar {
-                            if (it.isLowerCase()) it.titlecase(
-                                Locale.ROOT
-                            ) else it.toString()
-                        })
+                        Text(t)
                     })
                 }
             }
@@ -143,10 +136,10 @@ fun AdminManageDishDialog(
                 ) {
                     Icon(
                         Icons.Outlined.Edit,
-                        contentDescription = "Edit Image",
+                        contentDescription = stringResource(R.string.edit_image),
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
-                    Text("Upload Image", modifier = Modifier.padding(0.dp, 0.dp, 8.dp, 0.dp))
+                    Text(stringResource(R.string.upload_image), modifier = Modifier.padding(0.dp, 0.dp, 8.dp, 0.dp))
                 }
                 Image(
                     painter = painter,
@@ -169,15 +162,16 @@ fun AdminManageDishDialog(
                 imageURL = imageURL.toString(),
                 nonVeg = nonVeg,
                 ingredients = ingredients.toList(),
-                type = type
+                type = type,
+                topPick = topPick
             )
             onSave(updatedDish)
         }) {
-            Text("Save")
+            Text(stringResource(R.string.save))
         }
     }, dismissButton = {
         OutlinedButton(onClick = onDismiss) {
-            Text("Cancel")
+            Text(stringResource(R.string.cancel))
         }
     })
 }

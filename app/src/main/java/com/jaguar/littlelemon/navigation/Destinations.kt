@@ -28,6 +28,14 @@ object UserIncompleteProfileScreen : Destinations {
     override val route = "UserIncompleteProfileScreen"
 }
 
+object UserMenuScreen : Destinations {
+    override val route = "UserMenuScreen"
+}
+
+object UserFavouritesScreen : Destinations {
+    override val route = "UserFavouritesScreen"
+}
+
 object DishDetailsScreen : Destinations {
     const val ARG_DISH_ID = "dishName"
     override val route = "DishDetailsScreen/{$ARG_DISH_ID}"
