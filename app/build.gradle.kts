@@ -11,9 +11,9 @@ android {
     defaultConfig {
         applicationId = "com.jaguar.littlelemon"
         minSdk = 30
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.5"
+        targetSdk = 35
+        versionCode = 2
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -16,6 +16,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -24,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.models.Configs
 import com.jaguar.littlelemon.ui.components.Drawer
 import com.jaguar.littlelemon.ui.components.Header
@@ -32,8 +34,10 @@ import com.jaguar.littlelemon.ui.screens.Welcome
 import com.jaguar.littlelemon.ui.screens.admin.AdminHomeScreen
 import com.jaguar.littlelemon.ui.screens.admin.AdminLoginScreen
 import com.jaguar.littlelemon.ui.screens.admin.AdminMenuScreen
+import com.jaguar.littlelemon.ui.screens.user.UserFavouritesScreen
 import com.jaguar.littlelemon.ui.screens.user.UserHomeScreen
 import com.jaguar.littlelemon.ui.screens.user.UserLoginScreen
+import com.jaguar.littlelemon.ui.screens.user.UserMenuScreen
 import com.jaguar.littlelemon.ui.screens.user.UserProfileScreen
 import com.jaguar.littlelemon.ui.screens.user.UserRegistrationScreen
 import com.jaguar.littlelemon.ui.theme.LittleLemonTheme
@@ -120,13 +124,34 @@ fun MyNavigation() {
                     composable(
                         route = UserIncompleteProfileScreen.route
                     ) {
-                        Toast.makeText(context, "Please complete your profile", Toast.LENGTH_SHORT)
+                        Toast.makeText(context,
+                            stringResource(R.string.toast_incomplete_profile), Toast.LENGTH_SHORT)
                             .show()
                         UserProfileScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
                             userViewModel = userViewModel,
                             incomplete = true
+                        )
+                    }
+                    composable(
+                        route = UserMenuScreen.route
+                    ) {
+                        UserMenuScreen(
+                            Modifier.padding(innerPadding),
+                            navController = navController,
+                            menuViewModel = menuViewModel,
+                            userViewModel = userViewModel,
+                        )
+                    }
+                    composable(
+                        route = UserFavouritesScreen.route
+                    ) {
+                        UserFavouritesScreen(
+                            Modifier.padding(innerPadding),
+                            navController = navController,
+                            menuViewModel = menuViewModel,
+                            userViewModel = userViewModel
                         )
                     }
                     composable(

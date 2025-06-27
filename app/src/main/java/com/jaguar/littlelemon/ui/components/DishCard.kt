@@ -1,6 +1,7 @@
 package com.jaguar.littlelemon.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,17 +22,22 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.models.Dish
+import com.jaguar.littlelemon.navigation.DishDetailsScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
 
 private const val DESCRIPTION_MAX_LENGTH = 80
 
 @Composable
 fun DishCard(
-    dish: Dish, modifier: Modifier = Modifier, actions: @Composable (Dish) -> Unit = { }
+    modifier: Modifier = Modifier,
+    dish: Dish,
+    navController: NavHostController,
+    actions: @Composable (Dish) -> Unit = { }
 ) {
     val context = LocalContext.current
     val painter = rememberAsyncImagePainter(
@@ -40,8 +46,11 @@ fun DishCard(
     )
 
     Card(
-        modifier = modifier.padding(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+        modifier = modifier
+            .padding(8.dp)
+            .clickable {
+                navController.navigate(DishDetailsScreen.createRoute(dish.getId()))
+            }, elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

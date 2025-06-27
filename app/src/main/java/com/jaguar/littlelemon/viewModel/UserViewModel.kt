@@ -47,13 +47,7 @@ class UserViewModel : ViewModel() {
             if (currentUser != null) {
                 FirebaseFirestore.getInstance().collection("users").document(currentUser.uid).get()
                     .addOnSuccessListener { document ->
-                        val user = User(
-                            name = document.getString("name") ?: "",
-                            email = currentUser.email ?: "",
-                            phone = document.getString("phone") ?: "",
-                            nonVeg = document.getBoolean("nonVeg") ?: false,
-                            favorites = document.get("favorites") as? List<String> ?: emptyList()
-                        )
+                        val user = document.toObject(User::class.java)
                         _user.value = user
                     }.addOnFailureListener {
                         _user.value = null
@@ -103,24 +97,11 @@ class UserViewModel : ViewModel() {
         return auth.sendPasswordResetEmail(email)
     }
 
-    fun updateData(
-        name: String = this._user.value?.getName() ?: "",
-        email: String = this._user.value?.getEmail() ?: "",
-        phone: String = this._user.value?.getPhone() ?: "",
-        nonVeg: Boolean = this._user.value?.isNonVeg() ?: false,
-        favorites: List<String> = this._user.value?.getFavorites() ?: emptyList()
-    ): Task<Void> {
-        val userMap = hashMapOf(
-            "name" to name,
-            "email" to email,
-            "phone" to phone,
-            "nonVeg" to nonVeg,
-            "favorites" to favorites
-        )
+    fun updateData(user: User): Task<Void> {
         val currentUser = getFirebaseUser() ?: return Tasks.forException(UserNotLoggedInException())
 
         return FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
-            .set(userMap)
+            .set(user)
     }
 
     fun checkIfLoggedIn() {

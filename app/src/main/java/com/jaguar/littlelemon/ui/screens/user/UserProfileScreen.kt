@@ -160,9 +160,14 @@ fun UserProfileScreen(
                 Button(
                     onClick = {
                         userViewModel.updateData(
-                            name = name, phone = phone, nonVeg = preference
+                            currentUser.copy(
+                                name = name,
+                                phone = phone,
+                                nonVeg = preference
+                            )
                         )
-                        Toast.makeText(context, "Profile updated successfully", Toast.LENGTH_SHORT)
+                        Toast.makeText(context,
+                            context.getString(R.string.profile_updated_successfully), Toast.LENGTH_SHORT)
                             .show()
                         if (incomplete) {
                             navController.navigate(UserHomeScreen.route) {
