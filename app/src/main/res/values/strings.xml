@@ -20,4 +20,6 @@
     <string name="login_confirm_toast">Welcome back!</string>
     <string name="forgot_password_confirmation_toast">Email has been sent, check your inbox</string>
     <string name="registration_confirm_toast">Registration Successful</string>
+    <string name="no_dishes_error">No dishes available at the moment</string>
+    <string name="incorrect_credentials_toast">This account is not Admin.</string>
 </resources>

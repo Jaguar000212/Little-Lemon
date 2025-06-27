@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Build
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.DrawerState
@@ -25,7 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.exceptions.UserNotLoggedInException
-import com.jaguar.littlelemon.navigation.HomeScreen
+import com.jaguar.littlelemon.navigation.AdminHomeScreen
+import com.jaguar.littlelemon.navigation.UserHomeScreen
 import com.jaguar.littlelemon.navigation.UserProfileScreen
 import com.jaguar.littlelemon.navigation.WelcomeScreen
 import com.jaguar.littlelemon.navigation.currentRoute
@@ -68,7 +70,7 @@ fun Drawer(
                 label = {
                     Text("Home", style = AppTypography.bodyLarge)
                 },
-                selected = currentRoute == HomeScreen.route,
+                selected = currentRoute == UserHomeScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
                 onClick = {
                     scope.launch {
@@ -76,8 +78,16 @@ fun Drawer(
                     }
                     try {
                         userViewModel.checkIfLoggedIn()
-                        navController.navigate(HomeScreen.route) {
-                            popUpTo(HomeScreen.route) { inclusive = false }
+                        if (userViewModel.checkIfAdmin()) {
+                            Toast.makeText(
+                                context,
+                                "Log in again as user to access this feature.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@NavigationDrawerItem
+                        }
+                        navController.navigate(UserHomeScreen.route) {
+                            popUpTo(UserHomeScreen.route) { inclusive = false }
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(
@@ -98,6 +108,9 @@ fun Drawer(
                     scope.launch {
                         state.close()
                     }
+                    Toast.makeText(
+                        context, "This feature is not implemented yet.", Toast.LENGTH_SHORT
+                    ).show()
                 })
 
             HorizontalDivider()
@@ -114,8 +127,16 @@ fun Drawer(
                     }
                     try {
                         userViewModel.checkIfLoggedIn()
+                        if (userViewModel.checkIfAdmin()) {
+                            Toast.makeText(
+                                context,
+                                "Log in again as user to access this feature.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@NavigationDrawerItem
+                        }
                         navController.navigate(UserProfileScreen.route) {
-                            popUpTo(HomeScreen.route) { inclusive = false }
+                            popUpTo(UserHomeScreen.route) { inclusive = false }
                         }
                     } catch (e: UserNotLoggedInException) {
                         Toast.makeText(
@@ -155,6 +176,41 @@ fun Drawer(
                         ).show()
                     }
                 })
+
+            HorizontalDivider()
+
+            NavigationDrawerItem(
+                label = {
+                    Text("Admin", style = AppTypography.bodyLarge)
+                },
+                selected = currentRoute?.startsWith("Admin") ?: false,
+                icon = { NavigationIcon(Icons.Outlined.Build, "Close Drawer") },
+                onClick = {
+                    scope.launch {
+                        state.close()
+                    }
+                    try {
+                        userViewModel.checkIfLoggedIn()
+                        if (!userViewModel.checkIfAdmin()) {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.incorrect_credentials_toast),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            return@NavigationDrawerItem
+                        }
+                        navController.navigate(AdminHomeScreen.route) {
+                            popUpTo(AdminHomeScreen.route) { inclusive = false }
+                        }
+                    } catch (e: UserNotLoggedInException) {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.login_error_toast),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+
             HorizontalDivider()
         }
     }) {

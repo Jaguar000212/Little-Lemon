@@ -1,6 +1,7 @@
 package com.jaguar.littlelemon.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,10 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jaguar.littlelemon.R
+import com.jaguar.littlelemon.navigation.AdminLoginScreen
 import com.jaguar.littlelemon.navigation.UserLoginScreen
 import com.jaguar.littlelemon.navigation.UserRegistrationScreen
 import com.jaguar.littlelemon.ui.theme.AppTypography
@@ -65,8 +69,7 @@ fun Welcome(
                 ),
             ) {
                 Text(
-                    text = "Sign In",
-                    style = AppTypography.labelLarge
+                    text = "Sign In", style = AppTypography.labelLarge
                 )
             }
             Button(
@@ -82,11 +85,21 @@ fun Welcome(
                 ),
             ) {
                 Text(
-                    text = "Register",
-                    style = AppTypography.labelLarge
+                    text = "Register", style = AppTypography.labelLarge
                 )
             }
-
         }
+        Text(
+            "Admin Login →",
+            style = AppTypography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+            color = colorResource(id = R.color.olive),
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier
+                .padding(32.dp)
+                .align(Alignment.BottomEnd)
+                .clickable {
+                    navController.navigate(AdminLoginScreen.route)
+                })
     }
 }

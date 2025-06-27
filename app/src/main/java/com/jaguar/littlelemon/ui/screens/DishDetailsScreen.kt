@@ -4,11 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -24,7 +26,7 @@ import com.jaguar.littlelemon.models.Dish
 import com.jaguar.littlelemon.ui.theme.AppTypography
 
 @Composable
-fun DishDetails(
+fun DishDetailsScreen(
     dish: Dish, modifier: Modifier = Modifier
 ) {
     val painter = rememberAsyncImagePainter(
@@ -34,12 +36,16 @@ fun DishDetails(
     Column(
         horizontalAlignment = Alignment.Start, modifier = modifier.fillMaxWidth()
     ) {
-        Box(contentAlignment = Alignment.BottomStart) {
+        Box(
+            contentAlignment = Alignment.BottomStart,
+            modifier = Modifier.height(200.dp)
+        ) {
             Image(
                 painter = painter,
                 contentDescription = stringResource(R.string.dish_image_desc),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
+                    .alpha(0.5f)
                     .fillMaxWidth()
             )
 

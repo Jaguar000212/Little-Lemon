@@ -1,4 +1,4 @@
-package com.jaguar.littlelemon.ui.screens
+package com.jaguar.littlelemon.ui.screens.user
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -36,7 +36,7 @@ import com.jaguar.littlelemon.viewModel.UserViewModel
 
 
 @Composable
-fun RegistrationUI(navController: NavHostController, userViewModel: UserViewModel) {
+fun UserRegistrationPanel(navController: NavHostController, userViewModel: UserViewModel) {
     val context = LocalContext.current
     var email: String by remember {
         mutableStateOf("")
@@ -118,7 +118,7 @@ fun RegistrationUI(navController: NavHostController, userViewModel: UserViewMode
 }
 
 @Composable
-fun RegistrationPanel(
+fun UserRegistrationScreen(
     modifier: Modifier, navController: NavHostController, userViewModel: UserViewModel
 ) {
     Column(
@@ -126,6 +126,6 @@ fun RegistrationPanel(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        RegistrationUI(navController, userViewModel)
+        UserRegistrationPanel(navController, userViewModel)
     }
 }

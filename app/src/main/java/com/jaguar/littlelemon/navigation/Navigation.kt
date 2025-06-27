@@ -1,16 +1,21 @@
 package com.jaguar.littlelemon.navigation
 
+import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -19,28 +24,49 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jaguar.littlelemon.models.Configs
 import com.jaguar.littlelemon.ui.components.Drawer
 import com.jaguar.littlelemon.ui.components.Header
-import com.jaguar.littlelemon.ui.screens.DishDetails
-import com.jaguar.littlelemon.ui.screens.HomeScreen
-import com.jaguar.littlelemon.ui.screens.LoginPanel
-import com.jaguar.littlelemon.ui.screens.Profile
-import com.jaguar.littlelemon.ui.screens.RegistrationPanel
+import com.jaguar.littlelemon.ui.screens.DishDetailsScreen
 import com.jaguar.littlelemon.ui.screens.Welcome
+import com.jaguar.littlelemon.ui.screens.admin.AdminHomeScreen
+import com.jaguar.littlelemon.ui.screens.admin.AdminLoginScreen
+import com.jaguar.littlelemon.ui.screens.admin.AdminMenuScreen
+import com.jaguar.littlelemon.ui.screens.user.UserHomeScreen
+import com.jaguar.littlelemon.ui.screens.user.UserLoginScreen
+import com.jaguar.littlelemon.ui.screens.user.UserProfileScreen
+import com.jaguar.littlelemon.ui.screens.user.UserRegistrationScreen
 import com.jaguar.littlelemon.ui.theme.LittleLemonTheme
-import com.jaguar.littlelemon.viewModel.DishesViewModel
+import com.jaguar.littlelemon.viewModel.MenuViewModel
 import com.jaguar.littlelemon.viewModel.UserViewModel
 
-@Preview
+
 @Composable
 fun MyNavigation() {
+    LaunchedEffect(Unit) {
+        Configs.initConfigs()
+    }
+    val isReady by Configs.isReady.collectAsState()
+    if (!isReady) {
+        LittleLemonTheme {
+            Box(
+                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+        return
+    }
+    val context = LocalContext.current
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val dishesViewModel: DishesViewModel = viewModel()
-    val dishes by dishesViewModel.dishes.collectAsState()
+
+    val menuViewModel: MenuViewModel = viewModel()
+    val dishes by menuViewModel.dishes.collectAsState()
     val userViewModel: UserViewModel = viewModel()
     val currentUser = userViewModel.user.collectAsState().value
+
     LittleLemonTheme {
         Drawer(navController, drawerState, userViewModel) {
             Scaffold(
@@ -49,10 +75,10 @@ fun MyNavigation() {
 
                 ) { innerPadding ->
                 NavHost(
-                    navController = navController,
-                    startDestination = when {
+                    navController = navController, startDestination = when {
                         currentUser == null -> WelcomeScreen.route
-                        userViewModel.isProfileComplete() -> HomeScreen.route
+                        userViewModel.checkIfAdmin() -> AdminHomeScreen.route
+                        userViewModel.isProfileComplete() -> UserHomeScreen.route
                         else -> UserIncompleteProfileScreen.route
                     }
                 ) {
@@ -62,30 +88,30 @@ fun MyNavigation() {
                         )
                     }
                     composable(UserLoginScreen.route) {
-                        LoginPanel(
+                        UserLoginScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
                             userViewModel = userViewModel
                         )
                     }
                     composable(UserRegistrationScreen.route) {
-                        RegistrationPanel(
+                        UserRegistrationScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
                             userViewModel = userViewModel
                         )
                     }
-                    composable(HomeScreen.route) {
-                        HomeScreen(
+                    composable(UserHomeScreen.route) {
+                        UserHomeScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
-                            viewModel = dishesViewModel
+                            viewModel = menuViewModel
                         )
                     }
                     composable(
                         route = UserProfileScreen.route
                     ) {
-                        Profile(
+                        UserProfileScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
                             userViewModel = userViewModel
@@ -94,7 +120,9 @@ fun MyNavigation() {
                     composable(
                         route = UserIncompleteProfileScreen.route
                     ) {
-                        Profile(
+                        Toast.makeText(context, "Please complete your profile", Toast.LENGTH_SHORT)
+                            .show()
+                        UserProfileScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
                             userViewModel = userViewModel,
@@ -103,18 +131,43 @@ fun MyNavigation() {
                     }
                     composable(
                         route = DishDetailsScreen.route,
-                        arguments = listOf(navArgument(DishDetailsScreen.ARG_DISH_NAME) {
+                        arguments = listOf(navArgument(DishDetailsScreen.ARG_DISH_ID) {
                             type = NavType.StringType
                         })
                     ) { backStackEntry ->
-                        val dishName =
-                            backStackEntry.arguments?.getString(DishDetailsScreen.ARG_DISH_NAME)
-                        val dish = dishes.find { it.getName() == dishName }
+                        val dishID =
+                            backStackEntry.arguments?.getString(DishDetailsScreen.ARG_DISH_ID)
+                        val dish = dishes.find { it.getId() == dishID }
                         if (dish != null) {
-                            DishDetails(
+                            DishDetailsScreen(
                                 dish = dish, modifier = Modifier.padding(innerPadding)
                             )
                         }
+                    }
+                    composable(
+                        route = AdminLoginScreen.route
+                    ) {
+                        AdminLoginScreen(
+                            Modifier.padding(innerPadding),
+                            navController = navController,
+                            userViewModel = userViewModel
+                        )
+                    }
+                    composable(
+                        route = AdminHomeScreen.route
+                    ) {
+                        AdminHomeScreen(
+                            Modifier.padding(innerPadding), navController = navController
+                        )
+                    }
+                    composable(
+                        route = AdminMenuScreen.route
+                    ) {
+                        AdminMenuScreen(
+                            Modifier.padding(innerPadding),
+                            navController = navController,
+                            viewModel = menuViewModel
+                        )
                     }
                 }
             }
