@@ -50,8 +50,9 @@ fun MyNavigation() {
     LaunchedEffect(Unit) {
         Configs.initConfigs()
     }
-    val isReady by Configs.isReady.collectAsState()
-    if (!isReady) {
+    val isConfigReady by Configs.isReady.collectAsState()
+    val isUserReady by Configs.isReady.collectAsState()
+    if (!isConfigReady && !isUserReady) {
         LittleLemonTheme {
             Box(
                 modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
@@ -124,8 +125,10 @@ fun MyNavigation() {
                     composable(
                         route = UserIncompleteProfileScreen.route
                     ) {
-                        Toast.makeText(context,
-                            stringResource(R.string.toast_incomplete_profile), Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            context,
+                            stringResource(R.string.toast_incomplete_profile), Toast.LENGTH_SHORT
+                        )
                             .show()
                         UserProfileScreen(
                             Modifier.padding(innerPadding),

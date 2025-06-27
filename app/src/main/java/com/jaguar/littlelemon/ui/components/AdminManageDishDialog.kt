@@ -71,107 +71,117 @@ fun AdminManageDishDialog(
             .error(R.drawable.cross).build()
     )
 
-    AlertDialog(onDismissRequest = { onDismiss() }, title = { Text(stringResource(R.string.edit_dish)) }, text = {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text(stringResource(R.string.name)) },
-                singleLine = true
-            )
-            OutlinedTextField(
-                value = description,
-                onValueChange = { description = it },
-                maxLines = 3,
-                label = { Text(stringResource(R.string.ddescription)) })
-            OutlinedTextField(
-                value = price.toString(),
-                onValueChange = { price = it.toDoubleOrNull() ?: 0.0 },
-                label = { Text(stringResource(R.string.price)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true
-            )
-            OutlinedTextField(
-                value = calories.toString(),
-                onValueChange = { calories = it.toIntOrNull() ?: 0 },
-                label = { Text(stringResource(R.string.calories)) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true
-            )
-            OutlinedTextField(
-                value = ingredients.joinToString("\n"),
-                onValueChange = { it -> ingredients = it.split("\n").map { it.trim() }.toSet() },
-                maxLines = 3,
-                label = { Text(stringResource(R.string.ingredients)) })
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(checked = nonVeg, onCheckedChange = { nonVeg = it })
-                Text(stringResource(R.string.non_veg))
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(checked = topPick, onCheckedChange = { topPick = it })
-                Text(stringResource(R.string.top_pick))
-            }
-            Row(
-                modifier = Modifier.horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                types.forEach { t ->
-                    FilterChip(selected = t == type, onClick = {
-                        type = t
-                    }, label = {
-                        Text(t)
-                    })
-                }
-            }
-
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                OutlinedButton(
-                    {
-                        launcher.launch("image/*")
-                    }, contentPadding = PaddingValues(8.dp)
-                ) {
-                    Icon(
-                        Icons.Outlined.Edit,
-                        contentDescription = stringResource(R.string.edit_image),
-                        modifier = Modifier.padding(horizontal = 8.dp)
-                    )
-                    Text(stringResource(R.string.upload_image), modifier = Modifier.padding(0.dp, 0.dp, 8.dp, 0.dp))
-                }
-                Image(
-                    painter = painter,
-                    contentDescription = stringResource(R.string.dish_image_desc),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .size(50.dp)
-                        .clip(RoundedCornerShape(25.dp))
+    AlertDialog(
+        onDismissRequest = { onDismiss() },
+        title = { Text(stringResource(R.string.edit_dish)) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text(stringResource(R.string.name)) },
+                    singleLine = true
                 )
+                OutlinedTextField(
+                    value = description,
+                    onValueChange = { description = it },
+                    maxLines = 3,
+                    label = { Text(stringResource(R.string.ddescription)) })
+                OutlinedTextField(
+                    value = price.toString(),
+                    onValueChange = { price = it.toDoubleOrNull() ?: 0.0 },
+                    label = { Text(stringResource(R.string.price)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true
+                )
+                OutlinedTextField(
+                    value = calories.toString(),
+                    onValueChange = { calories = it.toIntOrNull() ?: 0 },
+                    label = { Text(stringResource(R.string.calories)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    singleLine = true
+                )
+                OutlinedTextField(
+                    value = ingredients.joinToString("\n"),
+                    onValueChange = { it ->
+                        ingredients = it.split("\n").map { it.trim() }.toSet()
+                    },
+                    maxLines = 3,
+                    label = { Text(stringResource(R.string.ingredients)) })
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(checked = nonVeg, onCheckedChange = { nonVeg = it })
+                    Text(stringResource(R.string.non_veg))
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(checked = topPick, onCheckedChange = { topPick = it })
+                    Text(stringResource(R.string.top_pick))
+                }
+                Row(
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    types.forEach { t ->
+                        FilterChip(selected = t == type, onClick = {
+                            type = t
+                        }, label = {
+                            Text(t)
+                        })
+                    }
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    OutlinedButton(
+                        {
+                            launcher.launch("image/*")
+                        }, contentPadding = PaddingValues(8.dp)
+                    ) {
+                        Icon(
+                            Icons.Outlined.Edit,
+                            contentDescription = stringResource(R.string.edit_image),
+                            modifier = Modifier.padding(horizontal = 8.dp)
+                        )
+                        Text(
+                            stringResource(R.string.upload_image),
+                            modifier = Modifier.padding(0.dp, 0.dp, 8.dp, 0.dp)
+                        )
+                    }
+                    Image(
+                        painter = painter,
+                        contentDescription = stringResource(R.string.dish_image_desc),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .size(50.dp)
+                            .clip(RoundedCornerShape(25.dp))
+                    )
+                }
             }
-        }
-    }, confirmButton = {
-        OutlinedButton(onClick = {
-            val updatedDish = dish.copy(
-                name = name,
-                description = description,
-                price = price,
-                calories = calories,
-                imageURL = imageURL.toString(),
-                nonVeg = nonVeg,
-                ingredients = ingredients.toList(),
-                type = type,
-                topPick = topPick
-            )
-            onSave(updatedDish)
-        }) {
-            Text(stringResource(R.string.save))
-        }
-    }, dismissButton = {
-        OutlinedButton(onClick = onDismiss) {
-            Text(stringResource(R.string.cancel))
-        }
-    })
+        },
+        confirmButton = {
+            OutlinedButton(onClick = {
+                val updatedDish = dish.copy(
+                    name = name,
+                    description = description,
+                    price = price,
+                    calories = calories,
+                    imageURL = imageURL.toString(),
+                    nonVeg = nonVeg,
+                    ingredients = ingredients.toList(),
+                    type = type,
+                    topPick = topPick
+                )
+                onSave(updatedDish)
+            }) {
+                Text(stringResource(R.string.save))
+            }
+        },
+        dismissButton = {
+            OutlinedButton(onClick = onDismiss) {
+                Text(stringResource(R.string.cancel))
+            }
+        })
 }

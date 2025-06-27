@@ -66,7 +66,8 @@ fun AdminMenuScreen(
                             showDeleteConfirmation = false
                             Toast.makeText(
                                 context,
-                                context.getString(R.string.dish_deleted_successfully), Toast.LENGTH_SHORT
+                                context.getString(R.string.dish_deleted_successfully),
+                                Toast.LENGTH_SHORT
                             ).show()
                         },
                         onDismiss = { showDeleteConfirmation = false })

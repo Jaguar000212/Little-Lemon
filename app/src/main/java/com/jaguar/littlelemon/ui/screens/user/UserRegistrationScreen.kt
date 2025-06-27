@@ -95,6 +95,7 @@ fun UserRegistrationPanel(navController: NavHostController, userViewModel: UserV
                                 Toast.LENGTH_SHORT
                             ).show()
                             userViewModel.logIn(email, password)
+                            userViewModel.initUserData()
                             navController.navigate(UserIncompleteProfileScreen.route) {
                                 popUpTo(UserIncompleteProfileScreen.route) { inclusive = true }
                             }

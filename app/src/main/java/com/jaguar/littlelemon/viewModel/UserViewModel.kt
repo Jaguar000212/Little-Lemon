@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class UserViewModel : ViewModel() {
+    private val _isReady = MutableStateFlow(false)
+    val isReady: StateFlow<Boolean> get() = _isReady
+
     private val _user = MutableStateFlow<User?>(null)
     val user: StateFlow<User?> = _user
 
@@ -23,6 +26,7 @@ class UserViewModel : ViewModel() {
 
     init {
         fetchUser()
+        _isReady.value = true
     }
 
     private fun fetchUser() {
@@ -50,11 +54,13 @@ class UserViewModel : ViewModel() {
                         val user = document.toObject(User::class.java)
                         _user.value = user
                     }.addOnFailureListener {
-                        _user.value = null
-                        throw UserNotLoggedInException("User not logged in or data fetch failed.")
+                        _user.value = User(
+                            email = currentUser.email ?: "Unknown",
+                        )
+                        initUserData()
                     }
-            }
-            if (currentUser?.email == Configs.admin.value) _isAdmin.value = true
+            } else throw UserNotLoggedInException("User not logged in.")
+            if (currentUser.email == Configs.admin.value) _isAdmin.value = true
             else _isAdmin.value = false
         }
     }
@@ -92,6 +98,27 @@ class UserViewModel : ViewModel() {
         return auth.createUserWithEmailAndPassword(email, password)
     }
 
+    fun initUserData(): Task<Void> {
+        val currentUser = getFirebaseUser() ?: return Tasks.forException(UserNotLoggedInException())
+        val user = currentUser.email?.let {
+            User(
+                email = it
+            )
+        } ?: return Tasks.forException(UserNotLoggedInException("User email is null."))
+
+        return FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
+            .set(user).continueWithTask { task ->
+                if (task.isSuccessful) {
+                    _user.value = user
+                    Tasks.forResult(null)
+                } else {
+                    Tasks.forException(
+                        task.exception ?: UserNotLoggedInException("Initialization failed.")
+                    )
+                }
+            }
+    }
+
     fun forgotPassword(email: String): Task<Void> {
         val auth: FirebaseAuth = FirebaseAuth.getInstance()
         return auth.sendPasswordResetEmail(email)
@@ -102,6 +129,16 @@ class UserViewModel : ViewModel() {
 
         return FirebaseFirestore.getInstance().collection("users").document(currentUser.uid)
             .set(user)
+            .continueWithTask { task ->
+                if (task.isSuccessful) {
+                    fetchUserData()
+                    Tasks.forResult(null)
+                } else {
+                    Tasks.forException(
+                        task.exception ?: UserNotLoggedInException("Update failed.")
+                    )
+                }
+            }
     }
 
     fun checkIfLoggedIn() {

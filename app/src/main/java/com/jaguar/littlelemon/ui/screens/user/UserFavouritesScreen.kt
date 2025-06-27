@@ -94,13 +94,18 @@ fun UserFavouritesScreen(
                     {
                         if (isFavourite) {
                             userFavourites -= dish.getId()
-                            Toast.makeText(context,
-                                context.getString(R.string.removed_from_favourites), Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.removed_from_favourites),
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         } else {
                             userFavourites += dish.getId()
-                            Toast.makeText(context,
-                                context.getString(R.string.added_to_favourites), Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.added_to_favourites), Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
                         userViewModel.updateData(user.copy(favorites = userFavourites))
