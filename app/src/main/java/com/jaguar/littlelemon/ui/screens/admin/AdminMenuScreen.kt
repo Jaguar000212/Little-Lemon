@@ -38,35 +38,36 @@ import com.jaguar.littlelemon.viewModel.MenuViewModel
 
 @Composable
 fun AdminMenuScreen(
-    modifier: Modifier = Modifier, navController: NavHostController, viewModel: MenuViewModel
+    modifier: Modifier = Modifier, navController: NavHostController, menuViewModel: MenuViewModel
 ) {
     val context = LocalContext.current
     var showAddDishDialog: Boolean by remember { mutableStateOf(false) }
 
     if (showAddDishDialog) {
         AdminManageDishDialog(onDismiss = { showAddDishDialog = false }, onSave = { dish ->
-            viewModel.addDish(context, dish)
+            menuViewModel.addDish(context, dish)
             showAddDishDialog = false
             Toast.makeText(
-                context, context.getString(R.string.dish_added_successfully), Toast.LENGTH_SHORT
+                context, context.getString(R.string.dish_added_toast), Toast.LENGTH_SHORT
             ).show()
         })
     }
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Menu(navController = navController, viewModel = viewModel) { dish ->
+            Menu(navController = navController, menuViewModel = menuViewModel) { dish ->
                 var showDeleteConfirmation: Boolean by remember { mutableStateOf(false) }
                 if (showDeleteConfirmation) {
                     ConfirmationDialog(
-                        title = stringResource(R.string.delete_dish),
+                        title = stringResource(R.string.delete_dish_desc),
                         message = stringResource(R.string.dish_delete_confirmation, dish.getName()),
                         onConfirm = {
-                            viewModel.deleteDish(dish)
+                            menuViewModel.deleteDish(dish)
                             showDeleteConfirmation = false
                             Toast.makeText(
                                 context,
-                                context.getString(R.string.dish_deleted_successfully), Toast.LENGTH_SHORT
+                                context.getString(R.string.dish_deleted_toast),
+                                Toast.LENGTH_SHORT
                             ).show()
                         },
                         onDismiss = { showDeleteConfirmation = false })
@@ -77,11 +78,11 @@ fun AdminMenuScreen(
                         dish = dish,
                         onDismiss = { showEditDialog = false },
                         onSave = { updatedDish ->
-                            viewModel.updateDish(context, updatedDish)
+                            menuViewModel.updateDish(context, updatedDish)
                             showEditDialog = false
                             Toast.makeText(
                                 context,
-                                context.getString(R.string.dish__updated_successfully),
+                                context.getString(R.string.dish_updated_toast),
                                 Toast.LENGTH_SHORT
                             ).show()
                         })
@@ -93,11 +94,11 @@ fun AdminMenuScreen(
                         dish = dish,
                         onDismiss = { showCategoriesDialog = false },
                         onSave = { updatedDish ->
-                            viewModel.updateDish(context, updatedDish)
+                            menuViewModel.updateDish(context, updatedDish)
                             showCategoriesDialog = false
                             Toast.makeText(
                                 context,
-                                context.getString(R.string.dish__updated_successfully),
+                                context.getString(R.string.dish_updated_toast),
                                 Toast.LENGTH_SHORT
                             ).show()
                         })

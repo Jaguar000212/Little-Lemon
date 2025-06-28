@@ -54,14 +54,14 @@ fun NavigationIcon(icon: ImageVector, label: String) {
 @Composable
 fun Drawer(
     navController: NavHostController,
-    state: DrawerState,
+    drawerState: DrawerState,
     userViewModel: UserViewModel,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val currentRoute = currentRoute(navController)
-    ModalNavigationDrawer(drawerState = state, drawerContent = {
+    ModalNavigationDrawer(drawerState = drawerState, drawerContent = {
         ModalDrawerSheet {
             Text(
                 stringResource(R.string.little_lemon_restaurant),
@@ -72,21 +72,19 @@ fun Drawer(
 
             NavigationDrawerItem(
                 label = {
-                    Text("Home", style = AppTypography.bodyLarge)
-                },
+                Text("Home", style = AppTypography.bodyLarge)
+            },
                 selected = currentRoute == UserHomeScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.Home, "Home") },
                 onClick = {
                     scope.launch {
-                        state.close()
+                        drawerState.close()
                     }
                     try {
                         userViewModel.checkIfLoggedIn()
                         if (userViewModel.checkIfAdmin()) {
                             Toast.makeText(
-                                context,
-                                context.getString(R.string.user_only),
-                                Toast.LENGTH_SHORT
+                                context, context.getString(R.string.user_only_feature_toast), Toast.LENGTH_SHORT
                             ).show()
                             return@NavigationDrawerItem
                         }
@@ -104,21 +102,19 @@ fun Drawer(
 
             NavigationDrawerItem(
                 label = {
-                    Text("Menu", style = AppTypography.bodyLarge)
-                },
+                Text("Menu", style = AppTypography.bodyLarge)
+            },
                 selected = currentRoute == UserMenuScreen.route,
                 icon = { NavigationIcon(Icons.AutoMirrored.Outlined.List, "Menu") },
                 onClick = {
                     scope.launch {
-                        state.close()
+                        drawerState.close()
                     }
                     try {
                         userViewModel.checkIfLoggedIn()
                         if (userViewModel.checkIfAdmin()) {
                             Toast.makeText(
-                                context,
-                                context.getString(R.string.user_only),
-                                Toast.LENGTH_SHORT
+                                context, context.getString(R.string.user_only_feature_toast), Toast.LENGTH_SHORT
                             ).show()
                             return@NavigationDrawerItem
                         }
@@ -137,13 +133,13 @@ fun Drawer(
 
             NavigationDrawerItem(
                 label = {
-                    Text("Reserve a Table", style = AppTypography.bodyLarge)
-                },
+                Text("Reserve a Table", style = AppTypography.bodyLarge)
+            },
                 icon = { NavigationIcon(Icons.Outlined.DateRange, "Reserve a Table") },
                 selected = false, //TODO
                 onClick = { /*TODO*/
                     scope.launch {
-                        state.close()
+                        drawerState.close()
                     }
                     Toast.makeText(
                         context, "This feature is not implemented yet.", Toast.LENGTH_SHORT
@@ -154,21 +150,19 @@ fun Drawer(
 
             NavigationDrawerItem(
                 label = {
-                    Text("Profile", style = AppTypography.bodyLarge)
-                },
+                Text("Profile", style = AppTypography.bodyLarge)
+            },
                 selected = currentRoute == UserProfileScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.AccountCircle, "Profile") },
                 onClick = {
                     scope.launch {
-                        state.close()
+                        drawerState.close()
                     }
                     try {
                         userViewModel.checkIfLoggedIn()
                         if (userViewModel.checkIfAdmin()) {
                             Toast.makeText(
-                                context,
-                                context.getString(R.string.user_only),
-                                Toast.LENGTH_SHORT
+                                context, context.getString(R.string.user_only_feature_toast), Toast.LENGTH_SHORT
                             ).show()
                             return@NavigationDrawerItem
                         }
@@ -185,21 +179,19 @@ fun Drawer(
                 })
             NavigationDrawerItem(
                 label = {
-                    Text("Favourites", style = AppTypography.bodyLarge)
-                },
+                Text("Favourites", style = AppTypography.bodyLarge)
+            },
                 selected = currentRoute == UserFavouritesScreen.route,
                 icon = { NavigationIcon(Icons.Outlined.Favorite, "Favourites") },
                 onClick = {
                     scope.launch {
-                        state.close()
+                        drawerState.close()
                     }
                     try {
                         userViewModel.checkIfLoggedIn()
                         if (userViewModel.checkIfAdmin()) {
                             Toast.makeText(
-                                context,
-                                context.getString(R.string.user_only),
-                                Toast.LENGTH_SHORT
+                                context, context.getString(R.string.user_only_feature_toast), Toast.LENGTH_SHORT
                             ).show()
                             return@NavigationDrawerItem
                         }
@@ -217,13 +209,13 @@ fun Drawer(
 
             NavigationDrawerItem(
                 label = {
-                    Text("Sign Out", style = AppTypography.bodyLarge)
-                },
+                Text("Sign Out", style = AppTypography.bodyLarge)
+            },
                 selected = false,
                 icon = { NavigationIcon(Icons.AutoMirrored.Outlined.ArrowBack, "Sign Out") },
                 onClick = {
                     scope.launch {
-                        state.close()
+                        drawerState.close()
                     }
                     try {
                         userViewModel.checkIfLoggedIn()
@@ -249,13 +241,13 @@ fun Drawer(
 
             NavigationDrawerItem(
                 label = {
-                    Text("Admin", style = AppTypography.bodyLarge)
-                },
+                Text("Admin", style = AppTypography.bodyLarge)
+            },
                 selected = currentRoute?.startsWith("Admin") ?: false,
                 icon = { NavigationIcon(Icons.Outlined.Build, "Admin") },
                 onClick = {
                     scope.launch {
-                        state.close()
+                        drawerState.close()
                     }
                     try {
                         userViewModel.checkIfLoggedIn()

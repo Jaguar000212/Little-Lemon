@@ -1,6 +1,7 @@
 package com.jaguar.littlelemon.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,12 +60,12 @@ import com.jaguar.littlelemon.viewModel.MenuViewModel
 fun Menu(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    viewModel: MenuViewModel,
+    menuViewModel: MenuViewModel,
     actions: @Composable (Dish) -> Unit = { }
 ) {
     var showFilterDialog by remember { mutableStateOf(false) }
 
-    val allDishes by viewModel.dishes.collectAsState()
+    val allDishes by menuViewModel.dishes.collectAsState()
     val categories by Configs.categories.collectAsState()
     val types: List<String> by Configs.types.collectAsState()
 
@@ -72,9 +73,9 @@ fun Menu(
     var selectedCategories: Set<String> by remember { mutableStateOf(emptySet()) }
     var selectedType: String by remember { mutableStateOf("") }
 
-    val isRefreshing by viewModel.isRefreshing.collectAsState()
+    val isRefreshing by menuViewModel.isRefreshing.collectAsState()
     val refreshState = rememberPullRefreshState(
-        refreshing = isRefreshing, onRefresh = { viewModel.fetchDishes() })
+        refreshing = isRefreshing, onRefresh = { menuViewModel.fetchDishes() })
 
     val dishes by remember(allDishes, searchQuery, selectedCategories, selectedType) {
         derivedStateOf {
@@ -96,9 +97,10 @@ fun Menu(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
                     .verticalScroll(rememberScrollState())
             ) {
+                Text("Apply Filters", style = AppTypography.headlineLarge)
                 categories.forEach { category ->
                     Text("${category.key}:", style = AppTypography.titleMedium)
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -157,7 +159,7 @@ fun Menu(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
-                    .verticalScroll(rememberScrollState()),
+                    .horizontalScroll(rememberScrollState()),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -194,7 +196,7 @@ fun Menu(
                             modifier = Modifier.size(100.dp)
                         )
                         Text(
-                            text = stringResource(R.string.no_dishes_error),
+                            text = stringResource(R.string.no_dishes_error_toast),
                             style = AppTypography.bodyLarge.copy(fontSize = 18.sp)
                         )
                     }

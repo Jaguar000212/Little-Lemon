@@ -125,22 +125,20 @@ fun UserLoginPanel(navController: NavHostController, userViewModel: UserViewMode
                         if (task.isSuccessful) {
                             Toast.makeText(
                                 context,
-                                context.getString(R.string.login_confirm_toast), Toast.LENGTH_SHORT
+                                context.getString(R.string.login_confirm_toast),
+                                Toast.LENGTH_SHORT
                             ).show()
                             navController.navigate(UserHomeScreen.route) {
                                 popUpTo(UserHomeScreen.route) { inclusive = true }
                             }
                         } else {
                             Toast.makeText(
-                                context,
-                                "${task.exception?.message}",
-                                Toast.LENGTH_SHORT
+                                context, "${task.exception?.message}", Toast.LENGTH_SHORT
                             ).show()
                         }
                     }
             } else Toast.makeText(
-                context,
-                context.getString(R.string.missing_fields_error_toast), Toast.LENGTH_SHORT
+                context, context.getString(R.string.missing_fields_error_toast), Toast.LENGTH_SHORT
             ).show()
         }, modifier = Modifier.padding(16.dp)
     ) {
@@ -151,9 +149,7 @@ fun UserLoginPanel(navController: NavHostController, userViewModel: UserViewMode
 
 @Composable
 fun UserLoginScreen(
-    modifier: Modifier,
-    navController: NavHostController,
-    userViewModel: UserViewModel
+    modifier: Modifier, navController: NavHostController, userViewModel: UserViewModel
 ) {
     Column(
         modifier = modifier.fillMaxSize(),

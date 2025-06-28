@@ -82,7 +82,7 @@ fun UserFavouritesScreen(
                     modifier = Modifier.size(100.dp)
                 )
                 Text(
-                    text = stringResource(R.string.no_favourites_yet),
+                    text = stringResource(R.string.no_favourites_error),
                     style = AppTypography.bodyLarge.copy(fontSize = 18.sp)
                 )
             }
@@ -94,14 +94,18 @@ fun UserFavouritesScreen(
                     {
                         if (isFavourite) {
                             userFavourites -= dish.getId()
-                            Toast.makeText(context,
-                                context.getString(R.string.removed_from_favourites), Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.removed_favourite_toast),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
                             userFavourites += dish.getId()
-                            Toast.makeText(context,
-                                context.getString(R.string.added_to_favourites), Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.added_favourite_toast),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         userViewModel.updateData(user.copy(favorites = userFavourites))
                     }, colors = IconButtonDefaults.iconButtonColors(
@@ -111,8 +115,8 @@ fun UserFavouritesScreen(
                     Icon(
                         imageVector = if (isFavourite) Icons.Filled.Favorite
                         else Icons.Filled.FavoriteBorder,
-                        contentDescription = if (isFavourite) stringResource(R.string.remove_from_favourites)
-                        else stringResource(R.string.add_to_favourites)
+                        contentDescription = if (isFavourite) stringResource(R.string.remove_favourites_desc)
+                        else stringResource(R.string.add_favourites_desc)
                     )
                 }
             }

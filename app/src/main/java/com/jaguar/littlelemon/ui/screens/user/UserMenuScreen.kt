@@ -16,7 +16,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.jaguar.littlelemon.R
 import com.jaguar.littlelemon.ui.components.Menu
 import com.jaguar.littlelemon.viewModel.MenuViewModel
 import com.jaguar.littlelemon.viewModel.UserViewModel
@@ -52,8 +54,8 @@ fun UserMenuScreen(
             Icon(
                 imageVector = if (isFavourite) Icons.Filled.Favorite
                 else Icons.Filled.FavoriteBorder,
-                contentDescription = if (isFavourite) "Remove from favourites"
-                else "Add to favourites"
+                contentDescription = if (isFavourite) stringResource(R.string.remove_favourites_desc)
+                else stringResource(R.string.add_favourites_desc)
             )
         }
     }

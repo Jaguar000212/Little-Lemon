@@ -37,8 +37,7 @@ fun DishDetailsScreen(
         horizontalAlignment = Alignment.Start, modifier = modifier.fillMaxWidth()
     ) {
         Box(
-            contentAlignment = Alignment.BottomStart,
-            modifier = Modifier.height(200.dp)
+            contentAlignment = Alignment.BottomStart, modifier = Modifier.height(200.dp)
         ) {
             Image(
                 painter = painter,
@@ -54,8 +53,7 @@ fun DishDetailsScreen(
                 style = AppTypography.displayLarge,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier
-                    .padding(16.dp)
+                modifier = Modifier.padding(16.dp)
             )
         }
 
@@ -64,17 +62,13 @@ fun DishDetailsScreen(
             style = AppTypography.headlineLarge,
             color = colorResource(R.color.yellow),
             fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(8.dp)
+            modifier = Modifier.padding(8.dp)
         )
 
         Text(
-            text = dish.getDescription() +
-                    "\nPrice: $${dish.getPrice()}" +
-                    "\nCalories: ${dish.getCalories()} kcal",
+            text = dish.getDescription() + "\nPrice: $${dish.getPrice()}" + "\nCalories: ${dish.getCalories()} kcal",
             style = AppTypography.bodyLarge.copy(fontSize = 18.sp),
-            modifier = Modifier
-                .padding(8.dp, 0.dp)
+            modifier = Modifier.padding(8.dp, 0.dp)
         )
 
         Text(
@@ -82,15 +76,13 @@ fun DishDetailsScreen(
             style = AppTypography.headlineLarge,
             color = colorResource(R.color.yellow),
             fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(8.dp)
+            modifier = Modifier.padding(8.dp)
         )
 
         Text(
             text = dish.getFormattedIngredients(),
             style = AppTypography.bodyLarge.copy(fontSize = 18.sp),
-            modifier = Modifier
-                .padding(8.dp, 0.dp)
+            modifier = Modifier.padding(8.dp, 0.dp)
         )
     }
 }

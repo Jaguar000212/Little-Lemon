@@ -61,7 +61,7 @@ fun UpperPanel(modifier: Modifier = Modifier) {
                 .padding(vertical = 18.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.description),
+                text = stringResource(id = R.string.app_description),
                 style = AppTypography.bodyLarge.copy(
                     fontSize = 24.sp,
                 ),
