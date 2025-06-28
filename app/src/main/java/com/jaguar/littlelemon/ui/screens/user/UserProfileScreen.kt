@@ -145,15 +145,13 @@ fun UserProfileScreen(
                 ) {
                     Text(
                         text = "Non-Vegetarian",
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
+                        modifier = Modifier.align(Alignment.CenterVertically)
                     )
 
                     Switch(
                         checked = preference,
                         onCheckedChange = { preference = it },
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
+                        modifier = Modifier.align(Alignment.CenterVertically)
                     )
                 }
 
@@ -161,17 +159,14 @@ fun UserProfileScreen(
                     onClick = {
                         userViewModel.updateData(
                             currentUser.copy(
-                                name = name,
-                                phone = phone,
-                                nonVeg = preference
+                                name = name, phone = phone, nonVeg = preference
                             )
                         )
                         Toast.makeText(
                             context,
-                            context.getString(R.string.profile_updated_successfully),
+                            context.getString(R.string.profile_updated_toast),
                             Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        ).show()
                         if (incomplete) {
                             navController.navigate(UserHomeScreen.route) {
                                 popUpTo(UserHomeScreen.route) { inclusive = true }

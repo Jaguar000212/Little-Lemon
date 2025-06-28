@@ -52,6 +52,7 @@ fun AdminManageDishDialog(
     dish: Dish = Dish(), onDismiss: () -> Unit, onSave: (Dish) -> Unit
 ) {
     val types: List<String> by Configs.types.collectAsState()
+
     var name: String by remember { mutableStateOf(dish.getName()) }
     var description: String by remember { mutableStateOf(dish.getDescription()) }
     var price: Double by remember { mutableDoubleStateOf(dish.getPrice()) }
@@ -61,10 +62,10 @@ fun AdminManageDishDialog(
     var nonVeg: Boolean by remember { mutableStateOf(dish.isNonVeg()) }
     var topPick: Boolean by remember { mutableStateOf(dish.isTopPick()) }
     var type: String by remember { mutableStateOf(dish.getType()) }
+
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         imageURL = it
     }
-
     val context = LocalContext.current
     val painter = rememberAsyncImagePainter(
         model = ImageRequest.Builder(context).data(imageURL).placeholder(R.drawable.image)
@@ -73,7 +74,7 @@ fun AdminManageDishDialog(
 
     AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = { Text(stringResource(R.string.edit_dish)) },
+        title = { Text(text = if (dish.getName().isNotEmpty()) stringResource(R.string.edit_dish_desc) else "Add Dish") },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(
@@ -86,7 +87,7 @@ fun AdminManageDishDialog(
                     value = description,
                     onValueChange = { description = it },
                     maxLines = 3,
-                    label = { Text(stringResource(R.string.ddescription)) })
+                    label = { Text(stringResource(R.string.description)) })
                 OutlinedTextField(
                     value = price.toString(),
                     onValueChange = { price = it.toDoubleOrNull() ?: 0.0 },
@@ -101,13 +102,9 @@ fun AdminManageDishDialog(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     singleLine = true
                 )
-                OutlinedTextField(
-                    value = ingredients.joinToString("\n"),
-                    onValueChange = { it ->
-                        ingredients = it.split("\n").map { it.trim() }.toSet()
-                    },
-                    maxLines = 3,
-                    label = { Text(stringResource(R.string.ingredients)) })
+                OutlinedTextField(value = ingredients.joinToString("\n"), onValueChange = { it ->
+                    ingredients = it.split("\n").map { it.trim() }.toSet()
+                }, maxLines = 3, label = { Text(stringResource(R.string.ingredients)) })
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(checked = nonVeg, onCheckedChange = { nonVeg = it })
                     Text(stringResource(R.string.non_veg))
@@ -141,11 +138,11 @@ fun AdminManageDishDialog(
                     ) {
                         Icon(
                             Icons.Outlined.Edit,
-                            contentDescription = stringResource(R.string.edit_image),
+                            contentDescription = stringResource(R.string.upload_image_desc),
                             modifier = Modifier.padding(horizontal = 8.dp)
                         )
                         Text(
-                            stringResource(R.string.upload_image),
+                            stringResource(R.string.upload_image_btn),
                             modifier = Modifier.padding(0.dp, 0.dp, 8.dp, 0.dp)
                         )
                     }
@@ -176,12 +173,12 @@ fun AdminManageDishDialog(
                 )
                 onSave(updatedDish)
             }) {
-                Text(stringResource(R.string.save))
+                Text(stringResource(R.string.save_btn))
             }
         },
         dismissButton = {
             OutlinedButton(onClick = onDismiss) {
-                Text(stringResource(R.string.cancel))
+                Text(stringResource(R.string.cancel_btn))
             }
         })
 }

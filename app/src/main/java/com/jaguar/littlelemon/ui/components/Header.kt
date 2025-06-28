@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun HamburgerIcon(modifier: Modifier, state: DrawerState, scope: CoroutineScope) {
+fun HamburgerIcon(modifier: Modifier, drawerState: DrawerState, scope: CoroutineScope) {
     Icon(
         imageVector = Icons.Outlined.Menu,
         contentDescription = "menu",
@@ -33,7 +33,7 @@ fun HamburgerIcon(modifier: Modifier, state: DrawerState, scope: CoroutineScope)
             .size(24.dp)
             .clickable {
                 scope.launch {
-                    state.apply {
+                    drawerState.apply {
                         if (isClosed) open() else close()
                     }
                 }
@@ -52,7 +52,7 @@ fun Logo() {
 }
 
 @Composable
-fun Header(state: DrawerState, scope: CoroutineScope) {
+fun Header(drawerState: DrawerState, scope: CoroutineScope) {
     Box(
         Modifier
             .height(83.dp)
@@ -69,7 +69,7 @@ fun Header(state: DrawerState, scope: CoroutineScope) {
             Box(
                 modifier = Modifier.size(63.dp)
             ) {
-                HamburgerIcon(Modifier.align(Alignment.Center), state, scope)
+                HamburgerIcon(Modifier.align(Alignment.Center), drawerState, scope)
             }
             Box(modifier = Modifier.height(63.dp)) {
                 Logo()

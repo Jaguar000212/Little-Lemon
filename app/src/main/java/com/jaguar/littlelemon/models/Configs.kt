@@ -19,10 +19,7 @@ object Configs {
     val types: StateFlow<List<String>> get() = _types
 
     suspend fun initConfigs() {
-        val result = FirebaseFirestore.getInstance()
-            .collection("restaurant")
-            .get()
-            .await()
+        val result = FirebaseFirestore.getInstance().collection("restaurant").get().await()
 
         for (document in result) {
             when (document.id) {

@@ -100,16 +100,15 @@ fun AdminLoginPanel(navController: NavHostController, userViewModel: UserViewMod
                                 }
                             } else {
                                 Toast.makeText(
-                                    context,
-                                    "${task.exception?.message}",
-                                    Toast.LENGTH_SHORT
+                                    context, "${task.exception?.message}", Toast.LENGTH_SHORT
                                 ).show()
                             }
                         }
                 } else {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.incorrect_credentials_toast), Toast.LENGTH_SHORT
+                        context.getString(R.string.incorrect_credentials_toast),
+                        Toast.LENGTH_SHORT
                     ).show()
                 }
             } else Toast.makeText(

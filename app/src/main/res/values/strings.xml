@@ -1,58 +1,62 @@
 <resources>
     <!-- Base application strings -->
     <string name="app_name">Little Lemon</string>
-    <string name="description">We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</string>
+    <string name="app_description">We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</string>
     <string name="little_lemon_restaurant">Little Lemon Restaurant</string>
     <string name="location">Chicago</string>
     <string name="welcome_message">Welcome to</string>
-    <!-- Errors -->
+    <!-- Errors and Toasts -->
     <string name="login_error_toast">Please login first</string>
     <string name="forgot_password_error_toast">Can\'t find your account</string>
     <string name="forgot_password_noEmail_toast">Please enter email</string>
     <string name="missing_fields_error_toast">Please fill in all fields</string>
+    <string name="no_dishes_error_toast">No dishes available at the moment</string>
+    <string name="incorrect_credentials_toast">This account is not Admin.</string>
+    <string name="incomplete_profile_toast">Please complete your profile</string>
+    <string name="user_only_feature_toast">Log in again as user to access this feature.</string>
+    <string name="profile_updated_toast">Profile updated successfully</string>
+    <string name="dish_updated_toast">Dish categories updated successfully</string>
+    <string name="dish_deleted_toast">Dish deleted successfully</string>
+    <string name="dish_added_toast">Dish added successfully</string>
+    <string name="removed_favourite_toast">Removed from favourites</string>
+    <string name="added_favourite_toast">Added to favourites</string>
     <string name="no_user_data_error">User data is not available.</string>
-    <!-- Image descriptions -->
+    <string name="no_favourites_error">No favourites yet</string>
+    <!-- Image and Icons descriptions -->
     <string name="dish_image_desc">Dish image</string>
     <string name="logo_image_desc">Logo Image</string>
+    <string name="edit_categories_desc">Edit Categories</string>
+    <string name="edit_dish_desc">Edit Dish</string>
+    <string name="upload_image_desc">Upload Image</string>
+    <string name="delete_dish_desc">Delete Dish</string>
+    <string name="add_favourites_desc">Add to favourites</string>
+    <string name="remove_favourites_desc">Remove from favourites</string>
     <!-- Login and Registration -->
     <string name="forgot_password">Forgot Password?</string>
     <string name="logging_out_toast">Logging out…</string>
     <string name="login_confirm_toast">Welcome back!</string>
     <string name="forgot_password_confirmation_toast">Email has been sent, check your inbox</string>
     <string name="registration_confirm_toast">Registration Successful</string>
-    <string name="no_dishes_error">No dishes available at the moment</string>
-    <string name="incorrect_credentials_toast">This account is not Admin.</string>
-    <string name="toast_incomplete_profile">Please complete your profile</string>
-    <string name="edit_categories">Edit Categories</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="edit_dish">Edit Dish</string>
+    <!-- Dish and Management -->
     <string name="name">Name</string>
-    <string name="ddescription">Description</string>
+    <string name="description">Description</string>
     <string name="price">Price</string>
     <string name="calories">Calories</string>
     <string name="ingredients">Ingredients</string>
     <string name="non_veg">Non-Veg</string>
     <string name="top_pick">Top Pick</string>
-    <string name="edit_image">Edit Image</string>
-    <string name="upload_image">Upload Image</string>
-    <string name="user_only">Log in again as user to access this feature.</string>
     <string name="search_dishes">Search dishes...</string>
-    <string name="manage_menu">Manage Menu</string>
-    <string name="manage_menu_desc">Add or edit dishes in the menu</string>
-    <string name="admin_panel">Admin Panel</string>
-    <string name="dish__updated_successfully">Dish categories updated successfully</string>
-    <string name="dish_deleted_successfully">Dish deleted successfully</string>
-    <string name="dish_delete_confirmation">Are you sure want to remove the dish from the menu?\n%1$s</string>
-    <string name="delete_dish">Delete Dish</string>
-    <string name="dish_added_successfully">Dish added successfully</string>
     <string name="your_favourites">Your Favourites</string>
-    <string name="no_favourites_yet">No favourites yet</string>
-    <string name="removed_from_favourites">Removed from favourites</string>
-    <string name="added_to_favourites">Added to favourites</string>
-    <string name="remove_from_favourites">Remove from favourites</string>
-    <string name="add_to_favourites">Add to favourites</string>
     <string name="our_top_picks">Our Top Picks</string>
     <string name="explore_menu">Explore Menu →</string>
-    <string name="profile_updated_successfully">Profile updated successfully</string>
+
+    <!-- Admin and Panel -->
+    <string name="admin_panel">Admin Panel</string>
+    <string name="ac_manage_menu">Manage Menu</string>
+    <string name="ac_manage_menu_desc">Add or edit dishes in the menu</string>
+    <string name="dish_delete_confirmation">Are you sure want to remove the dish from the menu?\n%1$s</string>
+    <!-- Buttons and misc -->
+    <string name="upload_image_btn">Upload Image</string>
+    <string name="save_btn">Save</string>
+    <string name="cancel_btn">Cancel</string>
 </resources>

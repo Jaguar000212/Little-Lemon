@@ -37,7 +37,7 @@ fun AdminManageCategoryDialog(
 
     AlertDialog(onDismissRequest = { onDismiss() }, title = {
         Column {
-            Text(stringResource(R.string.edit_categories))
+            Text(stringResource(R.string.edit_categories_desc))
             Text(dish.getName(), style = AppTypography.bodyMedium)
         }
     }, text = {
@@ -67,11 +67,11 @@ fun AdminManageCategoryDialog(
             )
             onSave(updatedDish)
         }) {
-            Text(stringResource(R.string.save))
+            Text(stringResource(R.string.save_btn))
         }
     }, dismissButton = {
         OutlinedButton(onClick = onDismiss) {
-            Text(stringResource(R.string.cancel))
+            Text(stringResource(R.string.cancel_btn))
         }
     })
 }

@@ -106,9 +106,7 @@ fun UserRegistrationPanel(navController: NavHostController, userViewModel: UserV
                         }
                     }
             } else Toast.makeText(
-                context,
-                context.getString(R.string.missing_fields_error_toast),
-                Toast.LENGTH_SHORT
+                context, context.getString(R.string.missing_fields_error_toast), Toast.LENGTH_SHORT
             ).show()
 
         }, modifier = Modifier.padding(8.dp)

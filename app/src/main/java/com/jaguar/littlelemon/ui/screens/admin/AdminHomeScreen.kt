@@ -29,8 +29,7 @@ import com.jaguar.littlelemon.ui.theme.AppTypography
 fun AdminHomeScreen(modifier: Modifier, navController: NavHostController) {
     val adminActions = listOf(
         AdminAction(
-            stringResource(R.string.manage_menu),
-            stringResource(R.string.manage_menu_desc)
+            stringResource(R.string.ac_manage_menu), stringResource(R.string.ac_manage_menu_desc)
         ) {
             navController.navigate(AdminMenuScreen.route)
         })

@@ -52,16 +52,7 @@ fun MyNavigation() {
     }
     val isConfigReady by Configs.isReady.collectAsState()
     val isUserReady by Configs.isReady.collectAsState()
-    if (!isConfigReady && !isUserReady) {
-        LittleLemonTheme {
-            Box(
-                modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
-        return
-    }
+
     val context = LocalContext.current
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -79,6 +70,17 @@ fun MyNavigation() {
                 topBar = { Header(drawerState, scope) },
 
                 ) { innerPadding ->
+                if (!isConfigReady && !isUserReady) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                    return@Scaffold
+                }
                 NavHost(
                     navController = navController, startDestination = when {
                         currentUser == null -> WelcomeScreen.route
@@ -127,9 +129,9 @@ fun MyNavigation() {
                     ) {
                         Toast.makeText(
                             context,
-                            stringResource(R.string.toast_incomplete_profile), Toast.LENGTH_SHORT
-                        )
-                            .show()
+                            stringResource(R.string.incomplete_profile_toast),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         UserProfileScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
@@ -194,7 +196,7 @@ fun MyNavigation() {
                         AdminMenuScreen(
                             Modifier.padding(innerPadding),
                             navController = navController,
-                            viewModel = menuViewModel
+                            menuViewModel = menuViewModel
                         )
                     }
                 }
